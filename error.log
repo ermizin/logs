@@ -1,0 +1,291 @@
+2026/02/25 20:58:59.863567 [Warning] transport/internet/websocket: accepting PROXY protocol
+2026/02/25 20:58:59.863673 [Warning] core: Xray 26.2.6 started
+2026/02/25 20:59:02.105304 [Warning] transport/internet/websocket: accepting PROXY protocol
+2026/02/25 20:59:02.105369 [Warning] core: Xray 26.2.6 started
+2026/02/25 21:03:30.933497 [Debug] app/log: Logger started
+2026/02/25 21:03:30.937545 [Info] app/dns: DNS: created DOHL client for https://8.8.4.4/dns-query, with h2c false
+2026/02/25 21:03:30.939470 [Info] app/dns: DNS: created DOHL client for https://8.8.8.8/dns-query, with h2c false
+2026/02/25 21:03:30.941005 [Info] app/dns: DNS: created DOHL client for https://1.1.1.1/dns-query, with h2c false
+2026/02/25 21:03:30.942684 [Info] app/dns: DNS: created localhost client
+2026/02/25 21:03:30.947186 [Debug] app/router: MphDomainMatcher is enabled for 1096 domain rule(s)
+2026/02/25 21:03:30.949105 [Debug] app/router: MphDomainMatcher is enabled for 201 domain rule(s)
+2026/02/25 21:03:30.968575 [Debug] app/proxyman/inbound: creating stream worker on 0.0.0.0:443
+2026/02/25 21:03:30.968612 [Debug] app/proxyman/inbound: creating stream worker on 127.0.0.1:3333
+2026/02/25 21:03:30.968617 [Debug] app/proxyman/inbound: creating stream worker on 0.0.0.0:8443
+2026/02/25 21:03:30.968628 [Debug] app/proxyman/inbound: creating stream worker on 127.0.0.1:8400
+2026/02/25 21:03:30.968634 [Debug] app/proxyman/inbound: creating stream worker on 127.0.0.1:8411
+2026/02/25 21:03:30.968645 [Debug] app/proxyman/inbound: creating unix domain socket worker on @vless-ws
+2026/02/25 21:03:30.968651 [Debug] app/proxyman/inbound: creating stream worker on 0.0.0.0:10443
+2026/02/25 21:03:30.968658 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:443
+2026/02/25 21:03:30.968664 [Info] transport/internet/splithttp: listening TCP for XHTTP on 127.0.0.1:3333
+2026/02/25 21:03:30.968668 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:8443
+2026/02/25 21:03:30.978457 [Info] transport/internet/splithttp: listening TCP for XHTTP on 127.0.0.1:8400
+2026/02/25 21:03:30.978486 [Info] transport/internet/tcp: listening TCP on 0.0.0.0:10443
+2026/02/25 21:03:30.978492 [Info] transport/internet/udp: listening UDP on 0.0.0.0:10443
+2026/02/25 21:03:30.978497 [Info] transport/internet/websocket: listening unix domain socket(for WS) on @vless-ws
+2026/02/25 21:03:30.978503 [Warning] transport/internet/websocket: accepting PROXY protocol
+2026/02/25 21:03:30.978506 [Warning] core: Xray 26.2.6 started
+2026/02/25 21:03:30.978746 [Debug] transport/internet/grpc: gRPC listen for service name `fks59411` tun `Tun` multi tun `TunMulti`
+2026/02/25 21:03:56.948274 [Info] [495485131] app/proxyman/inbound: connection ends > EOF
+2026/02/25 21:03:57.306828 [Info] [617948368] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:03:57.306894 [Info] [617948368] proxy/vless/inbound: received request for tcp:cloudflare-dns.com:443
+2026/02/25 21:03:57.307112 [Debug] [617948368] proxy: Xtls Unpadding new block, content 1545 padding 103 command 0
+2026/02/25 21:03:57.307143 [Debug] [617948368] proxy: XtlsFilterTls found tls client hello! 1106
+2026/02/25 21:03:57.308381 [Info] [617948368] app/dispatcher: sniffed domain: cloudflare-dns.com
+2026/02/25 21:03:57.308540 [Debug] app/dns: domain cloudflare-dns.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:03:57.308554 [Info] app/dns: DOHL//8.8.4.4 querying: cloudflare-dns.com.
+2026/02/25 21:03:57.308559 [Debug] transport/internet: dialing to tcp:8.8.4.4:443
+2026/02/25 21:03:57.352855 [Info] app/dns: DOHL//8.8.4.4 got answer: cloudflare-dns.com. TypeA -> [104.16.249.249 104.16.248.249], rtt: 44.979788ms, lock: 4.486µs
+2026/02/25 21:03:57.353272 [Info] [617948368] app/dispatcher: default route for tcp:cloudflare-dns.com:443
+2026/02/25 21:03:57.353291 [Debug] app/dns: domain cloudflare-dns.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:03:57.353319 [Debug] app/dns: DOHL//8.8.4.4 cache HIT cloudflare-dns.com. -> [104.16.249.249 104.16.248.249]
+2026/02/25 21:03:57.353330 [Info] [617948368] proxy/freedom: dialing to tcp:104.16.249.249:443
+2026/02/25 21:03:57.353364 [Info] [617948368] transport/internet/tcp: dialing TCP to tcp:104.16.249.249:443
+2026/02/25 21:03:57.353371 [Debug] [617948368] transport/internet: dialing to tcp:104.16.249.249:443
+2026/02/25 21:03:57.354919 [Info] [617948368] proxy/freedom: connection opened to tcp:cloudflare-dns.com:443, local endpoint 192.210.239.194:35372, remote endpoint 104.16.249.249:443
+2026/02/25 21:03:57.357686 [Debug] [617948368] proxy: XtlsFilterTls found tls 1.3! 3719 TLS_AES_256_GCM_SHA384
+2026/02/25 21:03:57.357709 [Debug] [617948368] proxy: XtlsPadding 3719 31 0
+2026/02/25 21:03:57.533947 [Debug] [617948368] proxy: Xtls Unpadding new block, content 80 padding 957 command 0
+2026/02/25 21:03:57.535445 [Debug] [617948368] proxy: Xtls Unpadding new block, content 653 padding 679 command 2
+2026/02/25 21:03:57.535556 [Debug] [617948368] proxy: XtlsPadding 560 768 2
+2026/02/25 21:03:57.536778 [Debug] [617948368] proxy: CopyRawConn splice
+2026/02/25 21:03:59.036701 [Info] [139973761] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:03:59.036738 [Info] [139973761] proxy/vless/inbound: received request for tcp:courier.push.apple.com:5223
+2026/02/25 21:03:59.036811 [Debug] [139973761] proxy: Xtls Unpadding new block, content 1512 padding 95 command 0
+2026/02/25 21:03:59.036820 [Debug] [139973761] proxy: XtlsFilterTls found tls client hello! 1102
+2026/02/25 21:03:59.037267 [Info] [139973761] app/dispatcher: sniffed domain: courier.push.apple.com
+2026/02/25 21:03:59.037299 [Debug] app/dns: domain courier.push.apple.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:03:59.037306 [Info] app/dns: DOHL//8.8.4.4 querying: courier.push.apple.com.
+2026/02/25 21:03:59.072478 [Info] app/dns: DOHL//8.8.4.4 got answer: courier.push.apple.com. TypeA -> [17.57.144.244 17.57.144.245 17.57.144.247 17.57.144.246], rtt: 35.374301ms, lock: 3.896µs
+2026/02/25 21:03:59.072833 [Info] [139973761] app/dispatcher: default route for tcp:courier.push.apple.com:5223
+2026/02/25 21:03:59.072850 [Debug] app/dns: domain courier.push.apple.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:03:59.072866 [Debug] app/dns: DOHL//8.8.4.4 cache HIT courier.push.apple.com. -> [17.57.144.244 17.57.144.245 17.57.144.247 17.57.144.246]
+2026/02/25 21:03:59.072890 [Info] [139973761] proxy/freedom: dialing to tcp:17.57.144.246:5223
+2026/02/25 21:03:59.072897 [Info] [139973761] transport/internet/tcp: dialing TCP to tcp:17.57.144.246:5223
+2026/02/25 21:03:59.072902 [Debug] [139973761] transport/internet: dialing to tcp:17.57.144.246:5223
+2026/02/25 21:03:59.075505 [Info] [139973761] proxy/freedom: connection opened to tcp:courier.push.apple.com:5223, local endpoint 192.210.239.194:51482, remote endpoint 17.57.144.246:5223
+2026/02/25 21:03:59.078827 [Debug] [139973761] proxy: XtlsFilterTls found tls 1.3! 4660 TLS_AES_256_GCM_SHA384
+2026/02/25 21:03:59.078868 [Debug] [139973761] proxy: XtlsPadding 4660 209 0
+2026/02/25 21:04:01.047938 [Info] [3091622028] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:04:01.047975 [Info] [3091622028] proxy/vless/inbound: received request for tcp:courier.push.apple.com:5223
+2026/02/25 21:04:01.048068 [Debug] [3091622028] proxy: Xtls Unpadding new block, content 1512 padding 182 command 0
+2026/02/25 21:04:01.048090 [Debug] [3091622028] proxy: XtlsFilterTls found tls client hello! 1102
+2026/02/25 21:04:01.048494 [Info] [3091622028] app/dispatcher: sniffed domain: courier.push.apple.com
+2026/02/25 21:04:01.048518 [Debug] app/dns: domain courier.push.apple.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:01.048534 [Debug] app/dns: DOHL//8.8.4.4 cache HIT courier.push.apple.com. -> [17.57.144.244 17.57.144.245 17.57.144.247 17.57.144.246]
+2026/02/25 21:04:01.048541 [Info] [3091622028] app/dispatcher: default route for tcp:courier.push.apple.com:5223
+2026/02/25 21:04:01.048559 [Debug] app/dns: domain courier.push.apple.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:01.048579 [Debug] app/dns: DOHL//8.8.4.4 cache HIT courier.push.apple.com. -> [17.57.144.244 17.57.144.245 17.57.144.247 17.57.144.246]
+2026/02/25 21:04:01.048585 [Info] [3091622028] proxy/freedom: dialing to tcp:17.57.144.245:5223
+2026/02/25 21:04:01.048590 [Info] [3091622028] transport/internet/tcp: dialing TCP to tcp:17.57.144.245:5223
+2026/02/25 21:04:01.048598 [Debug] [3091622028] transport/internet: dialing to tcp:17.57.144.245:5223
+2026/02/25 21:04:01.051110 [Info] [3091622028] proxy/freedom: connection opened to tcp:courier.push.apple.com:5223, local endpoint 192.210.239.194:34512, remote endpoint 17.57.144.245:5223
+2026/02/25 21:04:01.054475 [Debug] [3091622028] proxy: XtlsFilterTls found tls 1.3! 4096 TLS_AES_256_GCM_SHA384
+2026/02/25 21:04:01.054526 [Debug] [3091622028] proxy: XtlsPadding 4096 225 0
+2026/02/25 21:04:01.054536 [Debug] [3091622028] proxy: XtlsPadding 564 499 0
+2026/02/25 21:04:01.225304 [Debug] [3091622028] proxy: Xtls Unpadding new block, content 80 padding 864 command 0
+2026/02/25 21:04:01.228880 [Debug] [3091622028] proxy: Xtls Unpadding new block, content 1051 padding 120 command 2
+2026/02/25 21:04:01.231847 [Debug] [3091622028] proxy: XtlsPadding 68 1300 2
+2026/02/25 21:04:01.415270 [Debug] [3091622028] proxy: CopyRawConn splice
+2026/02/25 21:04:14.136396 [Info] [3426900328] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:04:14.136474 [Info] [3426900328] proxy/vless/inbound: received request for tcp:cloudflare-dns.com:443
+2026/02/25 21:04:14.136583 [Debug] [3426900328] proxy: Xtls Unpadding new block, content 1545 padding 217 command 0
+2026/02/25 21:04:14.136596 [Debug] [3426900328] proxy: XtlsFilterTls found tls client hello! 1106
+2026/02/25 21:04:14.136962 [Info] [3426900328] app/dispatcher: sniffed domain: cloudflare-dns.com
+2026/02/25 21:04:14.136988 [Debug] app/dns: domain cloudflare-dns.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:14.136998 [Debug] app/dns: DOHL//8.8.4.4 cache HIT cloudflare-dns.com. -> [104.16.249.249 104.16.248.249]
+2026/02/25 21:04:14.137004 [Info] [3426900328] app/dispatcher: default route for tcp:cloudflare-dns.com:443
+2026/02/25 21:04:14.137098 [Debug] app/dns: domain cloudflare-dns.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:14.137128 [Debug] app/dns: DOHL//8.8.4.4 cache HIT cloudflare-dns.com. -> [104.16.249.249 104.16.248.249]
+2026/02/25 21:04:14.137150 [Info] [3426900328] proxy/freedom: dialing to tcp:104.16.248.249:443
+2026/02/25 21:04:14.137179 [Info] [3426900328] transport/internet/tcp: dialing TCP to tcp:104.16.248.249:443
+2026/02/25 21:04:14.137190 [Debug] [3426900328] transport/internet: dialing to tcp:104.16.248.249:443
+2026/02/25 21:04:14.139392 [Info] [3426900328] proxy/freedom: connection opened to tcp:cloudflare-dns.com:443, local endpoint 192.210.239.194:54634, remote endpoint 104.16.248.249:443
+2026/02/25 21:04:14.143572 [Debug] [3426900328] proxy: XtlsFilterTls found tls 1.3! 3719 TLS_AES_256_GCM_SHA384
+2026/02/25 21:04:14.143620 [Debug] [3426900328] proxy: XtlsPadding 3719 88 0
+2026/02/25 21:04:14.313196 [Debug] [3426900328] proxy: Xtls Unpadding new block, content 80 padding 1249 command 0
+2026/02/25 21:04:14.314287 [Debug] [3426900328] proxy: Xtls Unpadding new block, content 813 padding 416 command 2
+2026/02/25 21:04:14.315371 [Debug] [3426900328] proxy: XtlsPadding 560 758 2
+2026/02/25 21:04:14.316390 [Debug] [3426900328] proxy: CopyRawConn splice
+2026/02/25 21:04:14.870259 [Info] [4094823333] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:04:14.870308 [Info] [4094823333] proxy/vless/inbound: received request for tcp:courier.push.apple.com:5223
+2026/02/25 21:04:14.870414 [Debug] [4094823333] proxy: Xtls Unpadding new block, content 1512 padding 172 command 0
+2026/02/25 21:04:14.870424 [Debug] [4094823333] proxy: XtlsFilterTls found tls client hello! 1102
+2026/02/25 21:04:14.870717 [Info] [4094823333] app/dispatcher: sniffed domain: courier.push.apple.com
+2026/02/25 21:04:14.870752 [Debug] app/dns: domain courier.push.apple.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:14.870764 [Debug] app/dns: DOHL//8.8.4.4 cache HIT courier.push.apple.com. -> [17.57.144.244 17.57.144.245 17.57.144.247 17.57.144.246]
+2026/02/25 21:04:14.870770 [Info] [4094823333] app/dispatcher: default route for tcp:courier.push.apple.com:5223
+2026/02/25 21:04:14.870776 [Debug] app/dns: domain courier.push.apple.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:14.870798 [Debug] app/dns: DOHL//8.8.4.4 cache HIT courier.push.apple.com. -> [17.57.144.244 17.57.144.245 17.57.144.247 17.57.144.246]
+2026/02/25 21:04:14.870805 [Info] [4094823333] proxy/freedom: dialing to tcp:17.57.144.247:5223
+2026/02/25 21:04:14.870810 [Info] [4094823333] transport/internet/tcp: dialing TCP to tcp:17.57.144.247:5223
+2026/02/25 21:04:14.870823 [Debug] [4094823333] transport/internet: dialing to tcp:17.57.144.247:5223
+2026/02/25 21:04:14.872867 [Info] [4094823333] proxy/freedom: connection opened to tcp:courier.push.apple.com:5223, local endpoint 192.210.239.194:59318, remote endpoint 17.57.144.247:5223
+2026/02/25 21:04:14.875762 [Debug] [4094823333] proxy: XtlsFilterTls found tls 1.3! 4096 TLS_AES_256_GCM_SHA384
+2026/02/25 21:04:14.875782 [Debug] [4094823333] proxy: XtlsPadding 4096 2 0
+2026/02/25 21:04:14.875787 [Debug] [4094823333] proxy: XtlsPadding 564 628 0
+2026/02/25 21:04:15.389751 [Info] [2783748390] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:04:15.389800 [Info] [2783748390] proxy/vless/inbound: received request for tcp:bag.itunes.apple.com:443
+2026/02/25 21:04:15.389857 [Debug] [2783748390] proxy: Xtls Unpadding new block, content 1543 padding 245 command 0
+2026/02/25 21:04:15.389878 [Debug] [2783748390] proxy: XtlsFilterTls found tls client hello! 1104
+2026/02/25 21:04:15.390400 [Info] [2783748390] app/dispatcher: sniffed domain: bag.itunes.apple.com
+2026/02/25 21:04:15.390440 [Debug] app/dns: domain bag.itunes.apple.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:15.390448 [Info] app/dns: DOHL//8.8.4.4 querying: bag.itunes.apple.com.
+2026/02/25 21:04:15.396897 [Info] app/dns: DOHL//8.8.4.4 got answer: bag.itunes.apple.com. TypeA -> [151.101.67.6 151.101.3.6 151.101.131.6 151.101.195.6], rtt: 6.755325ms, lock: 5.04µs
+2026/02/25 21:04:15.397234 [Info] [2783748390] app/dispatcher: default route for tcp:bag.itunes.apple.com:443
+2026/02/25 21:04:15.397250 [Debug] app/dns: domain bag.itunes.apple.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:15.397262 [Debug] app/dns: DOHL//8.8.4.4 cache HIT bag.itunes.apple.com. -> [151.101.67.6 151.101.3.6 151.101.131.6 151.101.195.6]
+2026/02/25 21:04:15.397277 [Info] [2783748390] proxy/freedom: dialing to tcp:151.101.195.6:443
+2026/02/25 21:04:15.397284 [Info] [2783748390] transport/internet/tcp: dialing TCP to tcp:151.101.195.6:443
+2026/02/25 21:04:15.397288 [Debug] [2783748390] transport/internet: dialing to tcp:151.101.195.6:443
+2026/02/25 21:04:15.399163 [Info] [2783748390] proxy/freedom: connection opened to tcp:bag.itunes.apple.com:443, local endpoint 192.210.239.194:55528, remote endpoint 151.101.195.6:443
+2026/02/25 21:04:15.404614 [Debug] [2783748390] proxy: XtlsFilterTls found tls 1.3! 6539 TLS_AES_128_GCM_SHA256
+2026/02/25 21:04:15.404699 [Debug] [2783748390] proxy: XtlsPadding 6539 230 0
+2026/02/25 21:04:15.552496 [Debug] [2783748390] proxy: Xtls Unpadding new block, content 64 padding 844 command 0
+2026/02/25 21:04:15.553283 [Info] [2369666183] app/proxyman/inbound: connection ends > EOF
+2026/02/25 21:04:15.557529 [Debug] [2783748390] proxy: Xtls Unpadding new block, content 465 padding 458 command 2
+2026/02/25 21:04:15.559937 [Debug] [2783748390] proxy: XtlsPadding 65 855 2
+2026/02/25 21:04:15.561906 [Debug] [2783748390] proxy: CopyRawConn splice
+2026/02/25 21:04:15.905759 [Debug] [4094823333] proxy: Xtls Unpadding new block, content 80 padding 956 command 0
+2026/02/25 21:04:15.910651 [Debug] [4094823333] proxy: Xtls Unpadding new block, content 1061 padding 215 command 2
+2026/02/25 21:04:15.913139 [Debug] [4094823333] proxy: XtlsPadding 68 1158 2
+2026/02/25 21:04:16.037551 [Info] [2401011001] app/proxyman/inbound: connection ends > EOF
+2026/02/25 21:04:16.102773 [Debug] [4094823333] proxy: CopyRawConn splice
+2026/02/25 21:04:17.267550 [Info] [366497911] app/proxyman/inbound: connection ends > EOF
+2026/02/25 21:04:21.123092 [Info] [2857407293] proxy/vless/inbound: firstLen = 70
+2026/02/25 21:04:21.123132 [Info] [2857407293] proxy/vless/inbound: fallback starts > proxy/vless/encoding: invalid request version
+2026/02/25 21:04:21.123150 [Info] [2857407293] proxy/vless/inbound: realName = ermizin.undo.it
+2026/02/25 21:04:21.123155 [Info] [2857407293] proxy/vless/inbound: realAlpn = h2
+2026/02/25 21:04:21.127560 [Info] [3836543758] proxy/vless/inbound: firstLen = 1541
+2026/02/25 21:04:21.127577 [Info] [3836543758] proxy/vless/inbound: received request for tcp:www.gstatic.com:443
+2026/02/25 21:04:21.127896 [Info] [3836543758] app/dispatcher: sniffed domain: www.gstatic.com
+2026/02/25 21:04:21.127967 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.127976 [Info] app/dns: DOHL//8.8.4.4 querying: www.gstatic.com.
+2026/02/25 21:04:21.143064 [Info] app/dns: DOHL//8.8.4.4 got answer: www.gstatic.com. TypeA -> [172.217.5.3], rtt: 15.272169ms, lock: 3.824µs
+2026/02/25 21:04:21.143339 [Info] [3836543758] app/dispatcher: default route for tcp:www.gstatic.com:443
+2026/02/25 21:04:21.143358 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.143366 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:21.143385 [Info] [3836543758] proxy/freedom: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:21.143393 [Info] [3836543758] transport/internet/tcp: dialing TCP to tcp:172.217.5.3:443
+2026/02/25 21:04:21.143397 [Debug] [3836543758] transport/internet: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:21.144622 [Info] [3836543758] proxy/freedom: connection opened to tcp:www.gstatic.com:443, local endpoint 192.210.239.194:37054, remote endpoint 172.217.5.3:443
+2026/02/25 21:04:21.144643 [Debug] [3836543758] proxy: CopyRawConn (maybe) readv
+2026/02/25 21:04:21.204373 [Info] [929076677] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:04:21.204409 [Info] [929076677] proxy/vless/inbound: received request for tcp:www.gstatic.com:443
+2026/02/25 21:04:21.204507 [Debug] [929076677] proxy: Xtls Unpadding new block, content 1503 padding 91 command 0
+2026/02/25 21:04:21.204518 [Debug] [929076677] proxy: XtlsFilterTls found tls client hello! 1109
+2026/02/25 21:04:21.204880 [Info] [929076677] app/dispatcher: sniffed domain: www.gstatic.com
+2026/02/25 21:04:21.204910 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.204920 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:21.204926 [Info] [929076677] app/dispatcher: default route for tcp:www.gstatic.com:443
+2026/02/25 21:04:21.204932 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.204937 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:21.204942 [Info] [929076677] proxy/freedom: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:21.204951 [Info] [929076677] transport/internet/tcp: dialing TCP to tcp:172.217.5.3:443
+2026/02/25 21:04:21.204957 [Debug] [929076677] transport/internet: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:21.206246 [Info] [929076677] proxy/freedom: connection opened to tcp:www.gstatic.com:443, local endpoint 192.210.239.194:37070, remote endpoint 172.217.5.3:443
+2026/02/25 21:04:21.242822 [Debug] [929076677] proxy: XtlsFilterTls found tls 1.3! 5212 TLS_CHACHA20_POLY1305_SHA256
+2026/02/25 21:04:21.242918 [Debug] [929076677] proxy: XtlsPadding 5212 56 0
+2026/02/25 21:04:21.280614 [Info] [1652095560] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:04:21.280651 [Info] [1652095560] proxy/vless/inbound: received request for tcp:gateway.icloud.com:443
+2026/02/25 21:04:21.280706 [Debug] [1652095560] proxy: Xtls Unpadding new block, content 1541 padding 168 command 0
+2026/02/25 21:04:21.280715 [Debug] [1652095560] proxy: XtlsFilterTls found tls client hello! 1106
+2026/02/25 21:04:21.281162 [Info] [1652095560] app/dispatcher: sniffed domain: gateway.icloud.com
+2026/02/25 21:04:21.281226 [Debug] app/dns: domain gateway.icloud.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.281237 [Info] app/dns: DOHL//8.8.4.4 querying: gateway.icloud.com.
+2026/02/25 21:04:21.283904 [Info] app/dns: DOHL//8.8.4.4 got answer: gateway.icloud.com. TypeA -> [17.248.203.64], rtt: 2.928053ms, lock: 17.521µs
+2026/02/25 21:04:21.284241 [Info] [1652095560] app/dispatcher: default route for tcp:gateway.icloud.com:443
+2026/02/25 21:04:21.284258 [Debug] app/dns: domain gateway.icloud.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.284264 [Debug] app/dns: DOHL//8.8.4.4 cache HIT gateway.icloud.com. -> [17.248.203.64]
+2026/02/25 21:04:21.284290 [Info] [1652095560] proxy/freedom: dialing to tcp:17.248.203.64:443
+2026/02/25 21:04:21.284299 [Info] [1652095560] transport/internet/tcp: dialing TCP to tcp:17.248.203.64:443
+2026/02/25 21:04:21.284304 [Debug] [1652095560] transport/internet: dialing to tcp:17.248.203.64:443
+2026/02/25 21:04:21.294430 [Info] [1652095560] proxy/freedom: connection opened to tcp:gateway.icloud.com:443, local endpoint 192.210.239.194:36472, remote endpoint 17.248.203.64:443
+2026/02/25 21:04:21.305634 [Debug] [1652095560] proxy: XtlsFilterTls found tls 1.3! 3589 TLS_AES_256_GCM_SHA384
+2026/02/25 21:04:21.305698 [Debug] [1652095560] proxy: XtlsPadding 3589 138 0
+2026/02/25 21:04:21.391090 [Info] [2104640917] proxy/vless/inbound: firstLen = 24
+2026/02/25 21:04:21.391135 [Info] [2104640917] proxy/vless/inbound: fallback starts > proxy/vless/encoding: invalid request version
+2026/02/25 21:04:21.391142 [Info] [2104640917] proxy/vless/inbound: realName = ermizin.undo.it
+2026/02/25 21:04:21.391145 [Info] [2104640917] proxy/vless/inbound: realAlpn = h2
+2026/02/25 21:04:21.408672 [Info] [3147146285] proxy/vless/inbound: firstLen = 1186
+2026/02/25 21:04:21.408753 [Info] [3147146285] proxy/vless/inbound: received request for tcp:www.gstatic.com:443
+2026/02/25 21:04:21.408841 [Debug] [3147146285] proxy: Xtls Unpadding new block, content 1503 padding 140 command 0
+2026/02/25 21:04:21.408857 [Debug] [3147146285] proxy: XtlsFilterTls found tls client hello! 1109
+2026/02/25 21:04:21.409370 [Info] [3147146285] app/dispatcher: sniffed domain: www.gstatic.com
+2026/02/25 21:04:21.409421 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.409438 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:21.409449 [Info] [3147146285] app/dispatcher: default route for tcp:www.gstatic.com:443
+2026/02/25 21:04:21.409483 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.409496 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:21.409506 [Info] [3147146285] proxy/freedom: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:21.409516 [Info] [3147146285] transport/internet/tcp: dialing TCP to tcp:172.217.5.3:443
+2026/02/25 21:04:21.409524 [Debug] [3147146285] transport/internet: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:21.410742 [Info] [3147146285] proxy/freedom: connection opened to tcp:www.gstatic.com:443, local endpoint 192.210.239.194:37078, remote endpoint 172.217.5.3:443
+2026/02/25 21:04:21.421689 [Debug] [3147146285] proxy: XtlsFilterTls found tls 1.3! 5213 TLS_CHACHA20_POLY1305_SHA256
+2026/02/25 21:04:21.421790 [Debug] [3147146285] proxy: XtlsPadding 5213 202 0
+2026/02/25 21:04:21.422196 [Debug] [929076677] proxy: Xtls Unpadding new block, content 64 padding 1230 command 0
+2026/02/25 21:04:21.422209 [Debug] [929076677] proxy: Xtls Unpadding new block, content 149 padding 1120 command 2
+2026/02/25 21:04:21.426223 [Debug] [929076677] proxy: XtlsPadding 225 680 2
+2026/02/25 21:04:21.550875 [Info] [4233765977] proxy/vless/inbound: firstLen = 1541
+2026/02/25 21:04:21.550916 [Info] [4233765977] proxy/vless/inbound: received request for tcp:www.gstatic.com:443
+2026/02/25 21:04:21.551211 [Info] [4233765977] app/dispatcher: sniffed domain: www.gstatic.com
+2026/02/25 21:04:21.551229 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.551237 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:21.551243 [Info] [4233765977] app/dispatcher: default route for tcp:www.gstatic.com:443
+2026/02/25 21:04:21.551249 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:21.551270 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:21.551282 [Info] [4233765977] proxy/freedom: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:21.551287 [Info] [4233765977] transport/internet/tcp: dialing TCP to tcp:172.217.5.3:443
+2026/02/25 21:04:21.551292 [Debug] [4233765977] transport/internet: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:21.552614 [Info] [4233765977] proxy/freedom: connection opened to tcp:www.gstatic.com:443, local endpoint 192.210.239.194:37086, remote endpoint 172.217.5.3:443
+2026/02/25 21:04:21.552627 [Debug] [4233765977] proxy: CopyRawConn (maybe) readv
+2026/02/25 21:04:21.746769 [Debug] [3147146285] proxy: Xtls Unpadding new block, content 64 padding 1043 command 0
+2026/02/25 21:04:21.746832 [Debug] [3147146285] proxy: Xtls Unpadding new block, content 149 padding 927 command 2
+2026/02/25 21:04:21.751810 [Debug] [3147146285] proxy: XtlsPadding 225 675 2
+2026/02/25 21:04:22.197552 [Info] [772469241] proxy/vless/inbound: firstLen = 194
+2026/02/25 21:04:22.197589 [Info] [772469241] proxy/vless/inbound: fallback starts > proxy/vless/encoding: invalid request version
+2026/02/25 21:04:22.197623 [Info] [772469241] proxy/vless/inbound: realName = ermizin.undo.it
+2026/02/25 21:04:22.197632 [Info] [772469241] proxy/vless/inbound: realAlpn = http/1.1
+2026/02/25 21:04:22.197636 [Info] [772469241] proxy/vless/inbound: realPath = /fks59422
+2026/02/25 21:04:22.341226 [Debug] [1652095560] proxy: Xtls Unpadding new block, content 80 padding 1283 command 0
+2026/02/25 21:04:22.351664 [Debug] [1652095560] proxy: XtlsPadding 668 597 2
+2026/02/25 21:04:22.354640 [Debug] [1652095560] proxy: Xtls Unpadding new block, content 1263 padding 55 command 2
+2026/02/25 21:04:22.355474 [Info] [1887832440] proxy/vless/inbound: firstLen = 1541
+2026/02/25 21:04:22.355509 [Info] [1887832440] proxy/vless/inbound: received request for tcp:www.gstatic.com:443
+2026/02/25 21:04:22.355835 [Info] [1887832440] app/dispatcher: sniffed domain: www.gstatic.com
+2026/02/25 21:04:22.355880 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:22.355897 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:22.355907 [Info] [1887832440] app/dispatcher: default route for tcp:www.gstatic.com:443
+2026/02/25 21:04:22.355917 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:22.355945 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:22.355955 [Info] [1887832440] proxy/freedom: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:22.355972 [Info] [1887832440] transport/internet/tcp: dialing TCP to tcp:172.217.5.3:443
+2026/02/25 21:04:22.355982 [Debug] [1887832440] transport/internet: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:22.357159 [Info] [1887832440] proxy/freedom: connection opened to tcp:www.gstatic.com:443, local endpoint 192.210.239.194:37094, remote endpoint 172.217.5.3:443
+2026/02/25 21:04:22.357171 [Debug] [1887832440] proxy: CopyRawConn (maybe) readv
+2026/02/25 21:04:22.364798 [Debug] [1652095560] proxy: CopyRawConn splice
+2026/02/25 21:04:22.476359 [Info] [4233765977] app/proxyman/outbound: app/proxyman/outbound: failed to process outbound traffic > proxy/freedom: connection ends > proxy/freedom: failed to process request > transport/internet/grpc/encoding: failed to fetch hunk from gRPC tunnel > rpc error: code = Canceled desc = context canceled
+2026/02/25 21:04:22.594545 [Info] [929076677] app/proxyman/outbound: app/proxyman/outbound: failed to process outbound traffic > proxy/freedom: connection ends > proxy/freedom: failed to process request > write tcp 192.210.239.194:37070->172.217.5.3:443: write: broken pipe
+2026/02/25 21:04:23.334905 [Info] [1887832440] app/proxyman/outbound: app/proxyman/outbound: failed to process outbound traffic > proxy/freedom: connection ends > proxy/freedom: failed to process request > read unix @vless-ws->@: use of closed network connection
+2026/02/25 21:04:23.334957 [Info] [1887832440] app/proxyman/inbound: failed to close connection > transport/internet/websocket: failed to close connection > transport/internet/websocket: websocket: close sentclose unix @vless-ws->@: use of closed network connection
+2026/02/25 21:04:23.335213 [Info] [772469241] app/proxyman/inbound: connection ends > proxy/vless/inbound: fallback ends > proxy/vless/inbound: failed to fallback request payload > read tcp 192.210.239.194:8443->188.187.60.123:49688: use of closed network connection
+2026/02/25 21:04:23.364501 [Info] [3147146285] app/proxyman/outbound: app/proxyman/outbound: failed to process outbound traffic > proxy/freedom: connection ends > proxy/freedom: failed to process request > write tcp 192.210.239.194:37078->172.217.5.3:443: write: broken pipe
+2026/02/25 21:04:23.385693 [Info] [3862253644] proxy/vless/inbound: firstLen = 70
+2026/02/25 21:04:23.385726 [Info] [3862253644] proxy/vless/inbound: fallback starts > proxy/vless/encoding: invalid request version
+2026/02/25 21:04:23.385730 [Info] [3862253644] proxy/vless/inbound: realName = ermizin.undo.it
+2026/02/25 21:04:23.385734 [Info] [3862253644] proxy/vless/inbound: realAlpn = 
+2026/02/25 21:04:23.387170 [Info] [1290902573] proxy/vless/inbound: firstLen = 1541
+2026/02/25 21:04:23.387186 [Info] [1290902573] proxy/vless/inbound: received request for tcp:www.gstatic.com:443
+2026/02/25 21:04:23.387401 [Info] [1290902573] app/dispatcher: sniffed domain: www.gstatic.com
+2026/02/25 21:04:23.387421 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:23.387459 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:23.387467 [Info] [1290902573] app/dispatcher: default route for tcp:www.gstatic.com:443
+2026/02/25 21:04:23.387473 [Debug] app/dns: domain www.gstatic.com will use DNS in order: [DOHL//8.8.4.4 DOHL//8.8.8.8 DOHL//1.1.1.1 localhost]
+2026/02/25 21:04:23.387478 [Debug] app/dns: DOHL//8.8.4.4 cache HIT www.gstatic.com. -> [172.217.5.3]
+2026/02/25 21:04:23.387483 [Info] [1290902573] proxy/freedom: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:23.387488 [Info] [1290902573] transport/internet/tcp: dialing TCP to tcp:172.217.5.3:443
+2026/02/25 21:04:23.387492 [Debug] [1290902573] transport/internet: dialing to tcp:172.217.5.3:443
+2026/02/25 21:04:23.388851 [Info] [1290902573] proxy/freedom: connection opened to tcp:www.gstatic.com:443, local endpoint 192.210.239.194:37098, remote endpoint 172.217.5.3:443
+2026/02/25 21:04:23.388864 [Debug] [1290902573] proxy: CopyRawConn (maybe) readv
+2026/02/25 21:04:47.426464 [Info] [371020363] proxy/socks: Connection closed immediately, likely health check connection
+2026/02/25 21:04:47.548496 [Debug] [1777568316] proxy/socks: Not Socks request, try to parse as HTTP request
