@@ -1,0 +1,38 @@
+[26.02 01:22:04] [ROUTING]: Pre-flight check: routing enabled=1
+[26.02 01:22:04] [ROUTING]: Pre-flight check: using active routing profile 'autoXRAY'
+[26.02 01:22:04] [ROUTING]: Pre-flight check: profile='autoXRAY', errorCode=0, hasError=0, isDownloading=0, filesExist=1
+[26.02 01:22:04] [CORE]: Setting XRAY_LOCATION_ASSET to: /Users/ermizin/Library/Application Support/Happ/routing/autoXRAY
+[26.02 01:22:04] [CORE]: core output: Xray 26.1.23 (Xray, Penetrates Everything.) 0a42dba (go1.25.6 darwin/arm64);A unified platform for anti-censorship.
+[26.02 01:22:04] [CORE]: Setting XRAY_LOCATION_ASSET to: /Users/ermizin/Library/Application Support/Happ/routing/autoXRAY
+[26.02 01:22:04] [CORE]: Setting XRAY_LOCATION_ASSET to: /Users/ermizin/Library/Application Support/Happ/routing/autoXRAY
+[26.02 01:22:04] [UI]: [CONNECTION TIMING] Core startup: 141ms
+[26.02 01:22:04] [TUN]: Starting TUN - current state: tunState=false, createError=false, tunProcess=exists, createTryCount=0
+[26.02 01:22:04] [TUN]: DNS detour set to 'direct' (tunDnsEnable=true)
+[26.02 01:22:04] [TUN]: Pre-start validation and config save took 83ms
+[26.02 01:22:04] [TUN]: Starting tun ...
+[26.02 01:22:04] [TUN]: Tun executable: /Applications/Happ.app/Contents/MacOS/tun/sing-box
+[26.02 01:22:04] [TUN]: Config file: /Users/ermizin/Library/Preferences/Happ/config.json
+[26.02 01:22:04] [TUN]: Starting TUN process with elevated privileges via daemon
+[26.02 01:22:04] [TUN]: [DaemonManager] Starting process 'sing-box-tun' with executable: /Applications/Happ.app/Contents/MacOS/tun/sing-box
+[26.02 01:22:04] [TUN]: [DaemonManager] Arguments: run -c /Users/ermizin/Library/Preferences/Happ/config.json --disable-color
+[26.02 01:22:04] [TUN]: [DaemonManager] Process 'sing-box-tun' started
+[26.02 01:22:04] [TUN]: [DaemonManager] Daemon response: {"message":"Process started successfully","request-id":"req_325","status":"started","timestamp":"2026-02-26T01:22:04"}
+[26.02 01:22:04] [TUN]: [DaemonManager] Process started successfully
+[26.02 01:22:04] [TUN]: TUN process started via daemon
+[26.02 01:22:04] [TUN]: Waiting for interface creation (attempt 1/3)...
+[26.02 01:22:04] [TUN]: Tunnel interface created successfully (via daemon)
+[26.02 01:22:04] [TUN]: Wait finished - tunState: true, createError: false, elapsed: 102ms
+[26.02 01:22:04] [TUN]: Tun started up in 102ms
+[26.02 01:22:04] [TUN]: Tun mode enabled
+[26.02 01:22:04] [UI]: [CONNECTION TIMING] TUN startup: 189ms
+[26.02 01:22:04] [UI]: [CONNECTION TIMING] Total connection time: 331ms
+[26.02 01:23:52] [CORE]: [MWStopServer] Called with onlyCore=0, tunEnabled=1
+[26.02 01:23:52] [TUN]: [MWStopServer] Stopping TUN because onlyCore=0 and tunEnabled=1
+[26.02 01:23:52] [TUN]: Attempting to stop TUN via daemon
+[26.02 01:23:52] [TUN]: Sending stop request to daemon
+[26.02 01:23:52] [TUN]: [DaemonManager] Stopping process 'sing-box-tun'
+[26.02 01:23:52] [TUN]: [DaemonManager] Process stop initiated successfully
+[26.02 01:23:52] [TUN]: TUN stop requested via daemon
+[26.02 01:23:52] [TUN]: Tun mode disabled
+[26.02 01:23:52] [UI]: Core stopped successfully.
+[26.02 01:23:53] [TUN]: [DaemonManager] Process 'sing-box-tun' finished with exit code 0
