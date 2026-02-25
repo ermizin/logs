@@ -1,0 +1,422 @@
++0300 2026-02-26 01:23:25 INFO [3457861013 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.5:443
++0300 2026-02-26 01:23:25 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:25 INFO [1630003641 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:61994
++0300 2026-02-26 01:23:25 INFO [1630003641 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.4:443
++0300 2026-02-26 01:23:25 INFO [1630003641 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:25 INFO [1630003641 2ms] outbound/socks[proxy]: outbound connection to 17.248.249.4:443
++0300 2026-02-26 01:23:25 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:25 INFO [3898534466 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:61996
++0300 2026-02-26 01:23:25 INFO [3898534466 0ms] inbound/tun[tun-in]: inbound connection to 17.248.179.238:443
++0300 2026-02-26 01:23:25 INFO [3898534466 1ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:25 INFO [3898534466 1ms] outbound/socks[proxy]: outbound connection to 17.248.179.238:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:26 INFO [2432032007 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:61998
++0300 2026-02-26 01:23:26 INFO [2432032007 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:26 INFO [2432032007 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:26 INFO [2432032007 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [970359965 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:56393
++0300 2026-02-26 01:23:26 INFO [970359965 0ms] inbound/tun[tun-in]: inbound packet connection to 172.224.93.6:443
++0300 2026-02-26 01:23:26 INFO [970359965 0ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [970359965 0ms] outbound/socks[proxy]: outbound packet connection to 172.224.93.6:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:26 INFO [3915086929 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62001
++0300 2026-02-26 01:23:26 INFO [3915086929 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.132:443
++0300 2026-02-26 01:23:26 INFO [3915086929 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:26 INFO [3915086929 4ms] outbound/socks[proxy]: outbound connection to 17.248.181.132:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [670783871 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:55070
++0300 2026-02-26 01:23:26 INFO [670783871 0ms] inbound/tun[tun-in]: inbound packet connection to 172.224.93.3:443
++0300 2026-02-26 01:23:26 INFO [670783871 0ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [670783871 0ms] outbound/socks[proxy]: outbound packet connection to 172.224.93.3:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [1950585564 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:51525
++0300 2026-02-26 01:23:26 INFO [1950585564 0ms] inbound/tun[tun-in]: inbound packet connection to 172.224.93.5:443
++0300 2026-02-26 01:23:26 INFO [1950585564 0ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [1950585564 0ms] outbound/socks[proxy]: outbound packet connection to 172.224.93.5:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [1608512304 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:59073
++0300 2026-02-26 01:23:26 INFO [1608512304 0ms] inbound/tun[tun-in]: inbound packet connection to 172.224.93.136:443
++0300 2026-02-26 01:23:26 INFO [1608512304 0ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [1608512304 0ms] outbound/socks[proxy]: outbound packet connection to 172.224.93.136:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [3562963560 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:49570
++0300 2026-02-26 01:23:26 INFO [3562963560 0ms] inbound/tun[tun-in]: inbound packet connection to 172.224.93.4:443
++0300 2026-02-26 01:23:26 INFO [3562963560 0ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [3562963560 0ms] outbound/socks[proxy]: outbound packet connection to 172.224.93.4:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [2388244724 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:54353
++0300 2026-02-26 01:23:26 INFO [2388244724 0ms] inbound/tun[tun-in]: inbound packet connection to 172.224.93.132:443
++0300 2026-02-26 01:23:26 INFO [2388244724 0ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [2388244724 0ms] outbound/socks[proxy]: outbound packet connection to 172.224.93.132:443
++0300 2026-02-26 01:23:26 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [3774494757 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:52194
++0300 2026-02-26 01:23:26 INFO [3774494757 0ms] inbound/tun[tun-in]: inbound packet connection to 172.224.93.7:443
++0300 2026-02-26 01:23:26 INFO [3774494757 0ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:26 INFO [3774494757 0ms] outbound/socks[proxy]: outbound packet connection to 172.224.93.7:443
++0300 2026-02-26 01:23:27 INFO router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:27 INFO [3928454539 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:61094
++0300 2026-02-26 01:23:27 INFO [3928454539 0ms] inbound/tun[tun-in]: inbound packet connection to 172.224.93.131:443
++0300 2026-02-26 01:23:27 INFO [3928454539 0ms] router: found process path: /System/Library/PrivateFrameworks/SafariSafeBrowsing.framework/Versions/A/com.apple.Safari.SafeBrowsing.Service
++0300 2026-02-26 01:23:27 INFO [3928454539 0ms] outbound/socks[proxy]: outbound packet connection to 172.224.93.131:443
++0300 2026-02-26 01:23:30 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:30 INFO [851350585 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62010
++0300 2026-02-26 01:23:30 INFO [851350585 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:30 INFO [851350585 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:30 INFO [851350585 2ms] outbound/socks[proxy]: outbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:31 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:31 INFO [2571425550 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62013
++0300 2026-02-26 01:23:31 INFO [2571425550 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.132:443
++0300 2026-02-26 01:23:31 INFO [2571425550 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:31 INFO [2571425550 1ms] outbound/socks[proxy]: outbound connection to 17.248.181.132:443
++0300 2026-02-26 01:23:32 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:32 INFO [4260833525 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62015
++0300 2026-02-26 01:23:32 INFO [4260833525 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.5:443
++0300 2026-02-26 01:23:32 INFO [4260833525 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:32 INFO [4260833525 2ms] outbound/socks[proxy]: outbound connection to 17.248.249.5:443
++0300 2026-02-26 01:23:32 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:32 INFO [117366814 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62017
++0300 2026-02-26 01:23:32 INFO [117366814 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.4:443
++0300 2026-02-26 01:23:32 INFO [117366814 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:32 INFO [117366814 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.4:443
++0300 2026-02-26 01:23:32 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:32 INFO [751905540 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62019
++0300 2026-02-26 01:23:32 INFO [751905540 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:32 INFO [751905540 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:32 INFO [751905540 4ms] outbound/socks[proxy]: outbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [4218789981 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:64842
++0300 2026-02-26 01:23:33 INFO [4218789981 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.135:443
++0300 2026-02-26 01:23:33 INFO [4218789981 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [4218789981 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.135:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [1677517851 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:50406
++0300 2026-02-26 01:23:33 INFO [1677517851 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.137:443
++0300 2026-02-26 01:23:33 INFO [1677517851 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [1677517851 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.137:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [1139593352 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:60248
++0300 2026-02-26 01:23:33 INFO [1139593352 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.5:443
++0300 2026-02-26 01:23:33 INFO [1139593352 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [1139593352 1ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.5:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [2662196089 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:64045
++0300 2026-02-26 01:23:33 INFO [2662196089 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.4:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [2662196089 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [2662196089 1ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.4:443
++0300 2026-02-26 01:23:33 INFO [2490859773 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:51758
++0300 2026-02-26 01:23:33 INFO [2490859773 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.7:443
++0300 2026-02-26 01:23:33 INFO [2490859773 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [2490859773 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.7:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [4256074989 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:54437
++0300 2026-02-26 01:23:33 INFO [4256074989 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.132:443
++0300 2026-02-26 01:23:33 INFO [4256074989 4ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [4256074989 4ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.132:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [296177495 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:56129
++0300 2026-02-26 01:23:33 INFO [296177495 1ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.133:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [296177495 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [296177495 1ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.133:443
++0300 2026-02-26 01:23:33 INFO [2415431147 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:53174
++0300 2026-02-26 01:23:33 INFO [2415431147 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.6:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [2415431147 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [2415431147 1ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.6:443
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [211537780 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62027
++0300 2026-02-26 01:23:33 INFO [211537780 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.135:443
++0300 2026-02-26 01:23:33 INFO [211537780 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [211537780 1ms] outbound/socks[proxy]: outbound connection to 17.248.181.135:443
++0300 2026-02-26 01:23:33 INFO [2198980811 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62028
++0300 2026-02-26 01:23:33 INFO [2198980811 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:33 INFO [2198980811 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [2198980811 1ms] outbound/socks[proxy]: outbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:33 INFO [1926136748 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62031
++0300 2026-02-26 01:23:33 INFO [1926136748 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.6:443
++0300 2026-02-26 01:23:33 INFO [1926136748 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [1926136748 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.6:443
++0300 2026-02-26 01:23:33 INFO [3429428232 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62032
++0300 2026-02-26 01:23:33 INFO [3429428232 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:33 INFO [3429428232 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [3429428232 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:33 INFO [1359142380 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62033
++0300 2026-02-26 01:23:33 INFO [1359142380 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.133:443
++0300 2026-02-26 01:23:33 INFO [1359142380 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:33 INFO [1359142380 0ms] outbound/socks[proxy]: outbound connection to 17.248.181.133:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [3264858863 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:51979
++0300 2026-02-26 01:23:34 INFO [3264858863 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.135:443
++0300 2026-02-26 01:23:34 INFO [3264858863 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [3264858863 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.135:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [1788506774 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:56310
++0300 2026-02-26 01:23:34 INFO [1788506774 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.137:443
++0300 2026-02-26 01:23:34 INFO [1788506774 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [1788506774 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.137:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [2389077085 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:56850
++0300 2026-02-26 01:23:34 INFO [2389077085 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.5:443
++0300 2026-02-26 01:23:34 INFO [2389077085 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [2389077085 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.5:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [2175330726 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:59077
++0300 2026-02-26 01:23:34 INFO [2175330726 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.4:443
++0300 2026-02-26 01:23:34 INFO [2175330726 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [2175330726 1ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.4:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [166101034 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:64458
++0300 2026-02-26 01:23:34 INFO [166101034 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.7:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [166101034 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [166101034 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.7:443
++0300 2026-02-26 01:23:34 INFO [167769214 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:65229
++0300 2026-02-26 01:23:34 INFO [167769214 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.132:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [167769214 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [3041127604 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:58979
++0300 2026-02-26 01:23:34 INFO [3041127604 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.133:443
++0300 2026-02-26 01:23:34 INFO [167769214 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.132:443
++0300 2026-02-26 01:23:34 INFO [3041127604 2ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [3041127604 2ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.133:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [571533725 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:52198
++0300 2026-02-26 01:23:34 INFO [571533725 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.6:443
++0300 2026-02-26 01:23:34 INFO [571533725 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [571533725 1ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.6:443
++0300 2026-02-26 01:23:34 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [3113714420 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62047
++0300 2026-02-26 01:23:34 INFO [3113714420 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.133:443
++0300 2026-02-26 01:23:34 INFO [3113714420 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:34 INFO [3113714420 1ms] outbound/socks[proxy]: outbound connection to 17.248.181.133:443
++0300 2026-02-26 01:23:35 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:35 INFO [3594686522 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62049
++0300 2026-02-26 01:23:35 INFO [3594686522 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.6:443
++0300 2026-02-26 01:23:35 INFO [3594686522 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:35 INFO [3594686522 2ms] outbound/socks[proxy]: outbound connection to 17.248.249.6:443
++0300 2026-02-26 01:23:36 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:36 INFO [2133823211 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62051
++0300 2026-02-26 01:23:36 INFO [2133823211 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.135:443
++0300 2026-02-26 01:23:36 INFO [2133823211 2ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:36 INFO [2133823211 2ms] outbound/socks[proxy]: outbound connection to 17.248.181.135:443
++0300 2026-02-26 01:23:36 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:36 INFO [3268627190 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62053
++0300 2026-02-26 01:23:36 INFO [3268627190 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:36 INFO [3268627190 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:36 INFO [3268627190 2ms] outbound/socks[proxy]: outbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:36 INFO router: found process path: /System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd
++0300 2026-02-26 01:23:36 INFO [759786411 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:62303
++0300 2026-02-26 01:23:36 INFO [759786411 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.214.12:443
++0300 2026-02-26 01:23:36 INFO [759786411 0ms] router: found process path: /System/Library/PrivateFrameworks/CloudKitDaemon.framework/Support/cloudd
++0300 2026-02-26 01:23:36 INFO [759786411 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.214.12:443
++0300 2026-02-26 01:23:36 INFO router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:36 INFO [1585927657 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:57287
++0300 2026-02-26 01:23:36 INFO [1585927657 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.214.12:443
++0300 2026-02-26 01:23:36 INFO [1585927657 0ms] router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:36 INFO [1585927657 0ms] outbound/direct[direct]: outbound packet connection
++0300 2026-02-26 01:23:38 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:38 INFO [3089403658 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62058
++0300 2026-02-26 01:23:38 INFO [3089403658 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.5:443
++0300 2026-02-26 01:23:38 INFO [3089403658 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:38 INFO [3089403658 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.5:443
++0300 2026-02-26 01:23:40 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:40 INFO [198720054 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62060
++0300 2026-02-26 01:23:40 INFO [198720054 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.4:443
++0300 2026-02-26 01:23:40 INFO [198720054 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:40 INFO [198720054 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.4:443
++0300 2026-02-26 01:23:42 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:42 INFO [1137237183 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62062
++0300 2026-02-26 01:23:42 INFO [1137237183 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:42 INFO [1137237183 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:42 INFO [1137237183 2ms] outbound/socks[proxy]: outbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [1306205380 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:56286
++0300 2026-02-26 01:23:43 INFO [1306205380 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.6:443
++0300 2026-02-26 01:23:43 INFO [2301091378 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:63096
++0300 2026-02-26 01:23:43 INFO [2301091378 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.135:443
++0300 2026-02-26 01:23:43 INFO [221764097 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:62508
++0300 2026-02-26 01:23:43 INFO [221764097 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.133:443
++0300 2026-02-26 01:23:43 INFO [2219228609 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:49821
++0300 2026-02-26 01:23:43 INFO [2219228609 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.137:443
++0300 2026-02-26 01:23:43 INFO [2301091378 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [2301091378 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.135:443
++0300 2026-02-26 01:23:43 INFO [1306205380 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [1306205380 1ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.6:443
++0300 2026-02-26 01:23:43 INFO [221764097 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [2219228609 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [2219228609 1ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.137:443
++0300 2026-02-26 01:23:43 INFO [221764097 2ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.133:443
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [455563292 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:50966
++0300 2026-02-26 01:23:43 INFO [455563292 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.5:443
++0300 2026-02-26 01:23:43 INFO [455563292 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [455563292 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.5:443
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [3704342440 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:63458
++0300 2026-02-26 01:23:43 INFO [3704342440 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.4:443
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [3704342440 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [3704342440 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.4:443
++0300 2026-02-26 01:23:43 INFO [2147452225 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:51945
++0300 2026-02-26 01:23:43 INFO [2147452225 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.7:443
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [2147452225 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [2147452225 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.7:443
++0300 2026-02-26 01:23:43 INFO [2229384603 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:62784
++0300 2026-02-26 01:23:43 INFO [2229384603 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.132:443
++0300 2026-02-26 01:23:43 INFO [2229384603 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [2229384603 10ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.132:443
++0300 2026-02-26 01:23:43 INFO [1491127938 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62064
++0300 2026-02-26 01:23:43 INFO [1491127938 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.133:443
++0300 2026-02-26 01:23:43 INFO [1491127938 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [1491127938 0ms] outbound/socks[proxy]: outbound connection to 17.248.181.133:443
++0300 2026-02-26 01:23:43 INFO [2427621892 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62071
++0300 2026-02-26 01:23:43 INFO [2427621892 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.6:443
++0300 2026-02-26 01:23:43 INFO [2427621892 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:43 INFO [2427621892 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.6:443
++0300 2026-02-26 01:23:44 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [3634500030 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:55975
++0300 2026-02-26 01:23:44 INFO [3634500030 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.133:443
++0300 2026-02-26 01:23:44 INFO [2849235915 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:62145
++0300 2026-02-26 01:23:44 INFO [2849235915 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.6:443
++0300 2026-02-26 01:23:44 INFO [3634500030 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [2849235915 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [2849235915 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.6:443
++0300 2026-02-26 01:23:44 INFO [3634500030 2ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.133:443
++0300 2026-02-26 01:23:44 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [1274884047 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:49295
++0300 2026-02-26 01:23:44 INFO [1274884047 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.135:443
++0300 2026-02-26 01:23:44 INFO [1274884047 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [1274884047 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.135:443
++0300 2026-02-26 01:23:44 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [1296616794 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:56044
++0300 2026-02-26 01:23:44 INFO [1296616794 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.137:443
++0300 2026-02-26 01:23:44 INFO [1296616794 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [1296616794 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.137:443
++0300 2026-02-26 01:23:44 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [1847866082 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:49576
++0300 2026-02-26 01:23:44 INFO [1847866082 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.5:443
++0300 2026-02-26 01:23:44 INFO [1847866082 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [1847866082 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.5:443
++0300 2026-02-26 01:23:44 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [1242779083 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:51726
++0300 2026-02-26 01:23:44 INFO [1242779083 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.4:443
++0300 2026-02-26 01:23:44 INFO [1242779083 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [1242779083 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.4:443
++0300 2026-02-26 01:23:44 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [165373295 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:61299
++0300 2026-02-26 01:23:44 INFO [165373295 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.249.7:443
++0300 2026-02-26 01:23:44 INFO [165373295 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [165373295 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.249.7:443
++0300 2026-02-26 01:23:44 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [732613735 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:56063
++0300 2026-02-26 01:23:44 INFO [732613735 0ms] inbound/tun[tun-in]: inbound packet connection to 17.248.181.132:443
++0300 2026-02-26 01:23:44 INFO [732613735 0ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:44 INFO [732613735 0ms] outbound/socks[proxy]: outbound packet connection to 17.248.181.132:443
++0300 2026-02-26 01:23:45 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:45 INFO [2943822433 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62084
++0300 2026-02-26 01:23:45 INFO [2943822433 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.133:443
++0300 2026-02-26 01:23:45 INFO [2943822433 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:45 INFO [2943822433 2ms] outbound/socks[proxy]: outbound connection to 17.248.181.133:443
++0300 2026-02-26 01:23:45 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:45 INFO [907491994 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62086
++0300 2026-02-26 01:23:45 INFO [907491994 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.6:443
++0300 2026-02-26 01:23:45 INFO [907491994 2ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:45 INFO [907491994 2ms] outbound/socks[proxy]: outbound connection to 17.248.249.6:443
++0300 2026-02-26 01:23:46 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:46 INFO [2918276579 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62088
++0300 2026-02-26 01:23:46 INFO [2918276579 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.135:443
++0300 2026-02-26 01:23:46 INFO [2918276579 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:46 INFO [2918276579 2ms] outbound/socks[proxy]: outbound connection to 17.248.181.135:443
++0300 2026-02-26 01:23:46 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:46 INFO [3398671007 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62090
++0300 2026-02-26 01:23:46 INFO [3398671007 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:46 INFO [3398671007 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:46 INFO [3398671007 1ms] outbound/socks[proxy]: outbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:48 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:48 INFO [855096498 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62092
++0300 2026-02-26 01:23:48 INFO [855096498 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.5:443
++0300 2026-02-26 01:23:48 INFO [855096498 2ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:48 INFO [855096498 3ms] outbound/socks[proxy]: outbound connection to 17.248.249.5:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [3797160894 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:57124
++0300 2026-02-26 01:23:49 INFO [3797160894 0ms] inbound/tun[tun-in]: inbound packet connection to 64.233.164.105:443
++0300 2026-02-26 01:23:49 INFO [3797160894 0ms] router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [3797160894 0ms] outbound/socks[proxy]: outbound packet connection to 64.233.164.105:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [1473788844 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62095
++0300 2026-02-26 01:23:49 INFO [1473788844 0ms] inbound/tun[tun-in]: inbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO [1473788844 2ms] router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [1473788844 2ms] outbound/direct[direct]: outbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [2327740285 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:52324
++0300 2026-02-26 01:23:49 INFO [2327740285 0ms] inbound/tun[tun-in]: inbound packet connection to 64.233.164.99:443
++0300 2026-02-26 01:23:49 INFO [2327740285 0ms] router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [2327740285 0ms] outbound/socks[proxy]: outbound packet connection to 64.233.164.99:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [53317097 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62098
++0300 2026-02-26 01:23:49 INFO [53317097 0ms] inbound/tun[tun-in]: inbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO [53317097 1ms] router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [53317097 1ms] outbound/direct[direct]: outbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [2534011010 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62100
++0300 2026-02-26 01:23:49 INFO [2534011010 0ms] inbound/tun[tun-in]: inbound connection to 64.233.164.105:443
++0300 2026-02-26 01:23:49 INFO [2534011010 1ms] router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [2534011010 3ms] outbound/socks[proxy]: outbound connection to 64.233.164.105:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [2134182214 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:50835
++0300 2026-02-26 01:23:49 INFO [2134182214 0ms] inbound/tun[tun-in]: inbound packet connection to 64.233.164.104:443
++0300 2026-02-26 01:23:49 INFO [2134182214 0ms] router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [2134182214 3ms] outbound/socks[proxy]: outbound packet connection to 64.233.164.104:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [3735776406 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62103
++0300 2026-02-26 01:23:49 INFO [3735776406 0ms] inbound/tun[tun-in]: inbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO [3735776406 1ms] router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [3735776406 1ms] outbound/direct[direct]: outbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO [3338812691 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62104
++0300 2026-02-26 01:23:49 INFO [3338812691 0ms] inbound/tun[tun-in]: inbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO [3338812691 1ms] router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [3338812691 1ms] outbound/direct[direct]: outbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [1073373798 0ms] inbound/tun[tun-in]: inbound packet connection from 172.18.0.1:56662
++0300 2026-02-26 01:23:49 INFO [1073373798 0ms] inbound/tun[tun-in]: inbound packet connection to 64.233.164.147:443
++0300 2026-02-26 01:23:49 INFO [1073373798 0ms] router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
++0300 2026-02-26 01:23:49 INFO [1073373798 0ms] outbound/socks[proxy]: outbound packet connection to 64.233.164.147:443
++0300 2026-02-26 01:23:49 INFO router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [3141644899 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62108
++0300 2026-02-26 01:23:49 INFO [3141644899 0ms] inbound/tun[tun-in]: inbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:49 INFO [3141644899 1ms] router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:49 INFO [3141644899 1ms] outbound/direct[direct]: outbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:50 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:50 INFO [1389297995 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62110
++0300 2026-02-26 01:23:50 INFO [1389297995 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.4:443
++0300 2026-02-26 01:23:50 INFO [1389297995 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:50 INFO [1389297995 1ms] outbound/socks[proxy]: outbound connection to 17.248.249.4:443
++0300 2026-02-26 01:23:51 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:51 INFO [1238872438 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62112
++0300 2026-02-26 01:23:51 INFO [1238872438 0ms] inbound/tun[tun-in]: inbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:51 INFO [1238872438 2ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:51 INFO [1238872438 2ms] outbound/socks[proxy]: outbound connection to 17.248.181.137:443
++0300 2026-02-26 01:23:52 INFO router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:52 INFO [4184330267 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62114
++0300 2026-02-26 01:23:52 INFO [4184330267 0ms] inbound/tun[tun-in]: inbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:52 INFO [4184330267 1ms] router: found process path: /usr/sbin/mDNSResponder
++0300 2026-02-26 01:23:52 INFO [4184330267 2ms] outbound/socks[proxy]: outbound connection to 17.248.249.7:443
++0300 2026-02-26 01:23:52 INFO router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:52 INFO [1832204673 0ms] inbound/tun[tun-in]: inbound connection from 172.18.0.1:62116
++0300 2026-02-26 01:23:52 INFO [1832204673 0ms] inbound/tun[tun-in]: inbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:52 INFO [1832204673 1ms] router: found process path: /Applications/Happ.app/Contents/MacOS/core/xray
++0300 2026-02-26 01:23:52 INFO [1832204673 1ms] outbound/direct[direct]: outbound connection to 192.210.239.194:443
++0300 2026-02-26 01:23:52 INFO router: found process path: /System/Volumes/Preboot/Cryptexes/Incoming/OS/System/Library/Frameworks/WebKit.framework/Versions/A/XPCServices/com.apple.WebKit.Networking.xpc/Contents/MacOS/com.apple.WebKit.Networking
