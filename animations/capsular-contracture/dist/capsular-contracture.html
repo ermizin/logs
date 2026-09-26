@@ -1,0 +1,2137 @@
+<title>Капсулярная контрактура</title>
+<meta name="description" content="Рилс-анимация 1080×1920: как вокруг импланта формируется капсула, почему она сокращается и как деформирует имплант.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Onest:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&display=swap">
+<style>
+  :root {
+    --surface: #f3f1ec; --surface-2: #e8e4dc; --line: #cfc9be;
+    --ink: #161a18; --ink-muted: #585d59; --on-ink: #f3f1ec;
+    --scrub: #1f4f45; --scrub-soft: #d3e0da;
+    --marker: #5b3aa8; --marker-soft: #e4ddf2;
+    --iodine: #a5461b; --iodine-soft: #f2ddd0;
+    --stage-ground: #f3f1ec;
+    --sans: "Onest", "Manrope", system-ui, sans-serif;
+    --serif: "Playfair Display", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface: #111413; --surface-2: #1b201e; --line: #343b38;
+      --ink: #ece9e2; --ink-muted: #a3a9a5; --on-ink: #111413;
+      --scrub: #86bba8; --scrub-soft: #1d302a;
+      --marker: #b6a1f0; --marker-soft: #2a2440;
+      --iodine: #e8905f; --iodine-soft: #3a2419;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface: #111413; --surface-2: #1b201e; --line: #343b38;
+    --ink: #ece9e2; --ink-muted: #a3a9a5; --on-ink: #111413;
+    --scrub: #86bba8; --scrub-soft: #1d302a;
+    --marker: #b6a1f0; --marker-soft: #2a2440;
+    --iodine: #e8905f; --iodine-soft: #3a2419;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--surface); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.5; }
+  .wrap {
+    max-width: 1080px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 48px; align-items: start;
+  }
+  .player { width: min(430px, calc((100svh - 150px) * 0.5625)); min-width: 260px; max-width: 100%; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+  .stage-box { position: relative; width: 100%; aspect-ratio: 9 / 16; max-width: 100%; background: var(--stage-ground); outline: 1px solid var(--line); }
+  #stage { display: block; width: 100%; height: 100%; cursor: pointer; }
+  #bigplay {
+    position: absolute; inset: 0; margin: auto; width: 88px; height: 88px; border-radius: 9999px; border: 0;
+    background: #161a18; color: #f3f1ec; cursor: pointer; display: grid; place-items: center;
+  }
+  #bigplay[hidden] { display: none; }
+  #bigplay svg { width: 30px; height: 30px; margin-left: 5px; }
+  .controls { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  #play {
+    flex: none; width: 44px; height: 44px; border-radius: 9999px; border: 1px solid var(--line);
+    background: var(--ink); color: var(--surface); display: grid; place-items: center; cursor: pointer;
+  }
+  #play svg { width: 16px; height: 16px; }
+  #play .i-pause { display: none; }
+  #play[data-state="playing"] .i-play { display: none; }
+  #play[data-state="playing"] .i-pause { display: block; }
+  .track { position: relative; flex: 1; min-width: 0; height: 44px; display: flex; align-items: center; }
+  .tick { position: absolute; top: 9px; width: 2px; height: 8px; background: var(--ink-muted); opacity: .6; pointer-events: none; }
+  #scrub { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; margin: 0; cursor: pointer; --p: 0%; }
+  #scrub::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--scrub) var(--p), var(--line) var(--p)); }
+  #scrub::-moz-range-track { height: 4px; border-radius: 2px; background: var(--line); }
+  #scrub::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--scrub); }
+  #scrub::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; margin-top: -7px; border-radius: 9999px; background: var(--ink); border: 3px solid var(--surface); }
+  #scrub::-moz-range-thumb { width: 14px; height: 14px; border-radius: 9999px; background: var(--ink); border: 3px solid var(--surface); }
+  #time { font-family: var(--mono); font-size: 13px; color: var(--ink-muted); font-variant-numeric: tabular-nums; letter-spacing: .04em; flex: none; }
+  :focus-visible { outline: 3px solid var(--marker); outline-offset: 2px; }
+
+  .panel { max-width: 62ch; }
+  .eyebrow { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 14px; }
+  h1 { font-size: clamp(34px, 4.6vw, 52px); line-height: 1.02; letter-spacing: -.03em; font-weight: 800; margin: 0 0 18px; text-wrap: balance; }
+  h1 em { font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -.01em; }
+  .lede { font-size: 18px; line-height: 1.55; margin: 0 0 28px; color: var(--ink); }
+  h2 { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin: 36px 0 12px; }
+  .chapters { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .chapters button {
+    width: 100%; text-align: left; display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: baseline;
+    background: transparent; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; color: var(--ink); font: inherit; cursor: pointer;
+  }
+  .chapters button.on { background: var(--scrub-soft); border-color: transparent; }
+  .chapters .n { font-family: var(--mono); font-size: 13px; color: var(--ink-muted); }
+  .chapters .t { font-weight: 600; }
+  .chapters .d { display: block; font-weight: 400; color: var(--ink-muted); font-size: 15px; margin-top: 2px; }
+  .chapters .tc { font-family: var(--mono); font-size: 13px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+  .script { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; }
+  .script button { width: 100%; display: grid; grid-template-columns: 52px 1fr; gap: 10px; text-align: left; background: none; border: 0; padding: 6px 0; color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
+  .script .tc { font-family: var(--mono); font-size: 13px; color: var(--ink-muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .script button:hover span:last-child { text-decoration: underline; text-decoration-color: var(--marker); text-underline-offset: 3px; }
+  .notes { display: grid; gap: 10px; }
+  .note { border-radius: 12px; padding: 14px 16px; background: var(--surface-2); font-size: 15px; line-height: 1.5; }
+  .note b { font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .note.fact b { color: var(--scrub); }
+  .note.hyp b { color: var(--iodine); }
+  .note.simp b { color: var(--ink-muted); }
+  .foot { font-size: 13px; color: var(--ink-muted); margin-top: 28px; }
+  @media (max-width: 760px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .player { position: static; width: 100%; min-width: 0; }
+  }
+  html.render body { margin: 0; background: #f3f1ec; }
+  html.render .wrap { display: block; padding: 0; max-width: none; }
+  html.render .player { width: 1080px; position: static; }
+  html.render .stage-box { width: 1080px; height: 1920px; outline: 0; }
+  html.render .controls, html.render .panel, html.render #bigplay { display: none; }
+</style>
+
+<main class="wrap">
+  <section class="player" aria-label="Анимация">
+    <div class="stage-box">
+      <canvas id="stage" width="1080" height="1920" role="img" aria-label="Анимация: вокруг импланта формируется капсула, затем она утолщается, сжимается и деформирует имплант до шара."></canvas>
+      <button id="bigplay" type="button" aria-label="Смотреть" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 4l15 8-15 8z"/></svg></button>
+    </div>
+    <div class="controls">
+      <button id="play" type="button" aria-label="Смотреть" data-state="paused">
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 4l15 8-15 8z"/></svg>
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+      <div class="track">
+        <span class="tick" style="left:6.6%"></span><span class="tick" style="left:37.3%"></span><span class="tick" style="left:67.5%"></span>
+        <input id="scrub" type="range" min="0" max="59" step="0.01" value="0" aria-label="Перемотка">
+      </div>
+      <span id="time">00:00 / 00:59</span>
+    </div>
+  </section>
+
+  <article class="panel">
+    <p class="eyebrow">Разбор · рилс 1080 × 1920 · 59 с</p>
+    <h1>Капсулярная <em>контрактура</em></h1>
+    <p class="lede">Вокруг любого импланта организм строит капсулу из коллагена. Обычно она тонкая и мягкая. При контрактуре капсула утолщается и сжимается, а несжимаемый гель вынужден стать шаром.</p>
+
+    <h2>Три шага</h2>
+    <ol class="chapters">
+      <li><button type="button" data-ch data-jump="3.9" data-from="3.9" data-to="22"><span class="n">01</span><span class="t">Формирование<span class="d">Белки, макрофаги, гигантские клетки, фибробласты и коллаген.</span></span><span class="tc">00:04</span></button></li>
+      <li><button type="button" data-ch data-jump="22" data-from="22" data-to="39.8"><span class="n">02</span><span class="t">Сокращение<span class="d">Биоплёнка, миофибробласты с α-SMA, капсула стягивается.</span></span><span class="tc">00:22</span></button></li>
+      <li><button type="button" data-ch data-jump="39.8" data-from="39.8" data-to="59"><span class="n">03</span><span class="t">Деформация<span class="d">Объём тот же, оболочка меньше: имплант скругляется и уходит вверх.</span></span><span class="tc">00:40</span></button></li>
+    </ol>
+
+    <h2>Текст в кадре</h2>
+    <ol class="script" id="script"></ol>
+
+    <h2>Что здесь факт, а что версия</h2>
+    <div class="notes">
+      <p class="note fact"><b>Факт</b>Капсула формируется вокруг любого имплантата как реакция на инородное тело: адсорбция белков, макрофаги и гигантские клетки, фибробласты, коллаген.</p>
+      <p class="note fact"><b>Факт</b>В контрагированной капсуле больше миофибробластов (α-SMA+), коллаген плотнее и ориентирован параллельно поверхности, капсула толще. Шкала Бейкера (I–IV) клиническая, клинически значимы III–IV.</p>
+      <p class="note hyp"><b>Версия</b>Субклиническая инфекция и биоплёнка (S. epidermidis, C. acnes) — самая изученная гипотеза: бактерии находят в капсулах (Pajkos et al., 2003), в свиной модели инокуляция повышала частоту контрактуры (Tamboto et al., 2010). Причинность у людей окончательно не доказана.</p>
+      <p class="note hyp"><b>Факторы риска</b>Лучевая терапия, гематома, субгландулярная позиция, периареолярный и трансаксиллярный доступ — в основном наблюдательные данные. Текстура поверхности — данные противоречивы. Частота после увеличения груди в разных сериях примерно 3–20 %: сверьте с актуальным обзором перед публикацией.</p>
+      <p class="note simp"><b>Упрощения</b>Размеры белков, бактерий и клеток условные; сроки ориентировочные. «Шар» показан в срезе: при постоянной площади наименьший периметр у круга, в объёме то же верно для шара.</p>
+    </div>
+    <p class="foot">Информация носит образовательный характер и не заменяет очную консультацию врача.</p>
+  </article>
+</main>
+
+<script>
+'use strict';
+/* Капсулярная контрактура — ядро: константы, палитра, утилиты, геометрия. */
+
+const W = 1080, H = 1920, FPS = 30;
+const TAU = Math.PI * 2;
+
+// Палитра «День» из дизайн-системы + иллюстративные цвета (анатомия, H&E-гистология)
+const PAL = {
+  surface: '#f3f1ec', surface2: '#e8e4dc', line: '#cfc9be',
+  ink: '#161a18', inkMuted: '#585d59', onInk: '#f3f1ec',
+  scrub: '#1f4f45', scrubSoft: '#d3e0da',
+  marker: '#5b3aa8', markerSoft: '#e4ddf2', markerOnFill: '#c9b8f7',
+  iodine: '#a5461b', iodineSoft: '#f2ddd0',
+  // анатомия, общий план
+  lung: '#e3e9e4', lungLine: '#b8c6bd',
+  bone: '#ece6da', boneLine: '#8a8274', marrow: '#dccfbd',
+  muscle: '#c27b6b', muscleDark: '#98574a', muscleLight: '#dcaa9d',
+  fat: '#f1e3c0', fatLine: '#d8c28f',
+  gland: '#e6b3a6', glandDark: '#cc8b7e', duct: '#b56d62',
+  skin: '#e8b9a1', skinDark: '#c38a72',
+  gel: '#dce8e7', gel2: '#c3d7d5', gelHi: '#f6fbfa', shell: '#1f4f45',
+  capsule: '#eee8de', capsuleFiber: '#aa9f8f',
+  // микроскопия (H&E, ИГХ, окраска по Граму)
+  slide: '#f8eff1', slide2: '#f0e0e6',
+  eosin: '#eab0c2', eosinLight: '#f5d5df', eosinDark: '#c56b8c',
+  hema: '#48398a', hemaLight: '#7263b5', hemaDark: '#2f2466',
+  collagen: '#dc8fa7', collagenDense: '#b9557a',
+  rbc: '#cf4a61', rbcDark: '#a8354b',
+  dab: '#8b4a1c',
+  gram: '#4a2a7c', gramLight: '#7b5bb0', eps: '#cfe0d6', epsLine: '#7c9d8a',
+};
+
+const FONT = {
+  sans: '"Onest", "Manrope", system-ui, sans-serif',
+  serif: '"Playfair Display", Georgia, serif',
+  mono: '"IBM Plex Mono", ui-monospace, Menlo, monospace',
+};
+
+/* ---------- числа и сглаживание ---------- */
+const clamp = (x, a = 0, b = 1) => (x < a ? a : x > b ? b : x);
+const lerp = (a, b, t) => a + (b - a) * t;
+const invLerp = (a, b, x) => clamp((x - a) / (b - a));
+const smooth = (t) => t * t * (3 - 2 * t);
+
+const E = {
+  lin: (t) => t,
+  inOut: (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2),
+  inOutQ: (t) => (t < 0.5 ? 8 * t * t * t * t : 1 - Math.pow(-2 * t + 2, 4) / 2),
+  out: (t) => 1 - Math.pow(1 - t, 3),
+  outQ: (t) => 1 - Math.pow(1 - t, 4),
+  in: (t) => t * t * t,
+  outExpo: (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t)),
+  inOutExpo: (t) => (t <= 0 ? 0 : t >= 1 ? 1 : t < 0.5 ? Math.pow(2, 20 * t - 10) / 2 : (2 - Math.pow(2, -20 * t + 10)) / 2),
+  outBack: (t) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+  outBackS: (t) => { const c1 = 0.9, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+};
+
+// прогресс сегмента [a,b] с изингом
+const P = (t, a, b, e = E.inOut) => e(invLerp(a, b, t));
+// «окно видимости»: плавно появляется в a, исчезает к b
+const env = (t, a, b, fi = 0.3, fo = 0.3) => Math.min(invLerp(a, a + fi, t), 1 - invLerp(b - fo, b, t));
+// затухающее колебание после события в момент t0
+const ring = (t, t0, freq = 3, damp = 5) => (t < t0 ? 0 : Math.exp(-(t - t0) * damp) * Math.sin((t - t0) * freq * TAU));
+
+/* ---------- детерминированный шум и ГПСЧ ---------- */
+function hashI(i) {
+  let h = Math.imul((i | 0) ^ 0x9e3779b9, 0x85ebca6b);
+  h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16;
+  return (h >>> 0) / 4294967295;
+}
+function noise1(x, seed = 0) {
+  const i = Math.floor(x), f = x - i, u = f * f * (3 - 2 * f);
+  return lerp(hashI(i + seed * 7919), hashI(i + 1 + seed * 7919), u) * 2 - 1;
+}
+function rng(seed) {
+  let a = seed >>> 0;
+  return function () {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/* ---------- цвет ---------- */
+function hexRgb(h) { const n = parseInt(h.slice(1), 16); return [(n >> 16) & 255, (n >> 8) & 255, n & 255]; }
+function mix(a, b, t) {
+  const A = hexRgb(a), B = hexRgb(b);
+  const r = (i) => Math.round(lerp(A[i], B[i], clamp(t))).toString(16).padStart(2, '0');
+  return '#' + r(0) + r(1) + r(2);
+}
+function rgba(h, a) { const [r, g, b] = hexRgb(h); return `rgba(${r},${g},${b},${clamp(a)})`; }
+
+/* ---------- геометрия ломаных ---------- */
+function polyLen(pts, closed = false) {
+  let L = 0;
+  for (let i = 1; i < pts.length; i++) L += Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+  if (closed && pts.length > 1) L += Math.hypot(pts[0][0] - pts[pts.length - 1][0], pts[0][1] - pts[pts.length - 1][1]);
+  return L;
+}
+// часть ломаной от начала до доли frac длины
+function polyPartial(pts, frac) {
+  if (frac >= 1) return pts;
+  if (frac <= 0 || pts.length < 2) return [];
+  const total = polyLen(pts), target = total * frac, out = [pts[0]];
+  let acc = 0;
+  for (let i = 1; i < pts.length; i++) {
+    const d = Math.hypot(pts[i][0] - pts[i - 1][0], pts[i][1] - pts[i - 1][1]);
+    if (acc + d >= target) {
+      const k = d > 0 ? (target - acc) / d : 0;
+      out.push([lerp(pts[i - 1][0], pts[i][0], k), lerp(pts[i - 1][1], pts[i][1], k)]);
+      return out;
+    }
+    acc += d; out.push(pts[i]);
+  }
+  return out;
+}
+// равномерная передискретизация по длине
+function resample(pts, n, closed = false) {
+  const src = closed ? pts.concat([pts[0]]) : pts;
+  const total = polyLen(src), out = [];
+  let seg = 1, acc = 0;
+  const cnt = closed ? n : n - 1;
+  for (let k = 0; k < n; k++) {
+    const target = (total * k) / cnt;
+    while (seg < src.length - 1) {
+      const d = Math.hypot(src[seg][0] - src[seg - 1][0], src[seg][1] - src[seg - 1][1]);
+      if (acc + d >= target) break;
+      acc += d; seg++;
+    }
+    const d = Math.hypot(src[seg][0] - src[seg - 1][0], src[seg][1] - src[seg - 1][1]);
+    const f = d > 0 ? clamp((target - acc) / d) : 0;
+    out.push([lerp(src[seg - 1][0], src[seg][0], f), lerp(src[seg - 1][1], src[seg][1], f)]);
+  }
+  return out;
+}
+// нормали (наружу для замкнутого контура по часовой в экранных координатах)
+function normals(pts, closed = true) {
+  const n = pts.length, out = new Array(n);
+  for (let i = 0; i < n; i++) {
+    const a = pts[closed ? (i - 1 + n) % n : Math.max(0, i - 1)];
+    const b = pts[closed ? (i + 1) % n : Math.min(n - 1, i + 1)];
+    let dx = b[0] - a[0], dy = b[1] - a[1];
+    const L = Math.hypot(dx, dy) || 1;
+    out[i] = [dy / L, -dx / L];
+  }
+  return out;
+}
+function offsetPoly(pts, d, closed = true, nrm) {
+  const N = nrm || normals(pts, closed);
+  return pts.map((p, i) => [p[0] + N[i][0] * (typeof d === 'function' ? d(i) : d), p[1] + N[i][1] * (typeof d === 'function' ? d(i) : d)]);
+}
+function polyArea(pts) {
+  let a = 0;
+  for (let i = 0, n = pts.length; i < n; i++) { const p = pts[i], q = pts[(i + 1) % n]; a += p[0] * q[1] - q[0] * p[1]; }
+  return a / 2;
+}
+function centroid(pts) {
+  let x = 0, y = 0;
+  for (const p of pts) { x += p[0]; y += p[1]; }
+  return [x / pts.length, y / pts.length];
+}
+function laplace(pts, iters = 3, fixEnds = true) {
+  let a = pts.map((p) => p.slice());
+  for (let k = 0; k < iters; k++) {
+    const b = a.map((p) => p.slice());
+    for (let i = 1; i < a.length - 1; i++) {
+      b[i][0] = (a[i - 1][0] + 2 * a[i][0] + a[i + 1][0]) / 4;
+      b[i][1] = (a[i - 1][1] + 2 * a[i][1] + a[i + 1][1]) / 4;
+    }
+    if (!fixEnds) { b[0] = a[0]; b[a.length - 1] = a[a.length - 1]; }
+    a = b;
+  }
+  return a;
+}
+
+/* ---------- рисование путей ---------- */
+// сглаженный путь (Catmull-Rom → Безье)
+function smoothPath(ctx, pts, closed = false, move = true) {
+  const n = pts.length;
+  if (n < 2) return;
+  if (move) ctx.moveTo(pts[0][0], pts[0][1]);
+  const get = (i) => (closed ? pts[(i + n) % n] : pts[clamp(i, 0, n - 1)]);
+  const last = closed ? n : n - 1;
+  for (let i = 0; i < last; i++) {
+    const p0 = get(i - 1), p1 = get(i), p2 = get(i + 1), p3 = get(i + 2);
+    ctx.bezierCurveTo(
+      p1[0] + (p2[0] - p0[0]) / 6, p1[1] + (p2[1] - p0[1]) / 6,
+      p2[0] - (p3[0] - p1[0]) / 6, p2[1] - (p3[1] - p1[1]) / 6,
+      p2[0], p2[1]
+    );
+  }
+  if (closed) ctx.closePath();
+}
+function polyPath(ctx, pts, closed = false) {
+  if (!pts.length) return;
+  ctx.moveTo(pts[0][0], pts[0][1]);
+  for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+  if (closed) ctx.closePath();
+}
+function strokeSmooth(ctx, pts, color, width, alpha = 1, closed = false) {
+  if (pts.length < 2 || alpha <= 0) return;
+  ctx.save();
+  ctx.globalAlpha *= alpha;
+  ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath(); smoothPath(ctx, pts, closed); ctx.stroke();
+  ctx.restore();
+}
+function fillSmooth(ctx, pts, color, alpha = 1) {
+  if (pts.length < 3 || alpha <= 0) return;
+  ctx.save();
+  ctx.globalAlpha *= alpha;
+  ctx.fillStyle = color;
+  ctx.beginPath(); smoothPath(ctx, pts, true); ctx.fill();
+  ctx.restore();
+}
+
+// Фирменная линия маркера: скруглённые концы, лёгкая неровность плотности
+function markerLine(ctx, pts, opt = {}) {
+  const { color = PAL.marker, width = 8, alpha = 1, dash = null, closed = false, progress = 1 } = opt;
+  const src = closed ? pts.concat([pts[0]]) : pts;
+  const part = progress < 1 ? polyPartial(src, progress) : src;
+  if (part.length < 2 || alpha <= 0) return;
+  ctx.save();
+  ctx.globalAlpha *= alpha;
+  ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  if (dash) ctx.setLineDash(dash);
+  ctx.strokeStyle = color; ctx.lineWidth = width;
+  ctx.beginPath(); smoothPath(ctx, part, false); ctx.stroke();
+  // второй проход — «чернила легли неровно»
+  ctx.globalAlpha *= 0.22;
+  ctx.lineWidth = width * 0.45;
+  ctx.translate(0.8, -0.9);
+  ctx.beginPath(); smoothPath(ctx, part, false); ctx.stroke();
+  ctx.restore();
+}
+
+// рукописный овал: чуть неровный, повёрнут на −3°, концы заходят друг на друга
+function handEllipse(cx, cy, rx, ry, seed = 1, rot = -3 * Math.PI / 180, n = 72) {
+  const pts = [];
+  const over = 0.09; // нахлёст концов
+  for (let i = 0; i <= n; i++) {
+    const a = -Math.PI * 0.62 + (TAU * (1 + over) * i) / n;
+    const wob = 1 + 0.025 * noise1(i * 0.18, seed) + 0.012 * Math.sin(a * 3 + seed);
+    const spiral = 1 + 0.035 * (i / n);
+    const x = Math.cos(a) * rx * wob * spiral, y = Math.sin(a) * ry * wob * spiral;
+    pts.push([cx + x * Math.cos(rot) - y * Math.sin(rot), cy + x * Math.sin(rot) + y * Math.cos(rot)]);
+  }
+  return pts;
+}
+
+/* ---------- текст ---------- */
+function font(ctx, weight, size, fam = 'sans', italic = false) {
+  ctx.font = `${italic ? 'italic ' : ''}${weight} ${size}px ${FONT[fam]}`;
+}
+// текст с трекингом (ctx.letterSpacing есть не везде)
+function spacedText(ctx, str, x, y, spacing, align = 'left') {
+  let w = 0;
+  const widths = [...str].map((ch) => { const m = ctx.measureText(ch).width; w += m + spacing; return m; });
+  w -= spacing;
+  let cx = align === 'right' ? x - w : align === 'center' ? x - w / 2 : x;
+  const saved = ctx.textAlign;
+  ctx.textAlign = 'left';
+  [...str].forEach((ch, i) => { ctx.fillText(ch, cx, y); cx += widths[i] + spacing; });
+  ctx.textAlign = saved;
+  return w;
+}
+function spacedWidth(ctx, str, spacing) {
+  let w = 0;
+  for (const ch of str) w += ctx.measureText(ch).width + spacing;
+  return w - spacing;
+}
+function roundRect(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x + r, y);
+  ctx.arcTo(x + w, y, x + w, y + h, r);
+  ctx.arcTo(x + w, y + h, x, y + h, r);
+  ctx.arcTo(x, y + h, x, y, r);
+  ctx.arcTo(x, y, x + w, y, r);
+  ctx.closePath();
+}
+
+</script>
+<script>
+'use strict';
+/* Общий план: сагиттальный срез груди с имплантом (субгландулярно), капсула, деформация. */
+
+// передняя поверхность грудной стенки (фасция большой грудной мышцы)
+const cw = (y) => 285 + 28 * (1 - Math.pow((y - 800) / 640, 2));
+const WALL = (y) => cw(y) + 5;
+
+const NI = 180; // точек в контуре импланта
+const ANG = Array.from({ length: NI }, (_, k) => (TAU * k) / NI);
+
+function rayHit(poly, c, ang) {
+  const dx = Math.cos(ang), dy = Math.sin(ang);
+  let best = Infinity;
+  for (let i = 0, n = poly.length; i < n; i++) {
+    const a = poly[i], b = poly[(i + 1) % n];
+    const ex = b[0] - a[0], ey = b[1] - a[1];
+    const den = dx * ey - dy * ex;
+    if (Math.abs(den) < 1e-9) continue;
+    const ax = a[0] - c[0], ay = a[1] - c[1];
+    const t = (ax * ey - ay * ex) / den, s = (ax * dy - ay * dx) / den;
+    if (t > 0 && s >= -1e-6 && s <= 1 + 1e-6 && t < best) best = t;
+  }
+  return best;
+}
+function areaCentroid(poly) {
+  let a = 0, x = 0, y = 0;
+  for (let i = 0, n = poly.length; i < n; i++) {
+    const p = poly[i], q = poly[(i + 1) % n], c = p[0] * q[1] - q[0] * p[1];
+    a += c; x += (p[0] + q[0]) * c; y += (p[1] + q[1]) * c;
+  }
+  return [x / (3 * a), y / (3 * a)];
+}
+
+/* ---------- имплант: естественная форма и форма при контрактуре ---------- */
+const IMPL = (() => {
+  const y0 = 600, y1 = 1010, h = y1 - y0, proj = 250, M = 140;
+  const poly = [];
+  for (let i = 0; i <= M; i++) { // передняя поверхность сверху вниз, нижний полюс полнее
+    const s = i / M, sp = Math.pow(s, 1.22);
+    const f = Math.pow(Math.sin(Math.PI * sp), 0.66);
+    const y = y0 + s * h;
+    poly.push([WALL(y) + proj * f, y]);
+  }
+  for (let i = M - 1; i >= 1; i--) { const y = y0 + (i / M) * h; poly.push([WALL(y), y]); }
+  const c0 = areaCentroid(poly);
+  const r0 = ANG.map((a) => rayHit(poly, c0, a));
+  const nat = ANG.map((a, k) => [c0[0] + Math.cos(a) * r0[k], c0[1] + Math.sin(a) * r0[k]]);
+  const A0 = Math.abs(polyArea(nat));
+  // шар, прижатый к грудной стенке: срезан сегмент глубиной 0.18R
+  const R = Math.sqrt(A0 / (Math.PI - 0.1388));
+  const cy1 = c0[1] - 72;
+  const c1 = [WALL(cy1) + 0.82 * R, cy1];
+  const tgt = ANG.map((a) => {
+    const x = c1[0] + Math.cos(a) * R, y = c1[1] + Math.sin(a) * R;
+    return [Math.max(x, WALL(y)), y];
+  });
+  return { poly, c0, r0, nat, A0, R, c1, tgt, y0, y1 };
+})();
+
+// форма импланта: m — степень контрактуры (0 норма → 1 шар), wob — колебание геля, folds — складки оболочки
+function implantPts(m, wob = 0, folds = 0, t = 0) {
+  const c = [lerp(IMPL.c0[0], IMPL.c1[0], m), lerp(IMPL.c0[1], IMPL.c1[1], m)];
+  let pts = ANG.map((a, k) => [lerp(IMPL.nat[k][0], IMPL.tgt[k][0], m), lerp(IMPL.nat[k][1], IMPL.tgt[k][1], m)]);
+  // сохраняем объём (площадь): масштаб от точки опоры на грудной стенке
+  const A = Math.abs(polyArea(pts));
+  const s = Math.sqrt(IMPL.A0 / A);
+  const anc = [WALL(c[1]), c[1]];
+  pts = pts.map((p) => {
+    const x = anc[0] + (p[0] - anc[0]) * s, y = anc[1] + (p[1] - anc[1]) * s;
+    return [x, y];
+  });
+  if (wob || folds) {
+    pts = pts.map((p, k) => {
+      const a = ANG[k];
+      let d = wob * Math.cos(2 * a + 0.5);
+      if (folds) {
+        const win = Math.exp(-Math.pow((((a - 0.55 + Math.PI) % TAU) - Math.PI) / 0.62, 2));
+        d += folds * win * (Math.sin(a * 23 + t * 0.6) * 0.8 + Math.sin(a * 37) * 0.35);
+      }
+      const dx = p[0] - c[0], dy = p[1] - c[1], L = Math.hypot(dx, dy) || 1;
+      return [p[0] + (dx / L) * d, p[1] + (dy / L) * d];
+    });
+  }
+  return pts.map((p) => [Math.max(p[0], WALL(p[1])), p[1]]);
+}
+
+/* ---------- фирменный «миндаль» и его превращение в имплант ---------- */
+const ALMOND = (() => {
+  const a = 330, b = 118, Rc = (a * a + b * b) / (2 * b), poly = [];
+  const half = Math.asin(a / Rc);
+  for (let i = 0; i <= 60; i++) { const th = -half + (2 * half * i) / 60; poly.push([Math.sin(th) * Rc, Rc - b - Math.cos(th) * Rc + 0]); }
+  // верхняя дуга: y = (Rc-b) - cos*Rc  (от −b до 0); нижняя — зеркальная
+  const upper = poly.map((p) => [p[0], p[1]]);
+  const lower = upper.slice().reverse().map((p) => [p[0], -p[1]]);
+  const full = upper.concat(lower.slice(1, -1));
+  const r = ANG.map((ang) => rayHit(full, [0, 0], ang));
+  return { a, b, upper, lower, r };
+})();
+function almondR(ang) {
+  let x = (((ang % TAU) + TAU) % TAU) / TAU * NI;
+  const i = Math.floor(x) % NI, f = x - Math.floor(x);
+  return lerp(ALMOND.r[i], ALMOND.r[(i + 1) % NI], f);
+}
+// k: 0 — миндаль (центр cx,cy, поворот rho), 1 — естественная форма импланта
+function almondToImplant(k, rho, cx, cy, scale = 1) {
+  const c = [lerp(cx, IMPL.c0[0], k), lerp(cy, IMPL.c0[1], k)];
+  return ANG.map((a, i) => {
+    const r = lerp(almondR(a - rho) * scale, IMPL.r0[i], k);
+    return [c[0] + Math.cos(a) * r, c[1] + Math.sin(a) * r];
+  });
+}
+
+/* ---------- мягкие ткани, зависящие от формы импланта ---------- */
+const MA = 90; // точек по передней дуге
+function sampleArc(imp) {
+  const arc = [];
+  for (let k = (3 * NI) / 4; k <= NI + NI / 4; k++) arc.push(imp[k % NI]);
+  return resample(arc, MA, false);
+}
+const thick = (u) => lerp(46, 66, u) + 86 * Math.pow(Math.sin(Math.PI * Math.pow(u, 0.92)), 1.25);
+const glandFrac = (u) => 0.74 * Math.pow(Math.sin(Math.PI * u), 0.55);
+const U_NIP = 0.56;
+
+function breastGeom(imp, capT) {
+  const arc = sampleArc(imp);
+  const n = normals(arc, false);
+  // к краям дуги смещаем направление вперёд — ткань лежит на стенке, а не над имплантом
+  const dir = n.map((v, i) => {
+    const u = i / (MA - 1), w = 1.3 * Math.pow(Math.abs(u - 0.5) * 2, 3);
+    const x = v[0] + w, y = v[1], L = Math.hypot(x, y);
+    return [x / L, y / L];
+  });
+  let skinArc = arc.map((p, i) => { const u = i / (MA - 1), d = thick(u); return [p[0] + dir[i][0] * d, p[1] + dir[i][1] * d]; });
+  skinArc = laplace(skinArc, 3);
+  // полный контур кожи: верх грудной клетки → молочная железа → субмаммарная складка → живот
+  const i0 = 5, i1 = MA - 6;
+  const topY = skinArc[i0][1] - 46, botY = Math.max(skinArc[i1][1] + 44, 1100);
+  const top = [], bot = [];
+  for (let y = -80; y < topY; y += 22) top.push([cw(y) + 44, y]);
+  for (let y = botY; y <= 2000; y += 22) bot.push([cw(y) + 40, y]);
+  let skin = top.concat(skinArc.slice(i0, i1 + 1), bot);
+  skin = laplace(skin, 5);
+  // сосок и ареола
+  const nipI = top.length + Math.round(U_NIP * (MA - 1)) - i0;
+  const sn = normals(skin, false);
+  skin = skin.map((p, i) => {
+    const d = i - nipI, bump = 15 * Math.exp(-(d * d) / 2.2) + 4 * Math.exp(-(d * d) / 14);
+    return [p[0] + sn[i][0] * bump, p[1] + sn[i][1] * bump];
+  });
+  // железистая ткань между капсулой и подкожным жиром
+  const skinAll = skinArc; // соответствие по u
+  const gIn = arc.map((p, i) => [p[0] + n[i][0] * (capT + 5), p[1] + n[i][1] * (capT + 5)]);
+  const gOut = gIn.map((p, i) => {
+    const u = i / (MA - 1), f = glandFrac(u);
+    return [lerp(p[0], skinAll[i][0], f), lerp(p[1], skinAll[i][1], f)];
+  });
+  const fatRegion = skin.concat([[cw(2000) - 2, 2000]]);
+  for (let y = 2000; y >= -80; y -= 25) fatRegion.push([cw(y) + 1, y]);
+  return { arc, n, dir, skin, skinArc, gIn, gOut, nip: skin[nipI], nipI, fatRegion, topLen: top.length, i0 };
+}
+// точка в ткани по параметрам: u — вдоль дуги, v — поперёк слоя
+function uvGland(G, u, v) {
+  const x = u * (MA - 1), i = Math.min(MA - 2, Math.floor(x)), f = x - i;
+  const a = [lerp(G.gIn[i][0], G.gIn[i + 1][0], f), lerp(G.gIn[i][1], G.gIn[i + 1][1], f)];
+  const b = [lerp(G.gOut[i][0], G.gOut[i + 1][0], f), lerp(G.gOut[i][1], G.gOut[i + 1][1], f)];
+  return [lerp(a[0], b[0], v), lerp(a[1], b[1], v)];
+}
+function uvFat(G, u, v) {
+  const x = u * (MA - 1), i = Math.min(MA - 2, Math.floor(x)), f = x - i;
+  const a = [lerp(G.gOut[i][0], G.gOut[i + 1][0], f), lerp(G.gOut[i][1], G.gOut[i + 1][1], f)];
+  const b = [lerp(G.skinArc[i][0], G.skinArc[i + 1][0], f), lerp(G.skinArc[i][1], G.skinArc[i + 1][1], f)];
+  return [lerp(a[0], b[0], v), lerp(a[1], b[1], v)];
+}
+
+// предгенерированные «зёрна» тканей
+const TEX = (() => {
+  const r = rng(11);
+  const fat = [], lob = [], lig = [], alv = [], ribs = [];
+  for (let i = 0; i < 70; i++) fat.push({ u: 0.04 + r() * 0.92, v: 0.12 + r() * 0.76, s: 5 + r() * 6, a: r() * TAU });
+  for (let i = 0; i < 16; i++) {
+    const acini = [];
+    for (let j = 0; j < 7; j++) acini.push([(r() - 0.5) * 16, (r() - 0.5) * 16, 3.5 + r() * 3]);
+    lob.push({ u: 0.12 + r() * 0.76, v: 0.3 + r() * 0.5, acini });
+  }
+  for (let i = 0; i < 8; i++) lig.push({ u: 0.1 + (i / 7) * 0.8 + (r() - 0.5) * 0.04, du: (r() - 0.5) * 0.03 });
+  for (let i = 0; i < 40; i++) alv.push([r() * 150, r() * 1920, 5 + r() * 9]);
+  for (let i = 0; i < 8; i++) ribs.push({ y: 330 + i * 152 + (r() - 0.5) * 8, rot: -0.35 + (r() - 0.5) * 0.08 });
+  return { fat, lob, lig, alv, ribs };
+})();
+
+/* ---------- отрисовка ---------- */
+function drawChestWall(ctx, rv) {
+  const wa = rv.wall === undefined ? 1 : rv.wall;
+  if (wa <= 0) return;
+  ctx.save(); ctx.globalAlpha *= wa;
+  _drawChestWall(ctx, rv);
+  ctx.restore();
+}
+function _drawChestWall(ctx, rv) {
+  const aL = rv.fills, aS = rv.base;
+  // лёгкое и плевра
+  if (aL > 0) {
+    ctx.save(); ctx.globalAlpha *= aL;
+    ctx.fillStyle = PAL.lung;
+    ctx.beginPath(); ctx.moveTo(-40, -80);
+    for (let y = -80; y <= 2000; y += 40) ctx.lineTo(cw(y) - 150 + 6 * Math.sin(y / 90), y);
+    ctx.lineTo(-40, 2000); ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = PAL.lungLine; ctx.lineWidth = 1.4;
+    for (const [x, y, r] of TEX.alv) { if (x < cw(y) - 165) { ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.stroke(); } }
+    ctx.restore();
+  }
+  const pleura = [];
+  for (let y = -80; y <= 2000; y += 40) pleura.push([cw(y) - 150 + 6 * Math.sin(y / 90), y]);
+  strokeSmooth(ctx, polyPartial(pleura, aS), PAL.lungLine, 2.2, 1);
+
+  // межрёберные мышцы и рёбра
+  const R = TEX.ribs;
+  for (let i = 0; i < R.length - 1; i++) {
+    const a = R[i], b = R[i + 1], x = cw(a.y) - 110, x2 = cw(b.y) - 110;
+    ctx.save(); ctx.globalAlpha *= aL * 0.9; ctx.fillStyle = PAL.muscleLight;
+    ctx.beginPath();
+    ctx.moveTo(x - 18, a.y + 14); ctx.quadraticCurveTo((x + x2) / 2 - 26, (a.y + b.y) / 2, x2 - 18, b.y - 14);
+    ctx.lineTo(x2 + 26, b.y - 16); ctx.quadraticCurveTo((x + x2) / 2 + 20, (a.y + b.y) / 2, x + 26, a.y + 16);
+    ctx.closePath(); ctx.fill(); ctx.restore();
+  }
+  R.forEach((rb, i) => {
+    const x = cw(rb.y) - 110, pr = clamp(aS * 1.6 - i * 0.08);
+    if (pr <= 0) return;
+    ctx.save(); ctx.translate(x, rb.y); ctx.rotate(rb.rot);
+    ctx.globalAlpha *= E.out(pr);
+    ctx.fillStyle = PAL.bone; ctx.beginPath(); ctx.ellipse(0, 0, 44, 27, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = PAL.marrow; ctx.beginPath(); ctx.ellipse(0, 0, 33, 17, 0, 0, TAU); ctx.fill();
+    ctx.fillStyle = PAL.boneLine;
+    for (let j = 0; j < 9; j++) { ctx.beginPath(); ctx.arc(-24 + j * 6, Math.sin(j * 2.3) * 7, 1.6, 0, TAU); ctx.fill(); }
+    ctx.strokeStyle = PAL.boneLine; ctx.lineWidth = 2.4;
+    ctx.beginPath(); ctx.ellipse(0, 0, 44, 27, 0, -Math.PI, -Math.PI + TAU * pr); ctx.stroke();
+    ctx.restore();
+  });
+
+  // большая грудная мышца
+  const mt = (y) => 60 * Math.pow(clamp(Math.sin((Math.PI * (y - 300)) / 900)), 0.55);
+  const front = [], back = [];
+  for (let y = 300; y <= 1200; y += 20) { front.push([cw(y), y]); back.push([cw(y) - mt(y), y]); }
+  if (aL > 0) {
+    const band = front.concat(back.slice().reverse());
+    ctx.save(); ctx.globalAlpha *= aL;
+    ctx.fillStyle = PAL.muscle; ctx.beginPath(); polyPath(ctx, band, true); ctx.fill();
+    ctx.clip();
+    ctx.strokeStyle = PAL.muscleDark; ctx.lineWidth = 1.3; ctx.globalAlpha *= 0.55;
+    for (let j = 1; j < 6; j++) {
+      const f = j / 6;
+      ctx.beginPath();
+      for (let y = 300; y <= 1200; y += 20) { const x = lerp(cw(y) - mt(y), cw(y), f) + 1.5 * Math.sin(y / 23 + j); y === 300 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  strokeSmooth(ctx, polyPartial(back, aS), PAL.muscleDark, 2.4);
+  strokeSmooth(ctx, polyPartial(front, aS), PAL.muscleDark, 2.4);
+}
+
+function drawSoftTissue(ctx, G, S) {
+  const aF = S.rv.fills, aG = S.rv.gland;
+  // подкожный жир — вся область под кожей
+  if (aF > 0) {
+    ctx.save(); ctx.globalAlpha *= aF;
+    ctx.fillStyle = PAL.fat; ctx.beginPath(); polyPath(ctx, G.fatRegion, true); ctx.fill();
+    ctx.strokeStyle = PAL.fatLine; ctx.lineWidth = 1.5;
+    for (const f of TEX.fat) {
+      const p = uvFat(G, f.u, f.v);
+      ctx.beginPath(); ctx.ellipse(p[0], p[1], f.s * 1.15, f.s, f.a, 0, TAU); ctx.stroke();
+    }
+    ctx.restore();
+  }
+  // железистая ткань
+  if (aG > 0) {
+    const poly = G.gOut.concat(G.gIn.slice().reverse());
+    ctx.save(); ctx.globalAlpha *= aG;
+    ctx.fillStyle = PAL.gland; ctx.beginPath(); smoothPath(ctx, poly, true); ctx.fill();
+    // протоки к соску
+    ctx.strokeStyle = PAL.duct; ctx.lineWidth = 2; ctx.lineCap = 'round';
+    TEX.lob.forEach((l, i) => {
+      if (i % 2) return;
+      const p = uvGland(G, l.u, l.v), q = G.nip, m = uvGland(G, lerp(l.u, U_NIP, 0.55), 0.9);
+      ctx.beginPath(); ctx.moveTo(p[0], p[1]); ctx.quadraticCurveTo(m[0], m[1], q[0] - 8, q[1]); ctx.stroke();
+    });
+    // дольки (ацинусы)
+    for (const l of TEX.lob) {
+      const p = uvGland(G, l.u, l.v);
+      for (const a of l.acini) {
+        ctx.fillStyle = PAL.glandDark; ctx.beginPath(); ctx.arc(p[0] + a[0], p[1] + a[1], a[2] + 1.2, 0, TAU); ctx.fill();
+      }
+      for (const a of l.acini) {
+        ctx.fillStyle = mix(PAL.gland, '#ffffff', 0.25); ctx.beginPath(); ctx.arc(p[0] + a[0], p[1] + a[1], a[2] - 0.4, 0, TAU); ctx.fill();
+      }
+    }
+    ctx.strokeStyle = PAL.glandDark; ctx.lineWidth = 1.6;
+    ctx.beginPath(); smoothPath(ctx, G.gOut, false); ctx.stroke();
+    ctx.restore();
+    // связки Купера
+    ctx.save(); ctx.globalAlpha *= aG * 0.8; ctx.strokeStyle = PAL.fatLine; ctx.lineWidth = 1.6;
+    for (const l of TEX.lig) {
+      const a = uvFat(G, l.u, 0.02), b = uvFat(G, l.u + l.du, 0.97);
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+// капсула: плотность, толщина, натяжение волокон, «нагрев» до йодного цвета
+function drawCapsule(ctx, imp, S) {
+  const T = S.capT;
+  if (T <= 0.3 || S.capA <= 0) return;
+  const nrm = normals(imp, true);
+  const outer = offsetPoly(imp, T, true, nrm);
+  const heat = S.heat;
+  ctx.save(); ctx.globalAlpha *= S.capA;
+  ctx.fillStyle = mix(PAL.capsule, PAL.iodineSoft, heat);
+  ctx.beginPath(); smoothPath(ctx, outer, true); ctx.fill();
+  // волокна коллагена — параллельно поверхности; «гофр» расправляется при натяжении
+  const nf = clamp(Math.round(T / 4.2), 1, 7);
+  const crimp = (1 - S.tension) * Math.min(2.4, 0.9 + T * 0.12);
+  ctx.strokeStyle = mix(PAL.capsuleFiber, PAL.iodine, heat);
+  ctx.lineWidth = lerp(1.2, 1.7, heat);
+  for (let j = 0; j < nf; j++) {
+    const d0 = (T * (j + 0.6)) / (nf + 0.2);
+    const ph = j * 1.7 + (S.t || 0) * 0.3;
+    const fib = imp.map((p, i) => {
+      const d = d0 + crimp * Math.sin(i * 0.9 + ph);
+      return [p[0] + nrm[i][0] * d, p[1] + nrm[i][1] * d];
+    });
+    ctx.globalAlpha = S.capA * lerp(0.55, 0.85, heat);
+    ctx.beginPath(); polyPath(ctx, fib, true); ctx.stroke();
+  }
+  ctx.globalAlpha = S.capA;
+  ctx.strokeStyle = mix(PAL.inkMuted, PAL.iodine, heat); ctx.lineWidth = lerp(1.5, 2.6, heat);
+  ctx.beginPath(); smoothPath(ctx, outer, true); ctx.stroke();
+  ctx.restore();
+}
+
+function drawImplant(ctx, pts, S) {
+  const a = S.implA === undefined ? 1 : S.implA;
+  if (a <= 0) return;
+  const c = centroid(pts);
+  ctx.save(); ctx.globalAlpha *= a;
+  const g = ctx.createRadialGradient(c[0] + 40, c[1] - 70, 20, c[0], c[1], 260);
+  g.addColorStop(0, PAL.gelHi); g.addColorStop(0.45, PAL.gel); g.addColorStop(1, PAL.gel2);
+  ctx.fillStyle = g;
+  ctx.beginPath(); smoothPath(ctx, pts, true); ctx.fill();
+  // слои геля и блик
+  const nrm = normals(pts, true);
+  ctx.strokeStyle = rgba(PAL.gel2, 0.9); ctx.lineWidth = 1.4; ctx.setLineDash([2, 9]);
+  ctx.beginPath(); polyPath(ctx, offsetPoly(pts, -34, true, nrm), true); ctx.stroke();
+  ctx.setLineDash([]);
+  const inset = offsetPoly(pts, -16, true, nrm), hi = [];
+  for (let k = Math.round(NI * 0.8); k <= Math.round(NI * 1.04); k++) hi.push(inset[k % NI]);
+  ctx.strokeStyle = 'rgba(255,255,255,0.85)'; ctx.lineWidth = 9; ctx.lineCap = 'round';
+  ctx.beginPath(); smoothPath(ctx, hi, false); ctx.stroke();
+  ctx.restore();
+  strokeSmooth(ctx, pts, PAL.shell, 3.2, a, true);
+}
+
+function drawSkin(ctx, G, prog) {
+  const part = polyPartial(G.skin, prog);
+  if (part.length < 2) return;
+  strokeSmooth(ctx, part, PAL.ink, 12);
+  strokeSmooth(ctx, part, PAL.skin, 7.5);
+  // ареола
+  const a0 = Math.max(0, G.nipI - 4), a1 = Math.min(part.length - 1, G.nipI + 4);
+  if (a1 > a0) strokeSmooth(ctx, part.slice(a0, a1 + 1), PAL.skinDark, 7.5);
+}
+
+// полная сцена общего плана
+function drawMacro(ctx, S) {
+  const imp = implantPts(S.m, S.wob, S.folds, S.t);
+  const G = breastGeom(imp, S.capT);
+  drawChestWall(ctx, S.rv);
+  drawSoftTissue(ctx, G, S);
+  drawCapsule(ctx, imp, S);
+  if (S.implOverride) S.implOverride(ctx); else drawImplant(ctx, imp, S);
+  drawSkin(ctx, G, S.rv.skin);
+  return { imp, G };
+}
+
+</script>
+<script>
+'use strict';
+/* Микроскопия в «линзе»: граница имплант–ткань. Стилистика H&E, α-SMA — коричневый DAB, бактерии — по Граму.
+   Координаты — локальные, центр линзы (0,0), радиус 400. Имплант снизу. */
+
+const LR = 400;
+// поверхность импланта (выпуклый «горизонт»); squeeze — складки при контрактуре
+const surfY = (x, sq = 0) => 150 + (x * x) / 5200 + sq * (5 * Math.sin(x / 23) + 3 * Math.sin(x / 9.5 + 1));
+
+/* ---------- рисование клеток ---------- */
+// контур «живой» клетки: радиус с шумом, растяжение, поворот
+function blob(cx, cy, r, opt = {}) {
+  const { sx = 1, sy = 1, rot = 0, seed = 1, t = 0, amp = 0.06, n = 40, pods = null, floorY = null } = opt;
+  const pts = [];
+  for (let i = 0; i < n; i++) {
+    const a = (TAU * i) / n;
+    let k = 1 + amp * (noise1(a * 1.6 + t * 0.9, seed) * 0.7 + noise1(a * 3.1 - t * 1.3, seed + 5) * 0.3);
+    if (pods) for (const p of pods) { const d = Math.atan2(Math.sin(a - p.a), Math.cos(a - p.a)); k += p.h * Math.exp(-(d * d) / (p.w * p.w)); }
+    let x = Math.cos(a) * r * k * sx, y = Math.sin(a) * r * k * sy;
+    const X = cx + x * Math.cos(rot) - y * Math.sin(rot);
+    let Y = cy + x * Math.sin(rot) + y * Math.cos(rot);
+    if (floorY !== null) Y = Math.min(Y, floorY(X));
+    pts.push([X, Y]);
+  }
+  return pts;
+}
+// объединение контуров: сначала обводка шириной 2*sw, потом заливка — внутренние границы исчезают
+function unionFill(ctx, shapes, fill, stroke, sw = 2.2, alpha = 1) {
+  if (!shapes.length || alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha *= alpha; ctx.lineJoin = 'round';
+  ctx.strokeStyle = stroke; ctx.fillStyle = stroke; ctx.lineWidth = sw * 2;
+  for (const s of shapes) { ctx.beginPath(); smoothPath(ctx, s, true); ctx.fill(); ctx.stroke(); }
+  ctx.fillStyle = fill;
+  for (const s of shapes) { ctx.beginPath(); smoothPath(ctx, s, true); ctx.fill(); }
+  ctx.restore();
+}
+function nucleus(ctx, x, y, r, opt = {}) {
+  const { sx = 1, sy = 1, rot = 0, seed = 3, alpha = 1, kidney = 0 } = opt;
+  const pods = kidney ? [{ a: -Math.PI / 2, h: -kidney, w: 0.5 }] : null;
+  const s = blob(x, y, r, { sx, sy, rot, seed, amp: 0.05, n: 24, pods });
+  ctx.save(); ctx.globalAlpha *= alpha;
+  ctx.fillStyle = PAL.hema; ctx.beginPath(); smoothPath(ctx, s, true); ctx.fill();
+  ctx.fillStyle = PAL.hemaLight;
+  const R = rng(seed * 31);
+  for (let i = 0; i < 5; i++) { ctx.beginPath(); ctx.arc(x + (R() - 0.5) * r * sx, y + (R() - 0.5) * r * sy, 1.3 + R() * 1.5, 0, TAU); ctx.fill(); }
+  ctx.fillStyle = PAL.hemaDark; ctx.beginPath(); ctx.arc(x + r * 0.15, y - r * 0.1, Math.max(1.6, r * 0.18), 0, TAU); ctx.fill();
+  ctx.restore();
+}
+function cellShade(ctx, shape, cx, cy, r) {
+  // мягкий объём: светлее сверху слева
+  ctx.save();
+  ctx.beginPath(); smoothPath(ctx, shape, true); ctx.clip();
+  const g = ctx.createRadialGradient(cx - r * 0.35, cy - r * 0.45, r * 0.1, cx, cy, r * 1.25);
+  g.addColorStop(0, 'rgba(255,255,255,0.45)'); g.addColorStop(0.6, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(120,40,70,0.10)');
+  ctx.fillStyle = g; ctx.fillRect(cx - r * 2, cy - r * 2, r * 4, r * 4);
+  ctx.restore();
+}
+
+/* ---------- сцена ---------- */
+const MIC = (() => {
+  const r = rng(2024);
+  // белки: 0 альбумин, 1 IgG, 2 фибриноген, 3 фибронектин
+  const prot = [];
+  for (let i = 0; i < 96; i++) {
+    const type = i < 30 ? 0 : i < 50 ? 1 : i < 80 ? 2 : 3;
+    const lx = -380 + r() * 760;
+    prot.push({
+      type, lx, sx: lx + (r() - 0.5) * 260, sy: -380 + r() * 420,
+      tl: type === 0 ? 0.3 + r() * 1.2 : 0.9 + r() * 1.9,
+      td: type === 0 && r() < 0.55 ? 2.4 + r() * 1.2 : null, // эффект Вромана: альбумин вытесняется
+      rot: (r() - 0.5) * 0.5, seed: i, lift: r() * 7,
+    });
+  }
+  const neut = [0, 1, 2, 3].map((i) => ({ x: -300 + i * 190 + (r() - 0.5) * 40, t0: 2.3 + i * 0.22, seed: 40 + i, from: (r() - 0.5) * 600 }));
+  const mac = [-285, -140, 0, 140, 290].map((x, i) => ({ x, t0: 3.0 + i * 0.28 + r() * 0.2, seed: 60 + i, from: [x + (r() - 0.5) * 300, -470] }));
+  const fib = [
+    { y: -52, dir: 1, x0: -470, t0: 7.3, seed: 81 }, { y: -68, dir: -1, x0: 470, t0: 7.6, seed: 82 },
+    { y: -84, dir: 1, x0: -470, t0: 7.9, seed: 83 }, { y: -100, dir: -1, x0: 470, t0: 8.15, seed: 84 },
+    { y: -116, dir: 1, x0: -470, t0: 8.4, seed: 85 }, { y: -132, dir: -1, x0: 470, t0: 8.6, seed: 86 },
+  ];
+  const bokeh = [];
+  for (let i = 0; i < 9; i++) bokeh.push({ x: -420 + r() * 840, y: -400 + r() * 480, r: 30 + r() * 60, d: 0.3 + r() * 0.7, c: r() < 0.5 ? PAL.eosinLight : PAL.slide2 });
+  const rbc = [];
+  for (let i = 0; i < 9; i++) rbc.push({ o: i / 9, s: 0.85 + r() * 0.3 });
+  const bact = [];
+  [[-250, 0], [215, 1]].forEach(([cx, col]) => {
+    for (let i = 0; i < 26; i++) {
+      const gen = i < 3 ? 0 : i < 6 ? 1 : i < 12 ? 2 : 3;
+      const ang = Math.PI + r() * Math.PI, rad = 6 + Math.sqrt(i) * 9.5;
+      bact.push({ col, gen, dx: Math.cos(ang) * rad * 1.35, dy: Math.sin(ang) * rad * 0.85, seed: 200 + i + col * 40 });
+    }
+  });
+  return { prot, neut, mac, fib, bokeh, rbc, bact };
+})();
+
+function drawProtein(ctx, p, x, y, rot, a) {
+  ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.globalAlpha *= a;
+  ctx.lineCap = 'round';
+  if (p.type === 0) { ctx.fillStyle = '#9d91cc'; ctx.beginPath(); ctx.ellipse(0, 0, 6.5, 4.6, 0, 0, TAU); ctx.fill(); }
+  else if (p.type === 1) {
+    ctx.strokeStyle = '#6f60b0'; ctx.lineWidth = 3.4;
+    ctx.beginPath(); ctx.moveTo(0, 7); ctx.lineTo(0, -1); ctx.lineTo(-6, -8); ctx.moveTo(0, -1); ctx.lineTo(6, -8); ctx.stroke();
+  } else if (p.type === 2) {
+    ctx.strokeStyle = PAL.eosinDark; ctx.lineWidth = 2.2;
+    ctx.beginPath(); ctx.moveTo(-13, 0); ctx.lineTo(13, 0); ctx.stroke();
+    ctx.fillStyle = PAL.eosinDark;
+    for (const cx of [-13, 0, 13]) { ctx.beginPath(); ctx.arc(cx, 0, cx === 0 ? 4.2 : 3.4, 0, TAU); ctx.fill(); }
+  } else {
+    ctx.strokeStyle = '#8c63ad'; ctx.lineWidth = 2.4;
+    ctx.beginPath(); ctx.moveTo(-10, -8); ctx.lineTo(0, 5); ctx.lineTo(10, -8); ctx.stroke();
+    ctx.fillStyle = '#8c63ad';
+    for (const [cx, cy] of [[-10, -8], [10, -8], [0, 5]]) { ctx.beginPath(); ctx.arc(cx, cy, 2.8, 0, TAU); ctx.fill(); }
+  }
+  ctx.restore();
+}
+
+// волокна коллагена: слой над поверхностью; crimp — «гофр», squeeze — сжатие к центру
+function fiberPath(y0, x0, x1, crimp, phase, sq, dens) {
+  const pts = [];
+  for (let x = x0; x <= x1 + 0.1; x += 8) {
+    const xs = x * (1 - 0.16 * sq);
+    const yb = surfY(xs, 0) + y0 * dens;
+    pts.push([xs, yb + crimp * Math.sin(x / 19 + phase) + crimp * 0.4 * Math.sin(x / 7.3 + phase * 2)]);
+  }
+  return pts;
+}
+
+/* Состояние линзы. ep: 'F' — формирование (τ 0…11), 'K' — контрактура (τ 0…9) */
+function drawMicro(ctx, ep, tau) {
+  const F = ep === 'F', K = ep === 'K';
+  const tf = F ? tau : 11; // время «формирования» (в K всё уже сформировано)
+  const tk = K ? tau : 0;
+  // параметры контрактуры
+  const myo = K ? P(tk, 2.8, 4.6) : 0;        // превращение в миофибробласты
+  const con = K ? P(tk, 4.4, 8.4, E.inOut) : 0; // сокращение
+  const pulse = K ? Math.max(0, ring(tk, 4.6, 1.1, 1.6), ring(tk, 5.6, 1.1, 1.6), ring(tk, 6.6, 1.1, 1.6)) : 0;
+  const sq = con * 0.9;
+
+  /* фон: предметное стекло, дальние клетки */
+  ctx.fillStyle = PAL.slide; ctx.fillRect(-LR - 20, -LR - 20, LR * 2 + 40, LR * 2 + 40);
+  for (const b of MIC.bokeh) {
+    const x = b.x + Math.sin(tau * 0.3 + b.d * 5) * 14 * b.d, y = b.y + Math.cos(tau * 0.25 + b.d * 3) * 8;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, b.r);
+    g.addColorStop(0, rgba(b.c, 0.85)); g.addColorStop(0.7, rgba(b.c, 0.5)); g.addColorStop(1, rgba(b.c, 0));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, b.r, 0, TAU); ctx.fill();
+  }
+
+  /* плазма: взвесь частиц медленно оседает, нити фибрина — временный матрикс */
+  const fibA = F ? P(tf, 1.5, 4.0) * 0.16 : 0.16;
+  if (fibA > 0) {
+    ctx.save(); ctx.strokeStyle = PAL.eosinDark; ctx.lineWidth = 1.4; ctx.globalAlpha = fibA;
+    for (let j = 0; j < 6; j++) {
+      ctx.beginPath();
+      for (let x = -LR - 20; x <= LR + 20; x += 14) {
+        const y = -330 + j * 62 + 22 * Math.sin(x / 70 + j * 1.9 + tau * 0.15) + 9 * Math.sin(x / 23 + j);
+        x === -LR - 20 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  ctx.save();
+  for (let i = 0; i < 80; i++) {
+    const sp = 0.35 + hashI(i * 3 + 2) * 0.9;
+    const x = hashI(i * 3 + 1) * 880 - 440 + Math.sin(tau * 0.5 + i) * 10;
+    const y = -440 + ((hashI(i * 3 + 3) * 700 + tau * 16 * sp) % 640);
+    if (y > surfY(x) - 8) continue;
+    ctx.globalAlpha = 0.22 + 0.2 * sp; ctx.fillStyle = i % 3 ? PAL.hemaLight : PAL.eosinDark;
+    ctx.beginPath(); ctx.arc(x, y, 1.1 + sp * 1.7, 0, TAU); ctx.fill();
+  }
+  ctx.restore();
+
+  /* капилляр (неоангиогенез) */
+  const cap = F ? P(tf, 8.0, 10.6, E.out) : 1;
+  if (cap > 0) {
+    const path = [];
+    for (let i = 0; i <= 40; i++) { const s = i / 40; path.push([lerp(430, -120, s) + 70 * Math.sin(s * 3.2), lerp(-300, -205, s) + 60 * Math.sin(s * Math.PI) * -0.6 - 40 * s * s]); }
+    const part = polyPartial(path, cap);
+    strokeSmooth(ctx, part, PAL.rbcDark, 30, 0.9);
+    strokeSmooth(ctx, part, '#f3cdd5', 22, 1);
+    if (cap >= 1) {
+      for (const c of MIC.rbc) {
+        const s = (c.o + tau * 0.09) % 1, i = Math.floor(s * 40), f = s * 40 - i;
+        const p = path[Math.min(39, i)], q = path[Math.min(40, i + 1)];
+        const x = lerp(p[0], q[0], f), y = lerp(p[1], q[1], f), ang = Math.atan2(q[1] - p[1], q[0] - p[0]);
+        ctx.save(); ctx.translate(x, y); ctx.rotate(ang + 1.2);
+        ctx.fillStyle = PAL.rbc; ctx.beginPath(); ctx.ellipse(0, 0, 8 * c.s, 5.5 * c.s, 0, 0, TAU); ctx.fill();
+        ctx.fillStyle = rgba('#ffffff', 0.25); ctx.beginPath(); ctx.ellipse(0, 0, 3.5 * c.s, 2.2 * c.s, 0, 0, TAU); ctx.fill();
+        ctx.restore();
+      }
+    }
+  }
+
+  /* коллаген: рыхлый слой (формирование) → плотный, прямой, толстый (контрактура) */
+  const dens = lerp(1, 0.84, con);
+  const crimp = lerp(5.5, 0.4, con);
+  const colC = mix(PAL.collagen, PAL.collagenDense, con * 0.9);
+  for (let j = 0; j < 16; j++) {
+    let vis = 0, x0 = -LR - 40, x1 = LR + 40;
+    if (F) {
+      const f = MIC.fib[j % 6], k = Math.floor(j / 6); // первые 6 — от фибробластов, остальные — позже
+      if (j < 6) {
+        const pr = P(tf, f.t0, f.t0 + 2.6, E.inOut);
+        if (pr <= 0) continue;
+        const head = lerp(f.x0, -f.x0, pr);
+        if (f.dir > 0) x1 = head; else x0 = head;
+        vis = 1;
+      } else if (j < 8) { vis = P(tf, 9.8 + (j - 6) * 0.3, 10.8); }
+      else continue;
+      if (k > 1) continue;
+    } else {
+      vis = j < 8 ? 1 : P(tk, 4.8 + (j - 8) * 0.35, 5.6 + (j - 8) * 0.35);
+    }
+    if (vis <= 0) continue;
+    const y0 = -52 - j * 16;
+    const pts = fiberPath(y0, x0, x1, crimp * (1 + (j % 3) * 0.2), j * 1.3 + tau * 0.35, sq, dens);
+    strokeSmooth(ctx, pts, mix(colC, '#ffffff', 0.15), lerp(5, 6.5, con), vis * 0.9);
+    strokeSmooth(ctx, pts, mix(colC, PAL.eosinDark, 0.35), 1.4, vis * 0.6);
+    // поперечная исчерченность — показывает, куда «едет» матрикс при сжатии
+    if (K && j % 2 === 0) {
+      ctx.save(); ctx.globalAlpha *= vis * 0.55; ctx.fillStyle = PAL.eosinDark;
+      for (let x = -LR; x <= LR; x += 46) {
+        const xs = x * (1 - 0.16 * sq), yb = surfY(xs) + y0 * dens + crimp * Math.sin(x / 19 + j * 1.3 + tau * 0.35);
+        ctx.beginPath(); ctx.arc(xs, yb, 2.2, 0, TAU); ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  /* имплант: оболочка и гель */
+  const sqS = K ? con * 0.8 : 0;
+  const surf = [];
+  for (let x = -LR - 30; x <= LR + 30; x += 6) surf.push([x, surfY(x, sqS)]);
+  ctx.save();
+  const gg = ctx.createLinearGradient(0, 120, 0, LR);
+  gg.addColorStop(0, PAL.gel2); gg.addColorStop(0.25, PAL.gel); gg.addColorStop(1, mix(PAL.gel, '#ffffff', 0.35));
+  ctx.fillStyle = gg;
+  ctx.beginPath(); polyPath(ctx, surf); ctx.lineTo(LR + 30, LR + 30); ctx.lineTo(-LR - 30, LR + 30); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = rgba(PAL.gel2, 0.9); ctx.lineWidth = 1.5;
+  for (let k = 1; k <= 4; k++) {
+    ctx.beginPath();
+    for (let x = -LR - 30; x <= LR + 30; x += 10) { const y = surfY(x, sqS * 0.5) + 30 + k * 34 + 5 * Math.sin(x / 60 + k + tau * 0.4); x === -LR - 30 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); }
+    ctx.stroke();
+  }
+  ctx.restore();
+  strokeSmooth(ctx, surf.map((p) => [p[0], p[1] + 8]), mix(PAL.gel2, PAL.shell, 0.25), 14, 0.9);
+  strokeSmooth(ctx, surf, PAL.shell, 2.6);
+
+  /* белки (минуты): эффект Вромана — альбумин садится первым и вытесняется фибриногеном */
+  for (const p of MIC.prot) {
+    const land = F ? invLerp(p.tl - 0.9, p.tl, tf) : 1;
+    if (land <= 0) continue;
+    let a = 1, x, y, rot;
+    const ly = surfY(p.lx, sqS) - 5 - p.lift * 0.5;
+    if (land < 1) {
+      const e = E.inOut(land);
+      x = lerp(p.sx, p.lx, e) + noise1(tf * 2 + p.seed, p.seed) * 14 * (1 - e);
+      y = lerp(p.sy, ly, e) + noise1(tf * 2.3 + p.seed, p.seed + 9) * 10 * (1 - e);
+      rot = p.rot + (1 - e) * 2 * Math.sin(tf * 3 + p.seed);
+      a = Math.min(1, land * 3);
+    } else { x = p.lx * (1 - (K ? 0.1 * sq : 0)); y = ly; rot = p.rot; }
+    if (p.td !== null) {
+      const off = F ? invLerp(p.td, p.td + 1.1, tf) : 1;
+      if (off >= 1) continue;
+      y -= E.in(off) * 160; x += off * 30 * Math.sin(p.seed); a *= 1 - off;
+    }
+    // позже белки скрыты под клетками — приглушаем
+    a *= F ? lerp(1, 0.55, P(tf, 6, 9)) : 0.5;
+    drawProtein(ctx, p, x, y, rot, a);
+    if (F && land >= 1 && tf - p.tl < 0.25) {
+      ctx.save(); ctx.globalAlpha *= (1 - (tf - p.tl) / 0.25) * 0.6; ctx.strokeStyle = PAL.hemaLight; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.arc(x, y, 6 + (tf - p.tl) * 60, 0, TAU); ctx.stroke(); ctx.restore();
+    }
+  }
+
+  /* нейтрофилы (часы): первыми приходят и быстро гибнут */
+  if (F) {
+    for (const n of MIC.neut) {
+      const k = invLerp(n.t0, n.t0 + 1.0, tf), die = invLerp(n.t0 + 2.2, n.t0 + 3.0, tf);
+      if (k <= 0 || die >= 1) continue;
+      const e = E.out(k), r = 24 * (1 - 0.35 * die);
+      const x = lerp(n.x + n.from, n.x, e), y = lerp(-440, surfY(n.x) - r - 4, e);
+      const s = blob(x, y, r, { seed: n.seed, t: tf, amp: 0.05 });
+      const a = 1 - die;
+      unionFill(ctx, [s], PAL.eosinLight, PAL.eosinDark, 1.8, a);
+      ctx.save(); ctx.globalAlpha *= a; ctx.fillStyle = rgba(PAL.eosinDark, 0.5);
+      for (let i = 0; i < 7; i++) { ctx.beginPath(); ctx.arc(x + Math.cos(i * 2.4) * r * 0.62, y + Math.sin(i * 2.4) * r * 0.62, 1.4, 0, TAU); ctx.fill(); }
+      ctx.restore();
+      const rot = (1 - e) * 5;
+      for (let i = 0; i < 3; i++) nucleus(ctx, x + Math.cos(rot + i * 2.1) * r * 0.36, y + Math.sin(rot + i * 2.1) * r * 0.36, 6.5, { seed: n.seed + i, alpha: a });
+    }
+  }
+
+  /* макрофаги → гигантские клетки инородных тел */
+  const fuse = F ? P(tf, 5.6, 7.4, E.inOut) : 1;
+  const spread = F ? P(tf, 4.2, 5.4) : 1;
+  const macShapes = [], macNuc = [];
+  MIC.mac.forEach((m, i) => {
+    const center = i >= 1 && i <= 3;
+    if (K && !center) return;
+    const arrive = F ? invLerp(m.t0, m.t0 + 1.4, tf) : 1;
+    if (arrive <= 0) return;
+    const e = E.out(arrive);
+    let x = m.x;
+    if (center) x = lerp(m.x, lerp(m.x, 0, 0.62), fuse);
+    const sp = spread * (center ? 1 : 0.8);
+    const r = 34;
+    const sx = lerp(1, 1.55, sp) * (center ? lerp(1, 1.18, fuse) : 1), sy = lerp(1, 0.62, sp);
+    const baseY = surfY(x, sqS) - r * sy - 3;
+    const X = lerp(m.from[0], x, e), Y = lerp(m.from[1], baseY, e);
+    // псевдоподии вдоль поверхности — «фрустрированный фагоцитоз»
+    const pd = F ? P(tf, 4.6, 5.8) * (1 - 0.6 * fuse) : 0.3;
+    const pods = [
+      { a: Math.PI * 0.08, h: 0.32 * pd * (1 + 0.3 * Math.sin(tf * 4 + i)), w: 0.3 },
+      { a: Math.PI * 0.92, h: 0.32 * pd * (1 + 0.3 * Math.cos(tf * 4 + i)), w: 0.3 },
+      { a: -Math.PI * 0.5, h: 0.12 * (1 - sp), w: 0.5 },
+    ];
+    const s = blob(X, Y, r, { sx, sy, seed: m.seed, t: tau, amp: 0.1, pods, n: 44, floorY: (xx) => surfY(xx, sqS) - 2 });
+    macShapes.push(s);
+    // мосты между сливающимися клетками
+    if (center && i < 3 && fuse > 0.25) {
+      const nx = lerp(MIC.mac[i + 1].x, lerp(MIC.mac[i + 1].x, 0, 0.62), fuse);
+      const mx = (X + nx) / 2, br = lerp(4, 26, P(fuse, 0.25, 1));
+      macShapes.push(blob(mx, surfY(mx, sqS) - br - 3, br * 1.4, { sx: 1.3, sy: 0.75, seed: m.seed + 50, t: tau, amp: 0.05 }));
+    }
+    macNuc.push({ X, Y, sx, sy, r, i, center, a: Math.min(1, arrive * 2) });
+  });
+  if (macShapes.length) {
+    unionFill(ctx, macShapes, PAL.eosin, PAL.eosinDark, 2.2);
+    macShapes.forEach((s, k) => { if (k < 5) { const c = centroid(s); cellShade(ctx, s, c[0], c[1], 40); } });
+    // вакуоли и ядра
+    for (const n of macNuc) {
+      ctx.save(); ctx.globalAlpha *= 0.5; ctx.fillStyle = PAL.eosinLight;
+      for (let v = 0; v < 3; v++) { ctx.beginPath(); ctx.arc(n.X + (v - 1) * 17 * n.sx, n.Y - 8 * n.sy + (v % 2) * 10, 4 + v, 0, TAU); ctx.fill(); }
+      ctx.restore();
+      if (n.center && fuse > 0.5) continue;
+      nucleus(ctx, n.X + 4, n.Y + 2, 12, { sx: 1.25, sy: 0.9, seed: 70 + n.i, kidney: 0.35, alpha: n.center ? 1 - P(fuse, 0.2, 0.6) : 1 });
+    }
+    // многоядерная гигантская клетка: ядра по периферии
+    if (fuse > 0.3) {
+      const a = P(fuse, 0.3, 0.9);
+      for (let j = 0; j < 9; j++) {
+        const x = lerp(-120, 120, j / 8), y = surfY(x, sqS) - 22 - 14 * Math.sin((j / 8) * Math.PI) - (j % 2) * 7;
+        nucleus(ctx, x, y, 8.5, { sx: 1.1, sy: 0.85, seed: 90 + j, alpha: a });
+      }
+    }
+  }
+  // активные формы кислорода — «атака» на имплант
+  if (F) {
+    const ros = env(tf, 4.8, 6.6, 0.3, 0.5);
+    if (ros > 0) {
+      ctx.save(); ctx.fillStyle = PAL.iodine;
+      for (let i = 0; i < 26; i++) {
+        const ph = (tf * 1.2 + i * 0.137) % 1, x = MIC.mac[i % 5].x + (hashI(i) - 0.5) * 70;
+        ctx.globalAlpha = ros * (1 - ph) * 0.8;
+        ctx.beginPath(); ctx.arc(x, surfY(x) - 4 + ph * 16, 2.2, 0, TAU); ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  /* бактерии и биоплёнка (контрактура) */
+  if (K) {
+    const epsA = P(tk, 0.8, 2.6);
+    [0, 1].forEach((col) => {
+      const cx = col ? 215 : -250;
+      const cy = surfY(cx, sqS);
+      const list = MIC.bact.filter((b) => b.col === col);
+      const grow = P(tk, 0.2, 2.8, E.inOut);
+      // матрикс биоплёнки (EPS)
+      if (epsA > 0) {
+        const shapes = [];
+        list.forEach((b) => { if (grow * 4 > b.gen) shapes.push(blob(cx + b.dx, cy - 8 + b.dy, 15, { seed: b.seed, amp: 0.15, n: 18, t: tk * 0.5 })); });
+        shapes.push(blob(cx, cy - 10, lerp(20, 58, grow), { sx: 1.5, sy: 0.75, seed: col + 300, amp: 0.1, t: tk, floorY: (xx) => surfY(xx, sqS) + 1 }));
+        unionFill(ctx, shapes, rgba(PAL.eps, 0.92), PAL.epsLine, 1.8, epsA);
+      }
+      // кокки гроздьями (S. epidermidis, грамположительные)
+      list.forEach((b) => {
+        const g = grow * 4 - b.gen;
+        if (g <= 0) return;
+        const k = clamp(g), x = cx + b.dx * lerp(0.6, 1, k), y = cy - 8 + b.dy * lerp(0.6, 1, k);
+        const div = clamp(g * 2) < 1 ? 1 - clamp(g * 2) : 0;
+        ctx.fillStyle = PAL.gram;
+        ctx.beginPath(); ctx.arc(x, y, 6.5, 0, TAU); ctx.fill();
+        if (div > 0) { ctx.beginPath(); ctx.arc(x - b.dx * 0.12, y - b.dy * 0.12, 6.5 * (1 - div * 0.3), 0, TAU); ctx.fill(); }
+        ctx.fillStyle = rgba(PAL.gramLight, 0.8); ctx.beginPath(); ctx.arc(x - 2, y - 2.2, 2.1, 0, TAU); ctx.fill();
+      });
+    });
+    // иммунная клетка «отскакивает» от плёнки, сигналы воспаления расходятся
+    const bump = P(tk, 1.6, 2.3, E.out) - P(tk, 2.3, 3.2, E.inOut) * 0.8;
+    const mx = lerp(-60, -160, bump), my = surfY(-160) - 110 + 20 * bump;
+    const ms = blob(mx, my, 30, { seed: 77, t: tk, amp: 0.12, sx: 1.1, pods: [{ a: Math.PI, h: 0.4 * bump, w: 0.35 }] });
+    const ma = env(tk, 1.1, 8.8, 0.5, 0.6);
+    unionFill(ctx, [ms], PAL.eosin, PAL.eosinDark, 2.2, ma);
+    nucleus(ctx, mx + 6, my, 11, { sx: 1.2, seed: 78, kidney: 0.3, alpha: ma });
+    const sig = env(tk, 2.0, 8.8, 0.4, 0.6);
+    if (sig > 0) {
+      ctx.save(); ctx.fillStyle = PAL.iodine;
+      for (let i = 0; i < 22; i++) {
+        const ph = (tk * 0.55 + i / 22) % 1, ang = -Math.PI * (0.15 + 0.7 * hashI(i + 7));
+        const src = i % 2 ? [-250, surfY(-250) - 30] : [mx, my];
+        ctx.globalAlpha = sig * Math.sin(ph * Math.PI) * 0.85;
+        ctx.beginPath(); ctx.arc(src[0] + Math.cos(ang) * ph * 230, src[1] + Math.sin(ang) * ph * 170, 3, 0, TAU); ctx.fill();
+      }
+      ctx.restore();
+    }
+  }
+
+  /* фибробласты (формирование) и миофибробласты (контрактура) */
+  const cells = [];
+  if (F) {
+    MIC.fib.forEach((f) => {
+      const pr = P(tf, f.t0, f.t0 + 2.6, E.inOut);
+      if (pr <= 0 || pr >= 1) return;
+      const cx = lerp(f.x0, -f.x0, pr);
+      cells.push({ x: cx, y: surfY(cx) + f.y, len: 64, rot: 0, seed: f.seed, a: env(pr, 0, 1, 0.08, 0.12), myo: 0 });
+    });
+  } else {
+    [[-150, -100], [60, -150], [230, -88]].forEach(([x, y], i) => {
+      const sh = 1 - 0.24 * con - 0.1 * Math.abs(pulse);
+      cells.push({ x: x * (1 - 0.16 * sq), y: surfY(x) + y * dens, len: lerp(62, 86, myo) * sh, rot: 0.04 * (i - 1), seed: 120 + i, a: 1, myo });
+    });
+  }
+  for (const c of cells) {
+    const L = c.len, w = lerp(13, 20, c.myo);
+    const pts = [];
+    for (let i = 0; i < 36; i++) {
+      const a = (TAU * i) / 36, ca = Math.cos(a), sa = Math.sin(a);
+      const taper = Math.pow(Math.abs(sa), 0.55);
+      let x = ca * L, y = sa * w * (0.35 + 0.65 * taper) * (1 - 0.55 * Math.pow(Math.abs(ca), 6));
+      // отростки миофибробласта, заякоренные на волокнах
+      y += c.myo * 10 * Math.exp(-Math.pow((a - Math.PI * 0.5) / 0.22, 2)) - c.myo * 10 * Math.exp(-Math.pow((a - Math.PI * 1.5) / 0.22, 2));
+      pts.push([c.x + x * Math.cos(c.rot) - y * Math.sin(c.rot), c.y + x * Math.sin(c.rot) + y * Math.cos(c.rot) + noise1(a * 2 + tau, c.seed) * 1.5]);
+    }
+    unionFill(ctx, [pts], mix(PAL.eosinLight, PAL.eosin, c.myo), PAL.eosinDark, 2, c.a);
+    nucleus(ctx, c.x, c.y, 9, { sx: 1.9, sy: 0.6, rot: c.rot, seed: c.seed, alpha: c.a });
+    if (c.myo > 0) {
+      // стресс-фибриллы α-SMA
+      ctx.save(); ctx.globalAlpha *= c.myo; ctx.strokeStyle = PAL.dab; ctx.lineWidth = 2; ctx.lineCap = 'round';
+      for (let k = -1; k <= 1; k++) {
+        ctx.beginPath(); ctx.moveTo(c.x - L * 0.88, c.y + k * 5.5); ctx.lineTo(c.x + L * 0.88, c.y + k * 5.5 * 0.7); ctx.stroke();
+      }
+      // фокальные контакты
+      ctx.fillStyle = PAL.dab;
+      for (const s of [-1, 1]) { ctx.beginPath(); ctx.arc(c.x + s * L * 0.95, c.y, 4, 0, TAU); ctx.fill(); }
+      ctx.restore();
+    }
+  }
+  /* передний план вне фокуса — глубина резкости */
+  for (let i = 0; i < 3; i++) {
+    const x = -520 + ((hashI(i + 900) * 1000 + tau * (22 + i * 9)) % 1200), y = -250 + i * 190 + Math.sin(tau * 0.4 + i) * 30;
+    const r = 70 + i * 26;
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0, rgba(PAL.eosinLight, 0.22)); g.addColorStop(0.75, rgba(PAL.eosinLight, 0.12)); g.addColorStop(1, rgba(PAL.eosinLight, 0));
+    ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x, y, r, 0, TAU); ctx.fill();
+  }
+  return { con, pulse, myo };
+}
+
+/* рамка «поля зрения»: виньетка, шкала, масштабная линейка */
+function drawLensChrome(ctx, r, alpha, label) {
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha *= alpha;
+  const g = ctx.createRadialGradient(0, 0, r * 0.7, 0, 0, r);
+  g.addColorStop(0, 'rgba(60,20,40,0)'); g.addColorStop(1, 'rgba(60,20,40,0.13)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, r, 0, TAU); ctx.fill();
+  ctx.strokeStyle = rgba(PAL.inkMuted, 0.4); ctx.lineWidth = 2;
+  for (let i = 0; i < 72; i++) {
+    const a = (TAU * i) / 72, l = i % 6 === 0 ? 16 : 8;
+    ctx.beginPath(); ctx.moveTo(Math.cos(a) * (r - 6), Math.sin(a) * (r - 6)); ctx.lineTo(Math.cos(a) * (r - 6 - l), Math.sin(a) * (r - 6 - l)); ctx.stroke();
+  }
+  ctx.restore();
+}
+
+</script>
+<script>
+'use strict';
+/* Интерфейсный слой кадра: рубрика, часы, главы, субтитры, подписи, пометки маркером. */
+
+// 2D-аффинные матрицы [a b c d e f]
+const Mx = {
+  I: () => [1, 0, 0, 1, 0, 0],
+  mul: (m, n) => [
+    m[0] * n[0] + m[2] * n[1], m[1] * n[0] + m[3] * n[1],
+    m[0] * n[2] + m[2] * n[3], m[1] * n[2] + m[3] * n[3],
+    m[0] * n[4] + m[2] * n[5] + m[4], m[1] * n[4] + m[3] * n[5] + m[5],
+  ],
+  T: (x, y) => [1, 0, 0, 1, x, y],
+  S: (s) => [s, 0, 0, s, 0, 0],
+  R: (a) => [Math.cos(a), Math.sin(a), -Math.sin(a), Math.cos(a), 0, 0],
+  ap: (m, p) => [m[0] * p[0] + m[2] * p[1] + m[4], m[1] * p[0] + m[3] * p[1] + m[5]],
+  chain: (...ms) => ms.reduce((a, b) => Mx.mul(a, b)),
+};
+
+/* ---------- субтитры (ReelFrame: Onest 700 56/68, on-ink на плашке ink, активное слово marker-on-fill) ---------- */
+const CARDS = [
+  [0.9, 3.7, 'Почему грудь с имплантом может стать твёрдой'],
+  [3.9, 5.8, 'Организм отгораживает любой имплант'],
+  [5.8, 7.6, 'Это нормальная реакция на инородное тело'],
+  [7.6, 10.0, 'За минуты оболочку покрывают белки крови'],
+  [10.0, 12.6, 'Макрофаги пытаются его «съесть» — и не могут'],
+  [12.6, 14.6, 'Они сливаются в гигантские клетки'],
+  [14.6, 17.4, 'Фибробласты плетут вокруг коллаген'],
+  [17.6, 20.2, 'Через несколько недель готова капсула'],
+  [20.2, 21.8, 'Тонкая и мягкая — это норма'],
+  [22.0, 23.9, 'Но иногда воспаление не затихает'],
+  [23.9, 25.4, 'Точная причина неизвестна'],
+  [25.4, 27.8, 'Версии: бактерии, кровь, облучение'],
+  [27.8, 30.6, 'Бактерии прячутся в плёнку от иммунитета'],
+  [30.6, 33.2, 'Фибробласты становятся миофибробластами'],
+  [33.2, 36.4, 'Эти клетки сокращаются и стягивают коллаген'],
+  [36.6, 38.3, 'Капсула толстеет и сжимается'],
+  [38.3, 39.7, 'как мешок на шнурке'],
+  [39.8, 42.6, 'Объём геля не меняется, а места меньше'],
+  [42.6, 45.4, 'Имплант становится круглым и уходит вверх'],
+  [45.4, 48.0, 'Грудь плотнеет, форма искажается'],
+  [48.2, 50.8, 'Это оценивают по шкале Бейкера'],
+  [50.8, 53.4, 'III–IV степень обычно лечат операцией'],
+];
+
+const _wrapCache = new Map();
+// раскладка субтитра: одна строка или две сбалансированные; не влезает — кегль уменьшается
+function layoutSub(ctx, text, maxW, size0 = 56) {
+  const key = text + '|' + maxW + '|' + size0;
+  if (_wrapCache.has(key)) return _wrapCache.get(key);
+  let res = null;
+  for (let size = size0; size >= 40; size -= 2) {
+    font(ctx, 700, size);
+    const words = text.split(' ');
+    const space = ctx.measureText(' ').width;
+    const ws = words.map((w) => ctx.measureText(w).width);
+    const sum = (a, b) => ws.slice(a, b).reduce((x, y) => x + y, 0) + space * Math.max(0, b - a - 1);
+    const mk = (a, b) => words.slice(a, b).map((w, i) => ({ w, width: ws[a + i], i: a + i }));
+    if (sum(0, words.length) <= maxW) { res = { lines: [mk(0, words.length)], space, size }; break; }
+    let best = null;
+    for (let k = 1; k < words.length; k++) {
+      const a = sum(0, k), b = sum(k, words.length);
+      if (a > maxW || b > maxW) continue;
+      const score = Math.max(a, b) + (b > a ? 0 : 6);
+      if (!best || score < best.score) best = { k, score };
+    }
+    if (best) { res = { lines: [mk(0, best.k), mk(best.k, words.length)], space, size }; break; }
+  }
+  if (!res) { font(ctx, 700, 40); res = { lines: [text.split(' ').map((w, i) => ({ w, width: ctx.measureText(w).width, i }))], space: ctx.measureText(' ').width, size: 40 }; }
+  _wrapCache.set(key, res);
+  return res;
+}
+
+function drawSubtitles(ctx, t) {
+  for (const [a, b, text] of CARDS) {
+    if (t < a - 0.01 || t > b + 0.2) continue;
+    const inK = E.outQ(invLerp(a, a + 0.22, t)), outK = invLerp(b - 0.02, b + 0.16, t);
+    const alpha = inK * (1 - outK);
+    if (alpha <= 0) continue;
+    const { lines, space, size } = layoutSub(ctx, text, 836);
+    font(ctx, 700, size);
+    const nWords = lines.reduce((s, l) => s + l.length, 0);
+    const speak = clamp((t - a - 0.15) / Math.max(0.6, b - a - 0.55));
+    const active = Math.min(nWords - 1, Math.floor(speak * nWords));
+    const lh = Math.round((size * 68) / 56), padX = 30, padY = 20;
+    const widths = lines.map((l) => l.reduce((s, w) => s + w.width, 0) + space * (l.length - 1));
+    const bw = Math.max(...widths) + padX * 2, bh = lines.length * lh + padY * 2;
+    const cx = 510, cy = 1292;
+    ctx.save();
+    ctx.globalAlpha = alpha;
+    const sc = lerp(0.94, 1, inK);
+    ctx.translate(cx, cy + (1 - inK) * 16); ctx.scale(sc, sc);
+    ctx.fillStyle = PAL.ink; roundRect(ctx, -bw / 2, -bh / 2, bw, bh, 12); ctx.fill();
+    ctx.textBaseline = 'alphabetic';
+    lines.forEach((l, li) => {
+      let x = -widths[li] / 2;
+      const y = -bh / 2 + padY + lh * li + Math.round(size * 0.93);
+      l.forEach((w) => {
+        const wa = clamp((t - a - 0.05 - w.i * 0.035) / 0.18);
+        ctx.globalAlpha = alpha * wa;
+        ctx.fillStyle = w.i === active && speak < 1 ? PAL.markerOnFill : PAL.onInk;
+        ctx.fillText(w.w, x, y + (1 - E.out(wa)) * 10);
+        x += w.width + space;
+      });
+    });
+    ctx.restore();
+  }
+}
+
+/* ---------- рубрика, часы, главы ---------- */
+function drawTag(ctx, alpha) {
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha = alpha;
+  font(ctx, 500, 26, 'mono'); ctx.fillStyle = PAL.ink; ctx.textBaseline = 'alphabetic';
+  spacedText(ctx, 'РАЗБОР', 60, 276, 2.1);
+  ctx.restore();
+}
+
+const CLOCK = [
+  [0.0, 'ДЕНЬ 0'], [6.8, '1 МИН'], [8.8, '2 Ч'], [10.2, '2 СУТ'], [12.4, '1 НЕД'], [14.6, '3 НЕД'], [18.2, '6 НЕД'],
+  [22.0, '3 МЕС'], [28.6, '6 МЕС'], [33.0, '1 ГОД'],
+  [39.8, 'БЕЙКЕР II'], [41.0, 'БЕЙКЕР III'], [45.4, 'БЕЙКЕР IV'],
+];
+function drawClock(ctx, t, alpha) {
+  if (alpha <= 0) return;
+  let i = 0;
+  while (i + 1 < CLOCK.length && t >= CLOCK[i + 1][0]) i++;
+  const k = E.outQ(invLerp(CLOCK[i][0], CLOCK[i][0] + 0.4, t));
+  const cur = CLOCK[i][1], prev = i > 0 ? CLOCK[i - 1][1] : cur;
+  const baker = cur.startsWith('БЕЙКЕР');
+  const hot = cur.endsWith('III') || cur.endsWith('IV');
+  ctx.save(); ctx.globalAlpha = alpha;
+  font(ctx, 500, 26, 'mono'); ctx.textBaseline = 'alphabetic';
+  const xr = 1020, y = 276;
+  // «прокрутка» значения
+  ctx.save();
+  ctx.beginPath(); ctx.rect(560, y - 34, 470, 46); ctx.clip();
+  if (k < 1 && i > 0) {
+    ctx.globalAlpha = alpha * (1 - k); ctx.fillStyle = PAL.ink;
+    spacedText(ctx, prev, xr, y - k * 30, 2.1, 'right');
+  }
+  ctx.globalAlpha = alpha * (i > 0 ? k : 1);
+  ctx.fillStyle = hot ? PAL.iodine : PAL.ink;
+  const w = spacedText(ctx, cur, xr, y + (i > 0 ? (1 - k) * 30 : 0), 2.1, 'right');
+  ctx.restore();
+  // значок: циферблат (время) или шкала (Бейкер) — вплотную к значению
+  const wp = spacedWidth(ctx, prev, 2.1);
+  const ix = xr - lerp(i > 0 ? wp : w, w, k) - 34, iy = y - 9;
+  ctx.globalAlpha = alpha;
+  ctx.strokeStyle = PAL.ink; ctx.lineWidth = 2.4; ctx.lineCap = 'round';
+  if (!baker) {
+    const spin = (i + k) * TAU * 0.75;
+    ctx.beginPath(); ctx.arc(ix, iy, 13, 0, TAU); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(ix, iy); ctx.lineTo(ix + Math.cos(spin - Math.PI / 2) * 9, iy + Math.sin(spin - Math.PI / 2) * 9); ctx.stroke();
+  } else {
+    const lvl = cur.endsWith('IV') ? 4 : cur.endsWith('III') ? 3 : 2;
+    for (let j = 0; j < 4; j++) {
+      ctx.fillStyle = j < lvl ? (j >= 2 ? PAL.iodine : PAL.ink) : PAL.line;
+      ctx.fillRect(ix - 20 + j * 11, iy + 8 - (j + 1) * 5, 8, (j + 1) * 5);
+    }
+  }
+  ctx.restore();
+}
+
+const CHAPTERS = [
+  { n: '01', label: 'ФОРМИРОВАНИЕ', a: 3.9, b: 22.0 },
+  { n: '02', label: 'СОКРАЩЕНИЕ', a: 22.0, b: 39.8 },
+  { n: '03', label: 'ДЕФОРМАЦИЯ', a: 39.8, b: 53.6 },
+];
+function drawNav(ctx, t, alpha) {
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha = alpha;
+  font(ctx, 500, 24, 'mono'); ctx.textBaseline = 'alphabetic';
+  const y = 336, gap = 30;
+  const items = CHAPTERS.map((c) => ({ c, w: spacedWidth(ctx, c.n + ' ' + c.label, 1.6) }));
+  const total = items.reduce((s, it) => s + it.w, 0) + gap * (items.length - 1);
+  let x = 60;
+  const sc = Math.min(1, 900 / total);
+  ctx.translate(60, 0); ctx.scale(sc, 1); ctx.translate(-60, 0);
+  for (const { c, w } of items) {
+    const on = t >= c.a && t < c.b, done = t >= c.b;
+    const act = on ? E.out(invLerp(c.a, c.a + 0.5, t)) : 0;
+    ctx.globalAlpha = alpha * (on ? lerp(0.55, 1, act) : done ? 0.55 : 0.4);
+    ctx.fillStyle = PAL.ink;
+    spacedText(ctx, c.n + ' ' + c.label, x, y, 1.6);
+    ctx.globalAlpha = alpha * 0.9;
+    ctx.fillStyle = PAL.line; ctx.fillRect(x, y + 14, w, 3);
+    const pr = clamp((t - c.a) / (c.b - c.a));
+    ctx.fillStyle = PAL.scrub; ctx.fillRect(x, y + 14, w * pr, 3);
+    x += w + gap;
+  }
+  ctx.restore();
+}
+
+/* ---------- подписи на иллюстрации ---------- */
+// выноска: точка на объекте, линия, подпись на подложке
+function callout(ctx, anchor, pos, text, prog, alpha = 1, align = 'left') {
+  if (prog <= 0 || alpha <= 0) return;
+  const lp = E.out(clamp(prog * 1.6)), tp = E.out(clamp(prog * 1.6 - 0.45));
+  ctx.save(); ctx.globalAlpha = alpha;
+  ctx.fillStyle = PAL.ink; ctx.beginPath(); ctx.arc(anchor[0], anchor[1], 5 * lp, 0, TAU); ctx.fill();
+  ctx.strokeStyle = PAL.ink; ctx.lineWidth = 2;
+  const end = [lerp(anchor[0], pos[0], lp), lerp(anchor[1], pos[1], lp)];
+  ctx.beginPath(); ctx.moveTo(anchor[0], anchor[1]); ctx.lineTo(end[0], end[1]); ctx.stroke();
+  if (tp > 0) {
+    font(ctx, 500, 34); ctx.textBaseline = 'middle';
+    const w = ctx.measureText(text).width, padX = 14, h = 50;
+    const x = align === 'left' ? pos[0] + 10 : pos[0] - 10 - w - padX * 2;
+    ctx.globalAlpha = alpha * tp;
+    ctx.fillStyle = rgba(PAL.surface, 0.92); roundRect(ctx, x, pos[1] - h / 2, w + padX * 2, h, 12); ctx.fill();
+    ctx.fillStyle = PAL.ink; ctx.fillText(text, x + padX, pos[1] + 2 + (1 - tp) * 8);
+  }
+  ctx.restore();
+}
+// пометка маркером: стрелка + слово Playfair Italic
+function markerNote(ctx, from, to, text, textPos, prog, alpha = 1, size = 66) {
+  if (prog <= 0 || alpha <= 0) return;
+  const bend = [(from[0] + to[0]) / 2 + (to[1] - from[1]) * 0.25, (from[1] + to[1]) / 2 - (to[0] - from[0]) * 0.25];
+  const curve = [];
+  for (let i = 0; i <= 24; i++) {
+    const s = i / 24;
+    curve.push([
+      (1 - s) * (1 - s) * from[0] + 2 * (1 - s) * s * bend[0] + s * s * to[0],
+      (1 - s) * (1 - s) * from[1] + 2 * (1 - s) * s * bend[1] + s * s * to[1],
+    ]);
+  }
+  const lp = E.inOut(clamp(prog * 1.4));
+  markerLine(ctx, curve, { progress: lp, alpha });
+  if (lp >= 1) {
+    const hp = E.out(clamp((prog * 1.4 - 1) / 0.25));
+    const p = curve[24], q = curve[21], ang = Math.atan2(p[1] - q[1], p[0] - q[0]);
+    const head = (s) => [p[0] + Math.cos(ang + s * 2.5) * 26 * hp, p[1] + Math.sin(ang + s * 2.5) * 26 * hp];
+    markerLine(ctx, [head(1), p, head(-1)], { alpha });
+  }
+  const tp = E.out(clamp(prog * 1.6 - 0.2));
+  if (tp > 0) {
+    ctx.save(); ctx.globalAlpha = alpha * tp;
+    font(ctx, 500, size, 'serif', true); ctx.fillStyle = PAL.marker; ctx.textBaseline = 'alphabetic';
+    ctx.fillText(text, textPos[0], textPos[1] + (1 - tp) * 10);
+    ctx.restore();
+  }
+}
+function chip(ctx, x, y, text, alpha, colors = [PAL.iodineSoft, PAL.iodine]) {
+  if (alpha <= 0) return 0;
+  ctx.save(); ctx.globalAlpha = alpha;
+  font(ctx, 500, 24, 'mono');
+  const w = spacedWidth(ctx, text, 1.9) + 32, h = 48;
+  ctx.fillStyle = colors[0]; roundRect(ctx, x, y - h / 2 + (1 - alpha) * 10, w, h, 12); ctx.fill();
+  ctx.fillStyle = colors[1]; ctx.textBaseline = 'middle';
+  spacedText(ctx, text, x + 16, y + 2 + (1 - alpha) * 10, 1.9);
+  ctx.restore();
+  return w;
+}
+function scaleBar(ctx, x, y, len, label, alpha) {
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha = alpha;
+  ctx.strokeStyle = PAL.inkMuted; ctx.lineWidth = 2.4; ctx.lineCap = 'butt';
+  ctx.beginPath(); ctx.moveTo(x, y - 8); ctx.lineTo(x, y + 8); ctx.moveTo(x, y); ctx.lineTo(x + len, y); ctx.moveTo(x + len, y - 8); ctx.lineTo(x + len, y + 8); ctx.stroke();
+  font(ctx, 400, 22, 'mono'); ctx.fillStyle = PAL.inkMuted; ctx.textBaseline = 'middle';
+  spacedText(ctx, label, x + len + 14, y + 1, 1.2);
+  ctx.restore();
+}
+
+</script>
+<script>
+'use strict';
+/* Режиссура: таймлайн, камера, переходы в «линзу», шкала Бейкера, финал с закольцовкой. */
+
+const DUR = 59.0;
+const C0 = [540, 800];
+const HOOK = { s: 0.92, ox: 10, oy: 150 };
+const MAIN = { s: 1.08, ox: 40, oy: -22 };
+const LENS = [540, 780], LENS_R = 385, LK = LENS_R / 400;
+const ZS = 7.5;
+const ZF = { in0: 5.6, in1: 6.8, out0: 17.2, out1: 18.4, tau0: 6.5, ep: 'F' };
+const ZK = { in0: 27.4, in1: 28.6, out0: 36.4, out1: 37.6, tau0: 28.3, ep: 'K' };
+const PULSES = [41.0, 43.0, 45.4];
+const BREAST_C = [470, 800];
+
+// точка границы имплант–ткань, куда «ныряет» камера
+const KQ = 162;
+const QW = IMPL.nat[KQ];
+const NQ = normals(IMPL.nat, true)[KQ];
+const ROT = -Math.PI / 2 - Math.atan2(NQ[1], NQ[0]);
+
+/* ---------- состояние общего плана ---------- */
+function macroS(t) {
+  const pk = PULSES.map((p) => E.outBackS(invLerp(p, p + 0.8, t)));
+  const S = { t, rv: {}, capA: 1 };
+  S.rv.base = P(t, 0.7, 2.2, E.inOut);
+  S.rv.fills = P(t, 1.1, 2.4, E.out);
+  S.rv.gland = P(t, 1.4, 2.6, E.out);
+  S.rv.skin = P(t, 0.9, 2.3, E.inOut);
+  S.rv.wall = 1;
+  S.capT = lerp(0, 6, P(t, 17.9, 19.6)) + 7 * P(t, 36.8, 39.4) + 4 * (pk[0] + pk[1] + pk[2]);
+  const smoulder = 0.08 * (0.5 + 0.5 * Math.sin(t * 3.4)) * env(t, 22.0, 27.4, 0.6, 0.4);
+  S.heat = clamp(0.22 * P(t, 22.0, 23.6) + 0.33 * P(t, 36.8, 39.4) + 0.15 * (pk[0] + pk[1] + pk[2]) + smoulder);
+  S.tension = clamp(0.55 * P(t, 36.8, 39.4) + 0.15 * (pk[0] + pk[1] + pk[2]));
+  S.m = 0.15 * P(t, 37.2, 39.6) + 0.3 * pk[0] + 0.3 * pk[1] + 0.25 * pk[2];
+  S.wob = 7 * ring(t, 1.9, 1.6, 2.6) + PULSES.reduce((s, p) => s + 6 * ring(t, p + 0.15, 2.0, 3.2), 0);
+  S.folds = 3.2 * P(t, 45.6, 46.8);
+  S.pk = pk;
+  return S;
+}
+function gradeS(g, t) {
+  const S = { t, rv: { base: 1, fills: 1, gland: 1, skin: 1, wall: 0.45 }, capA: 1 };
+  S.m = [0, 0.3, 0.65, 1][g]; S.capT = [5, 11, 18, 25][g]; S.heat = [0, 0.35, 0.7, 1][g];
+  S.tension = [0, 0.4, 0.8, 1][g]; S.folds = g === 3 ? 3.2 : 0; S.wob = 0;
+  return S;
+}
+
+/* ---------- камера ---------- */
+function framing(t) {
+  const k = P(t, 3.4, 4.4, E.inOutQ);
+  const s = lerp(HOOK.s, MAIN.s, k);
+  const ox = lerp(HOOK.ox, MAIN.ox, k) + 2.5 * Math.sin(t * 0.47);
+  const kick = PULSES.reduce((a, p) => a + 6 * ring(t, p + 0.05, 2.6, 6), 0);
+  const oy = lerp(HOOK.oy, MAIN.oy, k) + 3 * Math.sin(t * 0.61 + 1) + kick;
+  return { M: Mx.chain(Mx.T(C0[0] + ox, C0[1] + oy), Mx.S(s), Mx.T(-C0[0], -C0[1])), s };
+}
+function zoomState(t) {
+  for (const Z of [ZF, ZK]) {
+    if (t >= Z.in0 - 1.2 && t <= Z.out1 + 0.6) {
+      const u = t < Z.out0 ? P(t, Z.in0, Z.in1, E.inOutQ) : 1 - P(t, Z.out0, Z.out1, E.inOutQ);
+      return { Z, u };
+    }
+  }
+  return null;
+}
+function zoomMatrix(Mf, u) {
+  const Qm = Mx.ap(Mf, QW);
+  const Lt = [LENS[0], LENS[1] + 150 * LK];
+  const zs = Math.exp(u * Math.log(ZS));
+  const cen = [lerp(Qm[0], Lt[0], u), lerp(Qm[1], Lt[1], u)];
+  return Mx.chain(Mx.T(cen[0], cen[1]), Mx.R(ROT * u), Mx.S(zs), Mx.T(-Qm[0], -Qm[1]), Mf);
+}
+
+/* ---------- заставка: пунктир-миндаль → имплант ---------- */
+const ALM_W = [C0[0] + (540 - C0[0] - HOOK.ox) / HOOK.s, C0[1] + (880 - C0[1] - HOOK.oy) / HOOK.s], ALM_S = 1 / HOOK.s;
+function almondIntro(t) {
+  if (t >= 1.95) return null;
+  return (ctx) => {
+    const w = 8 / HOOK.s, dash = [24 / HOOK.s, 18 / HOOK.s];
+    if (t < 0.62) {
+      const pr = P(t, 0.0, 0.6, E.inOut);
+      const up = ALMOND.upper.map((p) => [ALM_W[0] + p[0] * ALM_S, ALM_W[1] + p[1] * ALM_S]);
+      const lo = ALMOND.lower.slice().reverse().map((p) => [ALM_W[0] + p[0] * ALM_S, ALM_W[1] + p[1] * ALM_S]);
+      markerLine(ctx, up, { dash, width: w, progress: pr });
+      markerLine(ctx, lo, { dash, width: w, progress: pr });
+      return;
+    }
+    const k = P(t, 0.6, 1.9, E.inOutQ), rho = (-Math.PI / 2) * P(t, 0.55, 1.7, E.inOut);
+    const pts = almondToImplant(k, rho, ALM_W[0], ALM_W[1], ALM_S);
+    drawImplant(ctx, pts, { implA: P(t, 1.2, 1.95) });
+    markerLine(ctx, pts, { dash, width: w, closed: true, alpha: 1 - P(t, 1.2, 1.9) });
+  };
+}
+
+/* ---------- наложения в мировых координатах ---------- */
+function worldOverlays(ctx, t, S, geo) {
+  const imp = geo.imp, nrm = normals(imp, true);
+  // «тлеющее» воспаление
+  const g = env(t, 22.0, 27.4, 0.6, 0.4);
+  if (g > 0) {
+    const outer = offsetPoly(imp, S.capT + 2, true, nrm);
+    ctx.save(); ctx.strokeStyle = rgba(PAL.iodine, (0.12 + 0.14 * (0.5 + 0.5 * Math.sin(t * 3.4))) * g);
+    ctx.lineWidth = 16; ctx.lineJoin = 'round';
+    ctx.beginPath(); smoothPath(ctx, outer, true); ctx.stroke(); ctx.restore();
+  }
+  // блик пробегает по только что сформированной капсуле
+  const sh = invLerp(18.7, 20.0, t);
+  if (sh > 0 && sh < 1) {
+    const mid = offsetPoly(imp, S.capT * 0.5, true, nrm), seg = [];
+    const c = Math.round(lerp(NI * 0.72, NI * 1.26, E.inOut(sh)));
+    for (let k = c - 9; k <= c + 9; k++) seg.push(mid[((k % NI) + NI) % NI]);
+    strokeSmooth(ctx, seg, '#ffffff', 5, Math.sin(sh * Math.PI) * 0.95);
+  }
+  // «мешок на шнурке»: стрелки внутрь
+  const aa = env(t, 36.9, 47.8, 0.5, 0.6);
+  if (aa > 0) {
+    const kick = PULSES.reduce((s, p) => s + Math.max(0, ring(t, p, 1.2, 3)), 0) + Math.max(0, ring(t, 37.6, 1.2, 3)) + Math.max(0, ring(t, 38.8, 1.2, 3));
+    ctx.save(); ctx.strokeStyle = PAL.inkMuted; ctx.lineWidth = 3.2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    for (let k = 0; k < NI; k += 15) {
+      const ang = ANG[k];
+      if (Math.cos(ang) < -0.25) continue;
+      const p = imp[k], n = nrm[k];
+      const r0 = S.capT + 58 + 10 * kick, r1 = S.capT + 18 + 6 * kick;
+      const a = [p[0] + n[0] * r0, p[1] + n[1] * r0], b = [p[0] + n[0] * r1, p[1] + n[1] * r1];
+      ctx.globalAlpha = aa * 0.7;
+      ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      const tx = -n[1], ty = n[0];
+      ctx.moveTo(b[0] + n[0] * 11 + tx * 8, b[1] + n[1] * 11 + ty * 8); ctx.lineTo(b[0], b[1]); ctx.lineTo(b[0] + n[0] * 11 - tx * 8, b[1] + n[1] * 11 - ty * 8);
+      ctx.stroke();
+    }
+    ctx.restore();
+  }
+  // исходная форма — пунктиром маркера
+  const ga = env(t, 39.9, 48.2, 0.15, 0.6);
+  if (ga > 0) markerLine(ctx, IMPL.nat, { dash: [24, 18], closed: true, progress: P(t, 39.9, 40.9, E.inOut), alpha: ga });
+}
+
+/* ---------- подписи общего плана (в экранных координатах) ---------- */
+function macroLabels(ctx, t, Mc, S, geo) {
+  const map = (p) => Mx.ap(Mc, p);
+  const lab = (anchor, dx, dy, text, t0, t1, align = 'left') => {
+    const a = map(anchor);
+    callout(ctx, a, [a[0] + dx, a[1] + dy], text, invLerp(t0, t0 + 0.7, t), env(t, t0, t1, 0.01, 0.35), align);
+  };
+  lab([IMPL.c0[0] + 30, IMPL.c0[1] + 70], 250, 120, 'имплант', 2.0, 5.3);
+  lab(uvGland(geo.G, 0.4, 0.6), 150, -120, 'железа', 2.3, 5.3);
+  lab([cw(780) - 28, 780], -50, 150, 'мышца', 2.6, 5.3, 'right');
+  // капсула — пометка маркером
+  const nrm = normals(geo.imp, true);
+  const kc = 151, pc = geo.imp[kc], nc = nrm[kc];
+  const cap = map([pc[0] + nc[0] * (S.capT + 4), pc[1] + nc[1] * (S.capT + 4)]);
+  markerNote(ctx, [790, 548], [cap[0] + 10, cap[1] - 8], 'капсула', [744, 520], invLerp(18.8, 20.0, t), env(t, 18.8, 21.8, 0.01, 0.4));
+  // версии причин
+  const ca = env(t, 25.5, 27.3, 0.3, 0.3);
+  if (ca > 0) {
+    ['БИОПЛЁНКА', 'ГЕМАТОМА', 'ОБЛУЧЕНИЕ'].forEach((s, i) => chip(ctx, 712, 452 + i * 62, s, ca * E.out(invLerp(25.6 + i * 0.25, 26.0 + i * 0.25, t))));
+  }
+  // «шар»
+  const ks = 158, ps = geo.imp[ks], ns = nrm[ks];
+  const sp = map([ps[0] + ns[0] * (S.capT + 10), ps[1] + ns[1] * (S.capT + 10)]);
+  markerNote(ctx, [806, 492], [sp[0] + 12, sp[1] - 10], 'шар', [800, 468], invLerp(43.4, 44.5, t), env(t, 43.4, 47.9, 0.01, 0.4));
+  // масштаб
+  const sa = Math.max(env(t, 4.4, 5.4, 0.4, 0.3), env(t, 18.8, 27.0, 0.4, 0.3), env(t, 37.8, 48.0, 0.4, 0.3));
+  const fr = framing(t);
+  scaleBar(ctx, 800, 1160, 37 * fr.s, '1 СМ', sa * 0.9);
+}
+
+/* ---------- линза: переход в микромир ---------- */
+function microLabels(ctx, Z, tau, MM, a) {
+  if (a <= 0) return;
+  const L = (anchor, pos, text, t0, t1, align = 'left') =>
+    callout(ctx, Mx.ap(MM, anchor), Mx.ap(MM, pos), text, invLerp(t0, t0 + 0.6, tau), env(tau, t0, t1, 0.01, 0.35) * a, align);
+  if (Z.ep === 'F') {
+    L([-60, surfY(-60) - 9], [-190, -70], 'белки плазмы', 1.1, 3.4);
+    L([-290, surfY(-290) - 30], [-320, -150], 'макрофаг', 3.9, 5.9);
+    L([10, surfY(10) - 34], [-150, -170], 'гигантская клетка', 6.3, 8.1);
+    const fx = lerp(-470, 470, P(tau, 7.3, 9.9, E.inOut));
+    L([fx, surfY(fx) - 52], [fx - 40, -250], 'фибробласт', 7.8, 9.4);
+    L([160, surfY(160) - 60], [120, -210], 'коллаген', 9.4, 10.9);
+  } else {
+    const con = P(tau, 4.4, 8.4), dens = lerp(1, 0.84, con), sq = con * 0.9;
+    L([-250, surfY(-250) - 26], [-330, -150], 'биоплёнка', 0.9, 3.2);
+    L([60 * (1 - 0.16 * sq), surfY(60) - 150 * dens], [-80, -300], 'миофибробласт', 3.0, 5.2);
+    L([230 * (1 - 0.16 * sq) + 26, surfY(230) - 88 * dens], [150, -250], 'α-SMA', 5.2, 8.2);
+  }
+}
+function drawLens(ctx, t, zs, Mf) {
+  const { Z, u } = zs;
+  const Qm = Mx.ap(Mf, QW);
+  const lc = [lerp(Qm[0], LENS[0], u), lerp(Qm[1], LENS[1], u)];
+  const lr = lerp(66, LENS_R, E.inOut(u));
+  const tau = Math.max(0, t - Z.tau0);
+  if (u > 0.001) {
+    ctx.save();
+    ctx.fillStyle = rgba(PAL.surface, 0.82 * u);
+    ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.arc(lc[0], lc[1], lr, 0, TAU, true); ctx.fill('evenodd');
+    ctx.strokeStyle = rgba(PAL.ink, 0.07 * u); ctx.lineWidth = 22;
+    ctx.beginPath(); ctx.arc(lc[0], lc[1], lr + 14, 0, TAU); ctx.stroke();
+    ctx.restore();
+    ctx.save();
+    ctx.beginPath(); ctx.arc(lc[0], lc[1], lr, 0, TAU); ctx.clip();
+    const dolly = 1 + 0.045 * E.inOut(clamp(tau / 10));
+    const MM = Mx.chain(Mx.T(lc[0], lc[1]), Mx.R(-ROT * (1 - u)), Mx.S((lr / 400) * dolly), Mx.T(0, -150 * (1 - u)));
+    ctx.save(); ctx.transform(...MM); ctx.globalAlpha = clamp(u * 3);
+    drawMicro(ctx, Z.ep, tau);
+    ctx.restore();
+    ctx.save(); ctx.transform(...Mx.chain(Mx.T(lc[0], lc[1]), Mx.S(lr / 400)));
+    drawLensChrome(ctx, 400, clamp(u * 2 - 1));
+    ctx.restore();
+    ctx.restore();
+    microLabels(ctx, Z, tau, MM, clamp(u * 2 - 1));
+  }
+  // обводка маркером становится оправой линзы
+  const pre = P(t, Z.in0 - 0.62, Z.in0 - 0.05, E.inOut);
+  const post = 1 - P(t, Z.out1, Z.out1 + 0.45);
+  if (pre > 0 && post > 0) markerLine(ctx, handEllipse(lc[0], lc[1], lr + 12, lr + 12, Z.ep === 'F' ? 3 : 7), { progress: pre, alpha: post });
+}
+
+/* ---------- шкала Бейкера и финал ---------- */
+const SLOT = { w: 206, h: 320, y: 790, xs: [160, 383, 606, 829], sc: 0.36 };
+const GRADE = [
+  { n: 'I', d: ['мягкая'] }, { n: 'II', d: ['плотная'] },
+  { n: 'III', d: ['деформация'] }, { n: 'IV', d: ['твёрдая,', 'болит'] },
+];
+function slotMatrix(cx, cy, sc) { return Mx.chain(Mx.T(cx, cy), Mx.S(sc), Mx.T(-BREAST_C[0], -BREAST_C[1])); }
+function drawCard(ctx, cx, cy, w, h, alpha, S, sc, clipR = 32, bg = true) {
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha = alpha;
+  roundRect(ctx, cx - w / 2, cy - h / 2, w, h, clipR);
+  if (bg) { ctx.fillStyle = PAL.surface2; ctx.fill(); }
+  ctx.clip();
+  ctx.transform(...slotMatrix(cx, cy, sc));
+  drawMacro(ctx, S);
+  ctx.restore();
+}
+function gradeLabel(ctx, g, cx, top, alpha, scale = 1) {
+  if (alpha <= 0) return;
+  ctx.save(); ctx.globalAlpha = alpha; ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+  font(ctx, 500, 72 * scale, 'serif', true); ctx.fillStyle = g >= 2 ? PAL.iodine : PAL.ink;
+  ctx.fillText(GRADE[g].n, cx, top + 70 * scale);
+  font(ctx, 500, 32 * scale); ctx.fillStyle = PAL.ink;
+  GRADE[g].d.forEach((l, i) => ctx.fillText(l, cx, top + (118 + i * 38) * scale));
+  ctx.restore();
+}
+function drawBaker(ctx, t, Mf) {
+  const e = P(t, 48.2, 49.4, E.inOutQ);
+  const out = P(t, 53.4, 54.2, E.inOut); // II, III уходят
+  const mv = P(t, 53.8, 55.0, E.inOutQ); // I и IV разъезжаются и растут
+  const endA = 1 - P(t, 57.0, 57.5, E.inOut);
+  const big = lerp(1, 1.3, mv);
+  const yEnd = lerp(SLOT.y, 900, mv);
+  // заголовок шкалы
+  const ta = env(t, 48.6, 53.6, 0.6, 0.4);
+  if (ta > 0) {
+    const k = E.outQ(invLerp(48.6, 49.3, t));
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 452, W, 120); ctx.clip();
+    ctx.globalAlpha = ta; ctx.translate(0, (1 - k) * 90); ctx.textBaseline = 'alphabetic';
+    font(ctx, 700, 64); ctx.fillStyle = PAL.ink; ctx.fillText('Шкала', 60, 548);
+    const w = ctx.measureText('Шкала ').width;
+    font(ctx, 500, 70, 'serif', true); ctx.fillText('Бейкера', 60 + w, 548);
+    ctx.restore();
+  }
+  // IV — это «наш» общий план, уменьшенный в карточку
+  const S4 = macroS(t); S4.rv.wall = lerp(1, 0.45, e);
+  const x4 = lerp(SLOT.xs[3], 780, mv);
+  if (e < 1) {
+    const mainPos = Mx.ap(Mf.M, BREAST_C);
+    const pos = [lerp(mainPos[0], x4, e), lerp(mainPos[1], SLOT.y, e)];
+    const sc = Math.exp(lerp(Math.log(Mf.s), Math.log(SLOT.sc), e));
+    const w = lerp(W * 2.2, SLOT.w, e), h = lerp(H * 2.2, SLOT.h, e);
+    ctx.save();
+    roundRect(ctx, pos[0] - w / 2, pos[1] - h / 2, w, h, lerp(0, 32, e));
+    ctx.fillStyle = rgba(PAL.surface2, e); ctx.fill(); ctx.clip();
+    ctx.transform(...Mx.chain(Mx.T(pos[0], pos[1]), Mx.S(sc), Mx.T(-BREAST_C[0], -BREAST_C[1])));
+    drawMacro(ctx, S4);
+    ctx.restore();
+    ctx.save(); roundRect(ctx, pos[0] - w / 2, pos[1] - h / 2, w, h, lerp(0, 32, e)); ctx.clip();
+    ctx.globalAlpha = 1 - e; edgeFade(ctx); ctx.restore();
+  } else {
+    drawCard(ctx, x4, yEnd, SLOT.w * big, SLOT.h * big, endA, S4, SLOT.sc * big);
+  }
+  // I–III
+  for (let g = 0; g < 3; g++) {
+    const a = E.out(invLerp(48.9 + g * 0.15, 49.5 + g * 0.15, t));
+    if (a <= 0) continue;
+    let x = SLOT.xs[g], alpha = a, sc = 1;
+    if (g === 0) { x = lerp(SLOT.xs[0], 300, mv); sc = big; alpha = a * (t < 57.0 ? 1 : 1 - P(t, 57.0, 57.4)); }
+    else alpha = a * (1 - out);
+    const y = (g === 0 ? yEnd : SLOT.y) + (1 - a) * 40;
+    drawCard(ctx, x, y, SLOT.w * sc, SLOT.h * sc, alpha, gradeS(g, t), SLOT.sc * sc);
+    gradeLabel(ctx, g, x, y + (SLOT.h * sc) / 2 + 6, alpha, g === 0 ? lerp(1, 1.1, mv) : 1);
+  }
+  gradeLabel(ctx, 3, x4, yEnd + (SLOT.h * big) / 2 + 6, E.out(invLerp(49.2, 49.8, t)) * endA, lerp(1, 1.1, mv));
+  // III–IV — операция
+  const bp = invLerp(50.9, 51.7, t), ba = env(t, 50.9, 53.5, 0.01, 0.4);
+  if (bp > 0 && ba > 0) {
+    const x0 = SLOT.xs[2] - SLOT.w / 2 + 8, x1 = SLOT.xs[3] + SLOT.w / 2 - 8, y = SLOT.y + SLOT.h / 2 + 176;
+    markerLine(ctx, [[x0, y - 22], [x0 + 2, y], [(x0 + x1) / 2, y + 3], [x1 - 2, y], [x1, y - 22]], { progress: E.inOut(bp), alpha: ba });
+  }
+}
+
+/* ---------- финальная фраза и закольцовка ---------- */
+function drawOutro(ctx, t) {
+  const a = env(t, 54.0, 57.3, 0.01, 0.5);
+  if (a > 0) {
+    ctx.save(); ctx.textBaseline = 'alphabetic';
+    const l1 = E.outQ(invLerp(54.0, 54.6, t)), l2 = E.outQ(invLerp(54.4, 55.0, t)), l3 = E.outQ(invLerp(54.6, 55.2, t));
+    const line = (k, y, draw) => { ctx.save(); ctx.beginPath(); ctx.rect(0, y - 92, W, 118); ctx.clip(); ctx.globalAlpha = a; ctx.translate(0, (1 - k) * 100); draw(); ctx.restore(); };
+    line(l1, 470, () => {
+      font(ctx, 700, 80); ctx.fillStyle = PAL.ink; ctx.fillText('Капсула —', 60, 470);
+      const w = ctx.measureText('Капсула — ').width;
+      font(ctx, 500, 88, 'serif', true); ctx.fillStyle = PAL.scrub; ctx.fillText('норма.', 60 + w, 470);
+    });
+    line(l2, 566, () => { font(ctx, 700, 80); ctx.fillStyle = PAL.ink; ctx.fillText('Контрактура —', 60, 566); });
+    line(l3, 662, () => { font(ctx, 500, 88, 'serif', true); ctx.fillStyle = PAL.iodine; ctx.fillText('осложнение.', 60, 662); });
+    // дисклеймер
+    const fa = env(t, 54.6, 57.3, 0.5, 0.5);
+    ctx.globalAlpha = fa; font(ctx, 400, 24); ctx.fillStyle = PAL.inkMuted;
+    ctx.fillStyle = PAL.line; ctx.fillRect(60, 1386, 900, 2);
+    ctx.fillStyle = PAL.inkMuted;
+    ctx.fillText('Информация носит образовательный характер', 60, 1428);
+    ctx.fillText('и не заменяет очную консультацию врача.', 60, 1460);
+    ctx.restore();
+  }
+  // имплант I → миндаль → стирается слева направо
+  if (t >= 57.0) {
+    const k = P(t, 57.2, 58.3, E.inOutQ);
+    const sc = SLOT.sc * 1.3, M = slotMatrix(300, 900, sc);
+    const c0 = Mx.ap(M, IMPL.c0);
+    const cen = [lerp(c0[0], 540, k), lerp(c0[1], 880, k)];
+    const rho = lerp(-Math.PI / 2, 0, k);
+    if (t < 58.35) {
+      const pts = ANG.map((ang, i) => {
+        const r = lerp(IMPL.r0[i] * sc, almondR(ang - rho), k);
+        return [cen[0] + Math.cos(ang) * r, cen[1] + Math.sin(ang) * r];
+      });
+      strokeSmooth(ctx, pts, PAL.shell, 3.2, 1 - P(t, 57.5, 58.0), true);
+      markerLine(ctx, pts, { dash: [24, 18], closed: true, alpha: P(t, 57.3, 57.9) });
+    } else {
+      const er = P(t, 58.35, 59.0, E.inOut);
+      const up = ALMOND.upper.map((p) => [540 + p[0], 880 + p[1]]).reverse();
+      const lo = ALMOND.lower.map((p) => [540 + p[0], 880 + p[1]]);
+      markerLine(ctx, up, { dash: [24, 18], progress: 1 - er });
+      markerLine(ctx, lo, { dash: [24, 18], progress: 1 - er });
+    }
+  }
+}
+
+/* ---------- заголовок-хук ---------- */
+function drawHook(ctx, t) {
+  if (t < 0.6 || t > 4.1) return;
+  const out = E.inOut(invLerp(3.4, 4.0, t));
+  const k1 = E.outQ(invLerp(0.65, 1.2, t)), k2 = E.outQ(invLerp(0.8, 1.35, t));
+  ctx.save(); ctx.textBaseline = 'alphabetic';
+  const line = (k, y, draw) => {
+    ctx.save(); ctx.beginPath(); ctx.rect(0, y - 104, W, 136); ctx.clip();
+    ctx.globalAlpha = 1 - out; ctx.translate(0, (1 - k) * 112 - out * 60); draw(); ctx.restore();
+  };
+  let w2 = 0;
+  line(k1, 432, () => { font(ctx, 800, 96); ctx.fillStyle = PAL.ink; ctx.fillText('Капсулярная', 56, 432); });
+  line(k2, 540, () => { font(ctx, 500, 104, 'serif', true); ctx.fillStyle = PAL.ink; w2 = ctx.measureText('контрактура').width; ctx.fillText('контрактура', 60, 540); });
+  font(ctx, 500, 104, 'serif', true); w2 = ctx.measureText('контрактура').width;
+  const up = P(t, 1.25, 1.8, E.inOut);
+  if (up > 0) {
+    const pts = [];
+    for (let i = 0; i <= 20; i++) { const s = i / 20; pts.push([64 + s * (w2 - 4), 574 + 5 * Math.sin(s * 5.5) - s * 6]); }
+    markerLine(ctx, pts, { progress: up, alpha: 1 - out });
+  }
+  ctx.restore();
+}
+
+/* ---------- бумага ---------- */
+let _grain = null, _grainPat = null, _grainCtx = null;
+function paperGrain(ctx) {
+  if (!_grain) {
+    _grain = document.createElement('canvas'); _grain.width = _grain.height = 256;
+    const g = _grain.getContext('2d'), img = g.createImageData(256, 256), r = rng(5);
+    for (let i = 0; i < img.data.length; i += 4) { const v = r() < 0.5 ? 40 : 255; img.data[i] = img.data[i + 1] = img.data[i + 2] = v; img.data[i + 3] = Math.floor(r() * 16); }
+    g.putImageData(img, 0, 0);
+  }
+  if (_grainCtx !== ctx) { _grainPat = ctx.createPattern(_grain, 'repeat'); _grainCtx = ctx; }
+  return _grainPat;
+}
+
+// анатомия растворяется в бумаге под HUD и в нижней зоне интерфейса Instagram
+function edgeFade(ctx, t = 10) {
+  const g = ctx.createLinearGradient(0, 0, 0, H);
+  const c = (a) => rgba(PAL.surface, a);
+  const k = P(t, 3.2, 4.4, E.inOut); // на хуке затухание глубже — под заголовком чисто
+  g.addColorStop(0, c(1)); g.addColorStop(lerp(560, 150, k) / H, c(0.97)); g.addColorStop(lerp(640, 300, k) / H, c(0.78)); g.addColorStop(lerp(760, 430, k) / H, c(0));
+  g.addColorStop(1360 / H, c(0)); g.addColorStop(1560 / H, c(0.85)); g.addColorStop(1, c(1));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+}
+
+/* ---------- кадр ---------- */
+function render(ctx, time) {
+  const t = ((time % DUR) + DUR) % DUR;
+  ctx.fillStyle = PAL.surface; ctx.fillRect(0, 0, W, H);
+  const fr = framing(t);
+  if (t < 48.2) {
+    const S = macroS(t);
+    const intro = almondIntro(t);
+    if (intro) S.implOverride = intro;
+    const zs = zoomState(t);
+    const Mc = zs ? zoomMatrix(fr.M, zs.u) : fr.M;
+    ctx.save(); ctx.transform(...Mc);
+    const geo = drawMacro(ctx, S);
+    worldOverlays(ctx, t, S, geo);
+    ctx.restore();
+    edgeFade(ctx, t);
+    macroLabels(ctx, t, Mc, S, geo);
+    if (zs) drawLens(ctx, t, zs, fr.M);
+  } else drawBaker(ctx, t, fr);
+  if (t >= 53.8) drawOutro(ctx, t);
+  // HUD
+  drawTag(ctx, env(t, 0.7, 57.4, 0.4, 0.4));
+  drawClock(ctx, t, env(t, 3.8, 48.6, 0.5, 0.4));
+  drawNav(ctx, t, env(t, 3.8, 53.8, 0.5, 0.5));
+  drawHook(ctx, t);
+  drawSubtitles(ctx, t);
+  // зерно бумаги и лёгкая виньетка
+  ctx.save();
+  ctx.fillStyle = paperGrain(ctx); ctx.fillRect(0, 0, W, H);
+  const v = ctx.createRadialGradient(W / 2, H * 0.45, H * 0.35, W / 2, H * 0.45, H * 0.78);
+  v.addColorStop(0, 'rgba(60,50,30,0)'); v.addColorStop(1, 'rgba(60,50,30,0.07)');
+  ctx.fillStyle = v; ctx.fillRect(0, 0, W, H);
+  ctx.restore();
+}
+
+/* ---------- обложка рилса (ReelCover: текст в зоне y 860–1500, сетка профиля срезает по 240 px) ---------- */
+function renderCover(ctx) {
+  ctx.fillStyle = PAL.surface; ctx.fillRect(0, 0, W, H);
+  const S = gradeS(3, 0); S.rv.wall = 1;
+  const M = Mx.chain(Mx.T(560, 560), Mx.S(0.7), Mx.T(-BREAST_C[0], -BREAST_C[1]));
+  ctx.save(); ctx.transform(...M);
+  drawMacro(ctx, S);
+  markerLine(ctx, IMPL.nat, { dash: [24 / 0.7, 18 / 0.7], width: 8 / 0.7, closed: true });
+  ctx.restore();
+  const g = ctx.createLinearGradient(0, 0, 0, H), c = (a) => rgba(PAL.surface, a);
+  g.addColorStop(0, c(1)); g.addColorStop(250 / H, c(0.9)); g.addColorStop(330 / H, c(0));
+  g.addColorStop(760 / H, c(0)); g.addColorStop(880 / H, c(1)); g.addColorStop(1, c(1));
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  ctx.textBaseline = 'alphabetic';
+  font(ctx, 500, 26, 'mono'); ctx.fillStyle = PAL.ink; spacedText(ctx, 'РАЗБОР', 88, 950, 2.1);
+  font(ctx, 700, 96); ctx.fillText('Капсулярная', 84, 1068);
+  font(ctx, 500, 104, 'serif', true); const w = ctx.measureText('контрактура').width; ctx.fillText('контрактура', 88, 1170);
+  const pts = []; for (let i = 0; i <= 20; i++) { const s2 = i / 20; pts.push([92 + s2 * (w - 4), 1204 + 5 * Math.sin(s2 * 5.5) - s2 * 6]); }
+  markerLine(ctx, pts);
+  font(ctx, 400, 42); ctx.fillStyle = PAL.inkMuted;
+  ctx.fillText('Почему капсула вокруг импланта', 88, 1300);
+  ctx.fillText('сжимается и превращает его в шар', 88, 1358);
+  ctx.save(); ctx.fillStyle = paperGrain(ctx); ctx.fillRect(0, 0, W, H); ctx.restore();
+}
+
+</script>
+<script>
+  (function () {
+    const ol = document.getElementById('script');
+    const fmt = (s) => '00:' + String(Math.floor(s)).padStart(2, '0');
+    CARDS.forEach(([a, , text]) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button'; b.dataset.jump = String(a);
+      const tc = document.createElement('span'); tc.className = 'tc'; tc.textContent = fmt(a);
+      const tx = document.createElement('span'); tx.textContent = text;
+      b.append(tc, tx); li.append(b); ol.append(li);
+    });
+    const li = document.createElement('li');
+    li.innerHTML = '<button type="button" data-jump="54"><span class="tc">00:54</span><span>Капсула — норма. Контрактура — осложнение.</span></button>';
+    ol.append(li);
+  })();
+</script>
+<script>
+'use strict';
+/* Плеер: размер холста, воспроизведение, перемотка, главы, режим рендера для экспорта в MP4. */
+(function () {
+  const canvas = document.getElementById('stage');
+  const ctx = canvas.getContext('2d');
+  const RENDER_MODE = /[?&]render\b/.test(location.search);
+  let t = 0, playing = false, last = 0, bs = 1, dirty = true;
+  const $ = (id) => document.getElementById(id);
+  const playBtn = $('play'), scrub = $('scrub'), timeEl = $('time'), bigPlay = $('bigplay');
+
+  function resize() {
+    if (RENDER_MODE) { canvas.width = W; canvas.height = H; bs = 1; dirty = true; return; }
+    const r = canvas.getBoundingClientRect();
+    const dpr = Math.min(window.devicePixelRatio || 1, 3);
+    const bw = Math.max(270, Math.min(W, Math.round(r.width * dpr)));
+    canvas.width = bw; canvas.height = Math.round((bw * H) / W);
+    bs = bw / W; dirty = true;
+  }
+  function draw() {
+    ctx.setTransform(bs, 0, 0, bs, 0, 0);
+    render(ctx, t);
+    dirty = false;
+  }
+  const fmt = (s) => { s = Math.max(0, Math.floor(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+  function syncUI() {
+    if (!scrub) return;
+    scrub.value = t.toFixed(2);
+    scrub.style.setProperty('--p', (t / DUR) * 100 + '%');
+    timeEl.textContent = fmt(t) + ' / ' + fmt(DUR);
+    playBtn.setAttribute('aria-label', playing ? 'Пауза' : 'Смотреть');
+    playBtn.dataset.state = playing ? 'playing' : 'paused';
+    bigPlay.hidden = playing;
+    document.querySelectorAll('[data-ch]').forEach((b) => {
+      const a = +b.dataset.from, z = +b.dataset.to;
+      b.classList.toggle('on', t >= a && t < z);
+    });
+  }
+  function frame(now) {
+    if (playing) {
+      const dt = Math.min(0.1, (now - last) / 1000);
+      t = (t + dt) % DUR;
+      dirty = true;
+    }
+    last = now;
+    if (dirty) { draw(); syncUI(); }
+    requestAnimationFrame(frame);
+  }
+  function setPlaying(p) { playing = p; last = performance.now(); syncUI(); }
+  function seek(v) { t = clamp(v, 0, DUR - 0.001); dirty = true; syncUI(); }
+
+  const fontsReady = Promise.race([
+    Promise.all([
+      document.fonts.load('800 96px Onest', 'Капсулярная'),
+      document.fonts.load('700 56px Onest', 'Капсула'),
+      document.fonts.load('500 34px Onest', 'имплант'),
+      document.fonts.load('400 24px Onest', 'Информация'),
+      document.fonts.load('italic 500 104px "Playfair Display"', 'контрактура'),
+      document.fonts.load('500 26px "IBM Plex Mono"', 'РАЗБОР 0123'),
+      document.fonts.load('400 22px "IBM Plex Mono"', '1 СМ'),
+    ]),
+    new Promise((r) => setTimeout(r, 4000)),
+  ]).then(() => document.fonts.ready);
+
+  // экспорт кадров (tools/render.mjs)
+  window.__cc = {
+    DUR, FPS, W, H,
+    ready: fontsReady,
+    frame(time) { t = time; ctx.setTransform(1, 0, 0, 1, 0, 0); render(ctx, time); },
+    cover() { ctx.setTransform(1, 0, 0, 1, 0, 0); renderCover(ctx); },
+  };
+  if (RENDER_MODE) { document.documentElement.classList.add('render'); resize(); return; }
+
+  resize();
+  window.addEventListener('resize', resize);
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // кадр-постер, пока грузятся шрифты: хук уже на экране
+  t = 2.9; draw(); syncUI();
+  fontsReady.then(() => {
+    _wrapCache.clear();
+    dirty = true;
+    if (!reduce) { t = 0; setPlaying(true); } else { t = 2.9; syncUI(); }
+    requestAnimationFrame((n) => { last = n; frame(n); });
+  });
+
+  playBtn.addEventListener('click', () => setPlaying(!playing));
+  bigPlay.addEventListener('click', () => setPlaying(true));
+  canvas.addEventListener('click', () => setPlaying(!playing));
+  scrub.addEventListener('input', () => { seek(parseFloat(scrub.value)); });
+  scrub.addEventListener('pointerdown', () => { scrub._was = playing; setPlaying(false); });
+  scrub.addEventListener('pointerup', () => { if (scrub._was) setPlaying(true); });
+  document.querySelectorAll('[data-jump]').forEach((b) => b.addEventListener('click', () => { seek(parseFloat(b.dataset.jump)); setPlaying(true); }));
+  window.addEventListener('keydown', (e) => {
+    if (e.target && /input|textarea|select/i.test(e.target.tagName) && e.target !== scrub) return;
+    if (e.code === 'Space' || e.key === 'k') { e.preventDefault(); setPlaying(!playing); }
+    else if (e.key === 'ArrowRight' && e.target !== scrub) { seek(t + 2); }
+    else if (e.key === 'ArrowLeft' && e.target !== scrub) { seek(t - 2); }
+  });
+})();
+
+</script>

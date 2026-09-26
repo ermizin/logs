@@ -1,0 +1,177 @@
+<title>Капсулярная контрактура</title>
+<meta name="description" content="Рилс-анимация 1080×1920: как вокруг импланта формируется капсула, почему она сокращается и как деформирует имплант.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Onest:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,400;1,500&display=swap">
+<style>
+  :root {
+    --surface: #f3f1ec; --surface-2: #e8e4dc; --line: #cfc9be;
+    --ink: #161a18; --ink-muted: #585d59; --on-ink: #f3f1ec;
+    --scrub: #1f4f45; --scrub-soft: #d3e0da;
+    --marker: #5b3aa8; --marker-soft: #e4ddf2;
+    --iodine: #a5461b; --iodine-soft: #f2ddd0;
+    --stage-ground: #f3f1ec;
+    --sans: "Onest", "Manrope", system-ui, sans-serif;
+    --serif: "Playfair Display", Georgia, serif;
+    --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface: #111413; --surface-2: #1b201e; --line: #343b38;
+      --ink: #ece9e2; --ink-muted: #a3a9a5; --on-ink: #111413;
+      --scrub: #86bba8; --scrub-soft: #1d302a;
+      --marker: #b6a1f0; --marker-soft: #2a2440;
+      --iodine: #e8905f; --iodine-soft: #3a2419;
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --surface: #111413; --surface-2: #1b201e; --line: #343b38;
+    --ink: #ece9e2; --ink-muted: #a3a9a5; --on-ink: #111413;
+    --scrub: #86bba8; --scrub-soft: #1d302a;
+    --marker: #b6a1f0; --marker-soft: #2a2440;
+    --iodine: #e8905f; --iodine-soft: #3a2419;
+  }
+  * { box-sizing: border-box; }
+  body { background: var(--surface); color: var(--ink); font-family: var(--sans); font-size: 16px; line-height: 1.5; }
+  .wrap {
+    max-width: 1080px; margin: 0 auto; padding-inline: 16px; padding-block: 28px 56px;
+    display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 48px; align-items: start;
+  }
+  .player { width: min(430px, calc((100svh - 150px) * 0.5625)); min-width: 260px; max-width: 100%; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+  .stage-box { position: relative; width: 100%; aspect-ratio: 9 / 16; max-width: 100%; background: var(--stage-ground); outline: 1px solid var(--line); }
+  #stage { display: block; width: 100%; height: 100%; cursor: pointer; }
+  #bigplay {
+    position: absolute; inset: 0; margin: auto; width: 88px; height: 88px; border-radius: 9999px; border: 0;
+    background: #161a18; color: #f3f1ec; cursor: pointer; display: grid; place-items: center;
+  }
+  #bigplay[hidden] { display: none; }
+  #bigplay svg { width: 30px; height: 30px; margin-left: 5px; }
+  .controls { display: flex; align-items: center; gap: 12px; margin-top: 12px; }
+  #play {
+    flex: none; width: 44px; height: 44px; border-radius: 9999px; border: 1px solid var(--line);
+    background: var(--ink); color: var(--surface); display: grid; place-items: center; cursor: pointer;
+  }
+  #play svg { width: 16px; height: 16px; }
+  #play .i-pause { display: none; }
+  #play[data-state="playing"] .i-play { display: none; }
+  #play[data-state="playing"] .i-pause { display: block; }
+  .track { position: relative; flex: 1; min-width: 0; height: 44px; display: flex; align-items: center; }
+  .tick { position: absolute; top: 9px; width: 2px; height: 8px; background: var(--ink-muted); opacity: .6; pointer-events: none; }
+  #scrub { -webkit-appearance: none; appearance: none; width: 100%; height: 44px; background: transparent; margin: 0; cursor: pointer; --p: 0%; }
+  #scrub::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: linear-gradient(to right, var(--scrub) var(--p), var(--line) var(--p)); }
+  #scrub::-moz-range-track { height: 4px; border-radius: 2px; background: var(--line); }
+  #scrub::-moz-range-progress { height: 4px; border-radius: 2px; background: var(--scrub); }
+  #scrub::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; margin-top: -7px; border-radius: 9999px; background: var(--ink); border: 3px solid var(--surface); }
+  #scrub::-moz-range-thumb { width: 14px; height: 14px; border-radius: 9999px; background: var(--ink); border: 3px solid var(--surface); }
+  #time { font-family: var(--mono); font-size: 13px; color: var(--ink-muted); font-variant-numeric: tabular-nums; letter-spacing: .04em; flex: none; }
+  :focus-visible { outline: 3px solid var(--marker); outline-offset: 2px; }
+
+  .panel { max-width: 62ch; }
+  .eyebrow { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin: 0 0 14px; }
+  h1 { font-size: clamp(34px, 4.6vw, 52px); line-height: 1.02; letter-spacing: -.03em; font-weight: 800; margin: 0 0 18px; text-wrap: balance; }
+  h1 em { font-family: var(--serif); font-style: italic; font-weight: 500; letter-spacing: -.01em; }
+  .lede { font-size: 18px; line-height: 1.55; margin: 0 0 28px; color: var(--ink); }
+  h2 { font-family: var(--mono); font-size: 13px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-muted); margin: 36px 0 12px; }
+  .chapters { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  .chapters button {
+    width: 100%; text-align: left; display: grid; grid-template-columns: 44px 1fr auto; gap: 12px; align-items: baseline;
+    background: transparent; border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; color: var(--ink); font: inherit; cursor: pointer;
+  }
+  .chapters button.on { background: var(--scrub-soft); border-color: transparent; }
+  .chapters .n { font-family: var(--mono); font-size: 13px; color: var(--ink-muted); }
+  .chapters .t { font-weight: 600; }
+  .chapters .d { display: block; font-weight: 400; color: var(--ink-muted); font-size: 15px; margin-top: 2px; }
+  .chapters .tc { font-family: var(--mono); font-size: 13px; color: var(--ink-muted); font-variant-numeric: tabular-nums; }
+  .script { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; }
+  .script button { width: 100%; display: grid; grid-template-columns: 52px 1fr; gap: 10px; text-align: left; background: none; border: 0; padding: 6px 0; color: var(--ink); font: inherit; font-size: 15px; cursor: pointer; }
+  .script .tc { font-family: var(--mono); font-size: 13px; color: var(--ink-muted); padding-top: 2px; font-variant-numeric: tabular-nums; }
+  .script button:hover span:last-child { text-decoration: underline; text-decoration-color: var(--marker); text-underline-offset: 3px; }
+  .notes { display: grid; gap: 10px; }
+  .note { border-radius: 12px; padding: 14px 16px; background: var(--surface-2); font-size: 15px; line-height: 1.5; }
+  .note b { font-family: var(--mono); font-weight: 500; font-size: 12px; letter-spacing: .08em; text-transform: uppercase; display: block; margin-bottom: 4px; }
+  .note.fact b { color: var(--scrub); }
+  .note.hyp b { color: var(--iodine); }
+  .note.simp b { color: var(--ink-muted); }
+  .foot { font-size: 13px; color: var(--ink-muted); margin-top: 28px; }
+  @media (max-width: 760px) {
+    .wrap { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+    .player { position: static; width: 100%; min-width: 0; }
+  }
+  html.render body { margin: 0; background: #f3f1ec; }
+  html.render .wrap { display: block; padding: 0; max-width: none; }
+  html.render .player { width: 1080px; position: static; }
+  html.render .stage-box { width: 1080px; height: 1920px; outline: 0; }
+  html.render .controls, html.render .panel, html.render #bigplay { display: none; }
+</style>
+
+<main class="wrap">
+  <section class="player" aria-label="Анимация">
+    <div class="stage-box">
+      <canvas id="stage" width="1080" height="1920" role="img" aria-label="Анимация: вокруг импланта формируется капсула, затем она утолщается, сжимается и деформирует имплант до шара."></canvas>
+      <button id="bigplay" type="button" aria-label="Смотреть" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 4l15 8-15 8z"/></svg></button>
+    </div>
+    <div class="controls">
+      <button id="play" type="button" aria-label="Смотреть" data-state="paused">
+        <svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 4l15 8-15 8z"/></svg>
+        <svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M6 4h4v16H6zM14 4h4v16h-4z"/></svg>
+      </button>
+      <div class="track">
+        <span class="tick" style="left:6.6%"></span><span class="tick" style="left:37.3%"></span><span class="tick" style="left:67.5%"></span>
+        <input id="scrub" type="range" min="0" max="59" step="0.01" value="0" aria-label="Перемотка">
+      </div>
+      <span id="time">00:00 / 00:59</span>
+    </div>
+  </section>
+
+  <article class="panel">
+    <p class="eyebrow">Разбор · рилс 1080 × 1920 · 59 с</p>
+    <h1>Капсулярная <em>контрактура</em></h1>
+    <p class="lede">Вокруг любого импланта организм строит капсулу из коллагена. Обычно она тонкая и мягкая. При контрактуре капсула утолщается и сжимается, а несжимаемый гель вынужден стать шаром.</p>
+
+    <h2>Три шага</h2>
+    <ol class="chapters">
+      <li><button type="button" data-ch data-jump="3.9" data-from="3.9" data-to="22"><span class="n">01</span><span class="t">Формирование<span class="d">Белки, макрофаги, гигантские клетки, фибробласты и коллаген.</span></span><span class="tc">00:04</span></button></li>
+      <li><button type="button" data-ch data-jump="22" data-from="22" data-to="39.8"><span class="n">02</span><span class="t">Сокращение<span class="d">Биоплёнка, миофибробласты с α-SMA, капсула стягивается.</span></span><span class="tc">00:22</span></button></li>
+      <li><button type="button" data-ch data-jump="39.8" data-from="39.8" data-to="59"><span class="n">03</span><span class="t">Деформация<span class="d">Объём тот же, оболочка меньше: имплант скругляется и уходит вверх.</span></span><span class="tc">00:40</span></button></li>
+    </ol>
+
+    <h2>Текст в кадре</h2>
+    <ol class="script" id="script"></ol>
+
+    <h2>Что здесь факт, а что версия</h2>
+    <div class="notes">
+      <p class="note fact"><b>Факт</b>Капсула формируется вокруг любого имплантата как реакция на инородное тело: адсорбция белков, макрофаги и гигантские клетки, фибробласты, коллаген.</p>
+      <p class="note fact"><b>Факт</b>В контрагированной капсуле больше миофибробластов (α-SMA+), коллаген плотнее и ориентирован параллельно поверхности, капсула толще. Шкала Бейкера (I–IV) клиническая, клинически значимы III–IV.</p>
+      <p class="note hyp"><b>Версия</b>Субклиническая инфекция и биоплёнка (S. epidermidis, C. acnes) — самая изученная гипотеза: бактерии находят в капсулах (Pajkos et al., 2003), в свиной модели инокуляция повышала частоту контрактуры (Tamboto et al., 2010). Причинность у людей окончательно не доказана.</p>
+      <p class="note hyp"><b>Факторы риска</b>Лучевая терапия, гематома, субгландулярная позиция, периареолярный и трансаксиллярный доступ — в основном наблюдательные данные. Текстура поверхности — данные противоречивы. Частота после увеличения груди в разных сериях примерно 3–20 %: сверьте с актуальным обзором перед публикацией.</p>
+      <p class="note simp"><b>Упрощения</b>Размеры белков, бактерий и клеток условные; сроки ориентировочные. «Шар» показан в срезе: при постоянной площади наименьший периметр у круга, в объёме то же верно для шара.</p>
+    </div>
+    <p class="foot">Информация носит образовательный характер и не заменяет очную консультацию врача.</p>
+  </article>
+</main>
+
+<script src="js/core.js"></script>
+<script src="js/anatomy.js"></script>
+<script src="js/micro.js"></script>
+<script src="js/hud.js"></script>
+<script src="js/scenes.js"></script>
+<script>
+  (function () {
+    const ol = document.getElementById('script');
+    const fmt = (s) => '00:' + String(Math.floor(s)).padStart(2, '0');
+    CARDS.forEach(([a, , text]) => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button'; b.dataset.jump = String(a);
+      const tc = document.createElement('span'); tc.className = 'tc'; tc.textContent = fmt(a);
+      const tx = document.createElement('span'); tx.textContent = text;
+      b.append(tc, tx); li.append(b); ol.append(li);
+    });
+    const li = document.createElement('li');
+    li.innerHTML = '<button type="button" data-jump="54"><span class="tc">00:54</span><span>Капсула — норма. Контрактура — осложнение.</span></button>';
+    ol.append(li);
+  })();
+</script>
+<script src="js/player.js"></script>
