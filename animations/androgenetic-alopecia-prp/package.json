@@ -2,7 +2,7 @@
   "name": "aga-prp-reel",
   "version": "2.0.0",
   "private": true,
-  "description": "Рилс-анимация 1080×1920 на Remotion: андрогенетическая алопеция и PRP",
+  "description": "Рилс-анимация 1080×1920 на Remotion: андрогенетическая алопеция и PRP (плоская и 3D-версии)",
   "scripts": {
     "start": "remotion studio",
     "render": "remotion render AgaPrpReel export/aga-prp-reel-1080x1920.mp4 --crf 17",
@@ -10,16 +10,23 @@
     "cover": "remotion still AgaPrpReelCover export/aga-prp-reel-1080x1920-cover.png",
     "stills": "node scripts/stills.mjs",
     "typecheck": "tsc --noEmit",
-    "postinstall": "node scripts/copy-fonts.mjs"
+    "postinstall": "node scripts/copy-fonts.mjs",
+    "render:3d": "remotion render AgaPrpReel3D export/aga-prp-reel-3d-1080x1920.mp4 --crf 17 --gl=angle",
+    "cover:3d": "remotion still AgaPrpReel3DCover export/aga-prp-reel-3d-1080x1920-cover.png --gl=angle",
+    "stills:3d": "node scripts/stills.mjs out/stills-3d \"\" AgaPrpReel3D"
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.3.0",
     "@fontsource/onest": "^5.3.1",
     "@fontsource/playfair-display": "^5.3.0",
+    "@react-three/fiber": "^8.18.0",
     "@remotion/cli": "^4.0.0",
+    "@remotion/three": "^4.0.529",
+    "@types/three": "^0.170.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "remotion": "^4.0.0"
+    "remotion": "^4.0.0",
+    "three": "^0.170.0"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

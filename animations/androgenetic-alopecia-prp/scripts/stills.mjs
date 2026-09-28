@@ -19,19 +19,21 @@ mkdirSync(outDir, {recursive: true});
 const browserExecutable = process.env.REMOTION_BROWSER_EXECUTABLE || null;
 
 const serveUrl = await bundle({entryPoint: join(root, 'src', 'index.ts'), publicDir: join(root, 'public')});
-const composition = await selectComposition({serveUrl, id: compId, browserExecutable});
+const chromiumOptions = {gl: 'angle'};
+const composition = await selectComposition({serveUrl, id: compId, browserExecutable, chromiumOptions});
 console.log(`composition ${composition.id}: ${composition.durationInFrames} frames @ ${composition.fps}fps`);
 
 for (const tt of times) {
   const frame = Math.min(composition.durationInFrames - 1, Math.round(tt * composition.fps));
   const output = join(outDir, `t-${tt.toFixed(1).padStart(5, '0')}.png`);
-  await renderStill({composition, serveUrl, output, frame, imageFormat: 'png', browserExecutable, scale: 0.5});
+  await renderStill({composition, serveUrl, output, frame, imageFormat: 'png', browserExecutable, scale: 0.5, chromiumOptions});
   console.log(`rendered ${output}`);
 }
 
-if (compId === 'AgaPrpReel') {
-  const cover = await selectComposition({serveUrl, id: 'AgaPrpReelCover', browserExecutable});
+if (compId === 'AgaPrpReel' || compId === 'AgaPrpReel3D') {
+  const coverId = compId === 'AgaPrpReel3D' ? 'AgaPrpReel3DCover' : 'AgaPrpReelCover';
+  const cover = await selectComposition({serveUrl, id: coverId, browserExecutable, chromiumOptions});
   const output = join(outDir, 'cover.png');
-  await renderStill({composition: cover, serveUrl, output, frame: 0, imageFormat: 'png', browserExecutable, scale: 0.5});
+  await renderStill({composition: cover, serveUrl, output, frame: 0, imageFormat: 'png', browserExecutable, scale: 0.5, chromiumOptions});
   console.log(`rendered ${output}`);
 }

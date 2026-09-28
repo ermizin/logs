@@ -1,5 +1,11 @@
 # Почему редеют волосы и что может PRP — рилс-анимация для пациентов
 
+Две версии одного сценария: **плоская** (`AgaPrpReel`, срез кожи и клетки нарисованы в SVG в духе
+рилса «Капсулярная контрактура») и **3D** (`AgaPrpReel3D`, те же сцены как «глиняный» макет на
+Three.js через `@remotion/three`: мягкий свет, тени, срез кожи головы с фолликулами в плоскости
+реза, стеклянная пробирка, объёмная луковица в линзе). HUD, субтитры, маркерная разметка и
+бумага общие.
+
 Рилс для рубрики «Разбор»: 1080 × 1920, 64 с, 30 к/с, закольцован. Язык — для пациента: без
 названий ферментов, сигнальных молекул и статистики; термины заменены на то, что они значат.
 Оформлен по дизайн-системе «Макс Ермизин»: палитра «День», Onest / Playfair Display Italic /
@@ -27,10 +33,13 @@ IBM Plex Mono, фирменная разметка маркером, субти�
 
 | Путь | Что |
 | --- | --- |
-| `src/reel/` | исходники: палитра, изинги, маркерная разметка, HUD, сцены, режиссура (`Reel.tsx`), обложка |
+| `src/reel/` | плоская версия: палитра, изинги, маркерная разметка, HUD, сцены, режиссура (`Reel.tsx`), обложка |
+| `src/reel3d/` | 3D-версия: камера и проекция подписей (`cam.tsx`), примитивы, срез кожи (`Scalp3D.tsx`), луковица (`Micro3D.tsx`), пробирка (`Tube3D.tsx`), линза, режиссура (`Reel3D.tsx`), обложка |
 | `src/reel/script.ts` | субтитры `CARDS`, главы `CHAPTERS`, «часы» `CLOCK`, ключевые тайминги |
-| `export/aga-prp-reel-1080x1920.mp4` | готовый рилс: H.264, yuv420p, без звука |
-| `export/aga-prp-reel-1080x1920-cover.png` | обложка; текст в зоне y 860–1500, сетка профиля его не срежет |
+| `export/aga-prp-reel-1080x1920.mp4` | плоская версия: H.264, yuv420p, без звука |
+| `export/aga-prp-reel-1080x1920-cover.png` | обложка плоской версии; текст в зоне y 860–1500 |
+| `export/aga-prp-reel-3d-1080x1920.mp4` | 3D-версия, те же параметры |
+| `export/aga-prp-reel-3d-1080x1920-cover.png` | обложка 3D-версии |
 | `scripts/copy-fonts.mjs` | копирует woff2 (latin + cyrillic) из @fontsource в `public/fonts` |
 | `scripts/stills.mjs` | контрольные кадры по секундам для визуальной проверки |
 
@@ -39,9 +48,12 @@ IBM Plex Mono, фирменная разметка маркером, субти�
 ```sh
 npm install
 npm start            # Remotion Studio
-npm run render       # export/aga-prp-reel-1080x1920.mp4
-npm run cover        # export/aga-prp-reel-1080x1920-cover.png
-npm run stills -- out/stills "2,8,15,30,45"
+npm run render       # плоская: export/aga-prp-reel-1080x1920.mp4
+npm run cover        # обложка плоской
+npm run render:3d    # 3D: export/aga-prp-reel-3d-1080x1920.mp4 (WebGL через --gl=angle)
+npm run cover:3d     # обложка 3D
+npm run stills -- out/stills "2,8,15,30,45"            # контрольные кадры плоской
+npm run stills -- out/stills-3d "2,8,15,30,45" AgaPrpReel3D
 ```
 
 В контейнере без загрузки Chrome Headless Shell укажите готовый браузер:
@@ -50,7 +62,8 @@ npm run stills -- out/stills "2,8,15,30,45"
 ## Правка текста
 
 Субтитры — `src/reel/script.ts`, массив `CARDS`: `[начало, конец, текст]`. Главы там же в `CHAPTERS`,
-«часы» в `CLOCK`. Подписи на иллюстрациях — в `src/reel/Reel.tsx` и `src/reel/scenes/Micro.tsx`.
+«часы» в `CLOCK`. Подписи на иллюстрациях — в `src/reel/Reel.tsx` и `src/reel/scenes/Micro.tsx` (плоская) и в
+`src/reel3d/Reel3D.tsx` (3D; точки привязки проецируются из мировых координат).
 Тайминги линз и сцен — константы в `Reel.tsx` и `scalpState()` в `src/reel/scenes/Scalp.tsx`.
 
 ## Что упрощено и как это соотносится с медициной

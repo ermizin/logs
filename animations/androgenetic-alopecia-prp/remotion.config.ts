@@ -10,3 +10,6 @@ Config.setCodec('h264');
 if (process.env.REMOTION_BROWSER_EXECUTABLE) {
   Config.setBrowserExecutable(process.env.REMOTION_BROWSER_EXECUTABLE);
 }
+
+// WebGL for the 3D reel: ANGLE works in headless Chromium without a GPU.
+Config.setChromiumOpenGlRenderer('angle');
