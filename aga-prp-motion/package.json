@@ -1,0 +1,27 @@
+{
+  "name": "aga-prp-motion",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Remotion motion graphic: androgenetic alopecia (AGA) pathogenesis, standard therapy and PRP evidence",
+  "scripts": {
+    "start": "remotion studio",
+    "render": "remotion render AgaPrp out/aga-prp.mp4",
+    "render:preview": "remotion render AgaPrp out/aga-prp-preview.mp4 --scale 0.5",
+    "still": "remotion still AgaPrp out/poster.png --frame 60",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "node scripts/copy-fonts.mjs"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.0.0",
+    "@remotion/cli": "^4.0.0",
+    "@remotion/transitions": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.0"
+  }
+}
