@@ -229,17 +229,17 @@ export const Hook: React.FC<{t: number}> = ({t}) => {
   const k1 = E.outQ(invLerp(0.65, 1.2, t));
   const k2 = E.outQ(invLerp(0.8, 1.35, t));
   const up = P(t, 1.25, 1.8, E.inOut);
-  const w2 = 470; // ширина слова «алопеция» в Playfair Italic 104 ≈ 470px
+  const w2 = 372; // ширина слова «волосы?» в Playfair Italic 104 ≈ 372px
   return (
     <div style={{position: 'absolute', inset: 0, opacity: 1 - out, transform: `translateY(${-out * 60}px)`}}>
       <ClipLine y={432 - 104} h={136} k={k1}>
-        <Txt x={56} y={104} size={84} weight={800} style={{letterSpacing: '-0.03em'}}>
-          Андрогенетическая
+        <Txt x={56} y={104} size={96} weight={800} style={{letterSpacing: '-0.03em'}}>
+          Почему редеют
         </Txt>
       </ClipLine>
       <ClipLine y={540 - 104} h={136} k={k2}>
         <Txt x={60} y={104} size={104} weight={500} family="serif" italic>
-          алопеция
+          волосы?
         </Txt>
       </ClipLine>
       <Layer>
@@ -261,14 +261,14 @@ export const Outro: React.FC<{t: number}> = ({t}) => {
     <div style={{position: 'absolute', inset: 0, opacity: a}}>
       <ClipLine y={470 - 92} h={118} k={l1}>
         <div style={{position: 'absolute', left: 60, top: 92 - 80 * 0.74, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap'}}>
-          <span style={{fontFamily: FONT.sans, fontWeight: 700, fontSize: 80, color: PAL.ink, lineHeight: 1}}>DHT —&nbsp;</span>
-          <span style={{fontFamily: FONT.serif, fontStyle: 'italic', fontWeight: 500, fontSize: 88, color: PAL.iodine, lineHeight: 1}}>причина.</span>
+          <span style={{fontFamily: FONT.sans, fontWeight: 700, fontSize: 80, color: PAL.ink, lineHeight: 1}}>Причина —&nbsp;</span>
+          <span style={{fontFamily: FONT.serif, fontStyle: 'italic', fontWeight: 500, fontSize: 88, color: PAL.iodine, lineHeight: 1}}>гормон.</span>
         </div>
       </ClipLine>
       <ClipLine y={566 - 92} h={118} k={l2}>
         <div style={{position: 'absolute', left: 60, top: 92 - 80 * 0.74, display: 'flex', alignItems: 'baseline', whiteSpace: 'nowrap'}}>
-          <span style={{fontFamily: FONT.sans, fontWeight: 700, fontSize: 80, color: PAL.ink, lineHeight: 1}}>Финастерид —&nbsp;</span>
-          <span style={{fontFamily: FONT.serif, fontStyle: 'italic', fontWeight: 500, fontSize: 88, color: PAL.scrub, lineHeight: 1}}>основа.</span>
+          <span style={{fontFamily: FONT.sans, fontWeight: 700, fontSize: 80, color: PAL.ink, lineHeight: 1}}>Основа —&nbsp;</span>
+          <span style={{fontFamily: FONT.serif, fontStyle: 'italic', fontWeight: 500, fontSize: 88, color: PAL.scrub, lineHeight: 1}}>лекарства.</span>
         </div>
       </ClipLine>
       <ClipLine y={662 - 92} h={118} k={l3}>

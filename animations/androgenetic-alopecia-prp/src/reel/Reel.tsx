@@ -85,14 +85,13 @@ export const Reel: React.FC = () => {
       <EdgeFade t={t} />
 
       {/* подписи общего плана, глава 1 */}
-      {lab(A.sheath(0, 0.45), -40, -150, 'фолликул', 4.2, 6.4, 'right')}
-      {lab(A.papilla(1), 150, 60, 'сосочек', 4.7, 6.4)}
+      {lab(A.sheath(0, 0.45), -40, -150, 'корень волоса', 4.2, 6.4, 'right')}
+      {lab(A.papilla(1), 150, 60, 'питающий сосочек', 4.7, 6.4)}
       {lab([(A.hairTip(1)[0] + A.sheath(1, 0)[0]) / 2 + 10, (A.hairTip(1)[1] + A.sheath(1, 0)[1]) / 2 + 40], 110, 30, 'старый волос выпадает', 7.0, 8.4)}
       {t >= 16.2 && t < 24 ? (
         <>
-          <Chip x={615} y={map(A.papilla(1))[1] - 44} text="TGF-β" alpha={env(t, 16.3, 18.8, 0.3, 0.3)} />
-          <Chip x={615} y={map(A.papilla(1))[1] + 18} text="DKK-1" alpha={env(t, 16.6, 18.8, 0.3, 0.3)} />
-          <Chip x={615} y={map(A.papilla(1))[1] - 12} text="АНАГЕН ↓" alpha={env(t, 18.9, 21.2, 0.3, 0.3)} />
+          <Chip x={615} y={map(A.papilla(1))[1] - 44} text="СТОП-СИГНАЛ" alpha={env(t, 16.3, 18.8, 0.3, 0.3)} />
+          <Chip x={615} y={map(A.papilla(1))[1] - 12} text="РОСТ КОРОЧЕ" alpha={env(t, 18.9, 21.2, 0.3, 0.3)} />
           <MarkerNote from={[820, 520]} to={[map(A.hairTip(1))[0] + 14, map(A.hairTip(1))[1] + 6]} text="пушок" textPos={[760, 500]} prog={invLerp(21.4, 22.6, t)} alpha={env(t, 21.4, 23.9, 0.01, 0.4)} />
         </>
       ) : null}
@@ -101,15 +100,15 @@ export const Reel: React.FC = () => {
         <>
           {lab([560, 640], 170, -60, 'плазма', 28.0, 30.4)}
           {lab([560, buffyY(tube) + 8], 190, 70, 'тромбоциты', 28.5, 30.5)}
-          {lab([520, 1000], -150, 60, 'эритроциты', 28.2, 30.4, 'right')}
+          {lab([520, 1000], -150, 60, 'красные клетки', 28.2, 30.4, 'right')}
         </>
       ) : null}
       {/* подписи, глава 2: инъекция */}
       {t >= 38.4 && t < 44.2 ? (
         <>
-          <Chip x={60} y={480} text="ГЛУБИНА 1,5–2,5 ММ" alpha={env(t, 39.0, 41.6, 0.3, 0.3)} colors={[PAL.markerSoft, PAL.marker]} />
-          {lab(A.injectPoint(1), 190, 40, 'PRP в дерме', 39.9, 41.6)}
-          <Chip x={615} y={map(A.papilla(1))[1] - 12} text="АНАГЕН ↑" alpha={env(t, 42.6, 43.9, 0.3, 0.3)} colors={[PAL.scrubSoft, PAL.scrub]} />
+          <Chip x={60} y={480} text="НЕГЛУБОКО, ≈ 2 ММ" alpha={env(t, 39.0, 41.6, 0.3, 0.3)} colors={[PAL.markerSoft, PAL.marker]} />
+          {lab(A.injectPoint(1), 190, 40, 'плазма под кожей', 39.9, 41.6)}
+          <Chip x={615} y={map(A.papilla(1))[1] - 12} text="РОСТ ДОЛЬШЕ" alpha={env(t, 42.6, 43.9, 0.3, 0.3)} colors={[PAL.scrubSoft, PAL.scrub]} />
         </>
       ) : null}
       <ScaleBar x={850} y={1186} len={PX_PER_MM * fr.s} label="1 ММ" alpha={scaleA * 0.9} />
@@ -124,15 +123,15 @@ export const Reel: React.FC = () => {
       {/* подписи внутри линз (экранные координаты через map линзы) */}
       {zDht.active ? (
         <>
-          <Callout anchor={zDht.map([0, 400])} pos={zDht.map([-150, 330])} text="тестостерон" prog={invLerp(0.6, 1.3, zDht.tau)} alpha={env(zDht.tau, 0.6, 2.4, 0.01, 0.35) * Math.min(1, zDht.u * 2)} align="right" />
+          <Callout anchor={zDht.map([0, 400])} pos={zDht.map([-150, 330])} text="мужской гормон" prog={invLerp(0.6, 1.3, zDht.tau)} alpha={env(zDht.tau, 0.6, 2.4, 0.01, 0.35) * Math.min(1, zDht.u * 2)} align="right" />
           <MarkerNote from={zDht.map([300, -120])} to={zDht.map([110, 40])} text="DHT" textPos={zDht.map([280, -150])} prog={invLerp(3.8, 4.8, zDht.tau)} alpha={env(zDht.tau, 3.8, 6.4, 0.01, 0.4) * Math.min(1, zDht.u * 2)} size={60} />
-          <Callout anchor={zDht.map([-120, 210])} pos={zDht.map([-200, 330])} text="рецептор AR" prog={invLerp(4.4, 5.1, zDht.tau)} alpha={env(zDht.tau, 4.4, 6.2, 0.01, 0.35) * Math.min(1, zDht.u * 2)} align="right" />
+          <Callout anchor={zDht.map([-120, 210])} pos={zDht.map([-200, 330])} text="рецептор" prog={invLerp(4.4, 5.1, zDht.tau)} alpha={env(zDht.tau, 4.4, 6.2, 0.01, 0.35) * Math.min(1, zDht.u * 2)} align="right" />
         </>
       ) : null}
       {zPrp.active ? (
         <>
           <Callout anchor={zPrp.map([-250, -200])} pos={zPrp.map([-300, -330])} text="тромбоцит" prog={invLerp(0.2, 0.9, zPrp.tau)} alpha={env(zPrp.tau, 0.2, 2.2, 0.01, 0.35) * Math.min(1, zPrp.u * 2)} align="left" />
-          <Callout anchor={zPrp.map([60, 150])} pos={zPrp.map([190, 80])} text="клетки сосочка" prog={invLerp(2.4, 3.1, zPrp.tau)} alpha={env(zPrp.tau, 2.4, 4.6, 0.01, 0.35) * Math.min(1, zPrp.u * 2)} />
+          <Callout anchor={zPrp.map([60, 150])} pos={zPrp.map([190, 80])} text="клетки корня" prog={invLerp(2.4, 3.1, zPrp.tau)} alpha={env(zPrp.tau, 2.4, 4.6, 0.01, 0.35) * Math.min(1, zPrp.u * 2)} />
           <Callout anchor={zPrp.map([-110, 210])} pos={zPrp.map([-230, 330])} text="новые сосуды" prog={invLerp(5.0, 5.7, zPrp.tau)} alpha={env(zPrp.tau, 5.0, 6.6, 0.01, 0.35) * Math.min(1, zPrp.u * 2)} align="right" />
         </>
       ) : null}

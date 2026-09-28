@@ -19,7 +19,7 @@ export const Cover: React.FC = () => {
   const loop = follicleLoopOutline().map(([x, y]): [number, number] => [x * s + tx, y * s + ty]);
   const c = (a: number) => rgba(PAL.surface, a);
   const grad = `linear-gradient(180deg, ${c(1)} 0%, ${c(0.9)} ${(250 / H) * 100}%, ${c(0)} ${(330 / H) * 100}%, ${c(0)} ${(760 / H) * 100}%, ${c(1)} ${(880 / H) * 100}%, ${c(1)} 100%)`;
-  const w = 470;
+  const w = 372;
   return (
     <AbsoluteFill style={{background: PAL.surface, fontFamily: FONT.sans}}>
       <Paper />
@@ -33,20 +33,20 @@ export const Cover: React.FC = () => {
       <Txt x={88} y={950} size={26} weight={500} family="mono" spacing={2.1}>
         РАЗБОР
       </Txt>
-      <Txt x={84} y={1068} size={84} weight={700} style={{letterSpacing: '-0.03em'}}>
-        Андрогенетическая
+      <Txt x={84} y={1068} size={96} weight={700} style={{letterSpacing: '-0.03em'}}>
+        Почему редеют
       </Txt>
       <Txt x={88} y={1170} size={104} weight={500} family="serif" italic>
-        алопеция
+        волосы?
       </Txt>
       <Layer>
         <MarkerPath pts={wavyLine(92, 1204, w - 4)} />
       </Layer>
       <Txt x={88} y={1300} size={42} color={PAL.inkMuted}>
-        Почему волосы редеют
+        Что происходит с корнем волоса
       </Txt>
       <Txt x={88} y={1358} size={42} color={PAL.inkMuted}>
-        и что на самом деле может PRP
+        и честно про PRP
       </Txt>
       <PaperGrain />
       <div style={{position: 'absolute', width: W, height: 0}} />

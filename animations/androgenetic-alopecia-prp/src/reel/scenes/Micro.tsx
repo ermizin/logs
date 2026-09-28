@@ -132,7 +132,8 @@ export const BulbMicro: React.FC<{ep: 'dht' | 'prp'; tau: number}> = ({ep, tau})
   const sprout = D ? 0 : P(tau, 4.4, 6.4, E.inOut);
 
   const papOutline = blob(PAP.c[0], PAP.c[1], 1, {sx: PAP.rx, sy: PAP.ry, seed: 5, amp: 0.03, n: 48});
-  const factors = ['PDGF', 'VEGF', 'IGF-1', 'TGF-β', 'FGF-2'];
+  // для пациента: вместо названий факторов роста — что они делают
+  const factors = ['РОСТ КЛЕТОК', 'НОВЫЕ СОСУДЫ', 'ЗАЩИТА', 'ПИТАНИЕ'];
   return (
     <g>
       <rect x={-LR - 20} y={-LR - 20} width={LR * 2 + 40} height={LR * 2 + 40} fill={PAL.slide} />
@@ -213,9 +214,8 @@ export const BulbMicro: React.FC<{ep: 'dht' | 'prp'; tau: number}> = ({ep, tau})
             return <path key={k} d={smoothD(part)} stroke={PAL.ink} strokeWidth={2.4} fill="none" strokeDasharray="6 6" strokeLinecap="round" opacity={0.8} />;
           })
         : null}
-      {D ? <SvgChip x={0} y={-330} text="5α-РЕДУКТАЗА II" alpha={env(tau, 1.9, 3.6, 0.25, 0.3)} colors={[PAL.iodineSoft, PAL.iodine]} /> : null}
-      {D ? <SvgChip x={-150} y={-250} text="TGF-β" alpha={env(tau, 5.5, 7.4, 0.25, 0.3)} colors={[PAL.iodineSoft, PAL.iodine]} /> : null}
-      {D ? <SvgChip x={150} y={-250} text="DKK-1" alpha={env(tau, 5.7, 7.4, 0.25, 0.3)} colors={[PAL.iodineSoft, PAL.iodine]} /> : null}
+      {D ? <SvgChip x={0} y={-330} text="ФЕРМЕНТ" alpha={env(tau, 1.9, 3.6, 0.25, 0.3)} colors={[PAL.iodineSoft, PAL.iodine]} /> : null}
+      {D ? <SvgChip x={0} y={-270} text="РАСТИ МЕНЬШЕ" alpha={env(tau, 5.5, 7.4, 0.25, 0.3)} colors={[PAL.iodineSoft, PAL.iodine]} /> : null}
 
       {/* эпизод PRP: тромбоцит и факторы роста */}
       {!D ? (
@@ -240,13 +240,13 @@ export const BulbMicro: React.FC<{ep: 'dht' | 'prp'; tau: number}> = ({ep, tau})
             const pr = P(tau, t0, t0 + 1.5, E.inOut);
             if (pr <= 0) return null;
             const target = MIC.fibro[(k * 2) % MIC.fibro.length];
-            const pts = bentCurve([-250 + 40, -140 + (k - 2) * 12], [target.x - 10, target.y - 30], 0.25 - k * 0.1, 24);
+            const pts = bentCurve([-250 + 40, -140 + (k - 1.5) * 14], [target.x - 10, target.y - 30], 0.3 - k * 0.14, 24);
             const idx = Math.min(24, Math.floor(pr * 24));
             const p = pts[idx];
             const alpha = Math.min(1, pr * 6) * (1 - P(pr, 0.9, 1));
             return <SvgChip key={name} x={p[0]} y={p[1]} text={name} alpha={alpha} />;
           })}
-          <SvgChip x={0} y={-330} text="WNT / β-CATENIN" alpha={env(tau, 3.6, 6.6, 0.3, 0.3)} />
+          <SvgChip x={0} y={-330} text="СИГНАЛ: РАСТИ" alpha={env(tau, 3.6, 6.6, 0.3, 0.3)} />
         </g>
       ) : null}
     </g>
