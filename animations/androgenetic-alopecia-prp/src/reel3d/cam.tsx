@@ -1,7 +1,9 @@
 // Камера: одна спецификация для R3F-сцены и для проекции 3D-точек в 2D-слой подписей.
-import React, {useLayoutEffect} from 'react';
+// Свет: «студийный» трёхточечный + environment-карта для мягких бликов.
+import React, {useEffect, useLayoutEffect} from 'react';
 import * as THREE from 'three';
 import {useThree} from '@react-three/fiber';
+import {RoomEnvironment} from 'three/examples/jsm/environments/RoomEnvironment.js';
 import {W, H} from '../reel/palette';
 import {Pt} from '../reel/geom';
 
@@ -41,13 +43,54 @@ export const CameraRig: React.FC<{spec: CamSpec}> = ({spec}) => {
   return null;
 };
 
-// Мягкий «студийный» свет: тёплое небо, чуть холоднее земля, ключевой свет с тенью.
-export const Lights: React.FC<{shadow?: boolean; key?: number}> = ({shadow = true}) => (
+// Настройка рендерера: тонмаппинг ACES, мягкие тени, локальные плоскости отсечения.
+export const setupRenderer = (gl: THREE.WebGLRenderer) => {
+  gl.toneMapping = THREE.ACESFilmicToneMapping;
+  gl.toneMappingExposure = 1.12;
+  gl.shadowMap.type = THREE.PCFSoftShadowMap;
+  gl.localClippingEnabled = true;
+};
+
+// Environment-карта «комната»: даёт материалам мягкие отражения без HDR-файлов.
+export const Env: React.FC<{intensity?: number}> = ({intensity = 0.55}) => {
+  const gl = useThree((s) => s.gl);
+  const scene = useThree((s) => s.scene);
+  useEffect(() => {
+    const pmrem = new THREE.PMREMGenerator(gl);
+    const rt = pmrem.fromScene(new RoomEnvironment(), 0.04);
+    scene.environment = rt.texture;
+    scene.environmentIntensity = intensity;
+    pmrem.dispose();
+    return () => {
+      scene.environment = null;
+      rt.dispose();
+    };
+  }, [gl, scene, intensity]);
+  return null;
+};
+
+// Трёхточечный свет: тёплый ключевой с тенью, холодноватый заполняющий, контровой по кромкам.
+export const Lights: React.FC<{shadow?: boolean; size?: number}> = ({shadow = true, size = 7}) => (
   <>
-    <hemisphereLight args={['#fff6ea', '#cfc3b2', 0.95]} />
-    <directionalLight position={[7, 12, 9]} intensity={1.15} castShadow={shadow} shadow-mapSize={[1024, 1024]} shadow-bias={-0.0004} shadow-normalBias={0.02} />
-    <directionalLight position={[-8, 4, -4]} intensity={0.25} />
-    <ambientLight intensity={0.2} />
+    <hemisphereLight args={['#fff4e4', '#c9bcab', 0.55]} />
+    <directionalLight
+      position={[6, 11, 8]}
+      intensity={1.9}
+      color="#fff1e0"
+      castShadow={shadow}
+      shadow-mapSize={[2048, 2048]}
+      shadow-bias={-0.00035}
+      shadow-normalBias={0.03}
+      shadow-camera-left={-size}
+      shadow-camera-right={size}
+      shadow-camera-top={size}
+      shadow-camera-bottom={-size}
+      shadow-camera-near={1}
+      shadow-camera-far={40}
+    />
+    <directionalLight position={[-9, 4, 6]} intensity={0.55} color="#e8ecff" />
+    <directionalLight position={[2, 5, -10]} intensity={0.9} color="#fff8ef" />
+    <ambientLight intensity={0.12} />
   </>
 );
 
