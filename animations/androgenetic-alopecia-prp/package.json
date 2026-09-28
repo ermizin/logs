@@ -1,0 +1,29 @@
+{
+  "name": "aga-prp-reel",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Рилс-анимация 1080×1920 на Remotion: андрогенетическая алопеция и PRP",
+  "scripts": {
+    "start": "remotion studio",
+    "render": "remotion render AgaPrpReel export/aga-prp-reel-1080x1920.mp4 --crf 17",
+    "render:preview": "remotion render AgaPrpReel out/aga-prp-reel-preview.mp4 --scale 0.5",
+    "cover": "remotion still AgaPrpReelCover export/aga-prp-reel-1080x1920-cover.png",
+    "stills": "node scripts/stills.mjs",
+    "typecheck": "tsc --noEmit",
+    "postinstall": "node scripts/copy-fonts.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "^5.3.0",
+    "@fontsource/onest": "^5.3.1",
+    "@fontsource/playfair-display": "^5.3.0",
+    "@remotion/cli": "^4.0.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "remotion": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "typescript": "^5.5.0"
+  }
+}
